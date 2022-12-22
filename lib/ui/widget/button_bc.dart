@@ -6,7 +6,7 @@ class ButtonBc extends StatelessWidget {
   final void Function()? onPressed;
 
   const ButtonBc(
-      {super.key, required this.text, this.onPressed, required this.padding});
+      {super.key, required this.text, this.onPressed, required this.padding,});
 
   @override
   Widget build(BuildContext context) {

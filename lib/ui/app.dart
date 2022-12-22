@@ -1,10 +1,9 @@
 import 'package:batonchess/ui/screen/game_screen.dart';
+import 'package:batonchess/ui/screen/home_screen.dart';
 import 'package:batonchess/ui/screen/join_game_screen.dart';
+import 'package:batonchess/ui/screen/new_game_screen.dart';
+import 'package:batonchess/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
-
-import 'screen/home_screen.dart';
-import 'screen/new_game_screen.dart';
-import 'theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

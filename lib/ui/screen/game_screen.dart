@@ -6,7 +6,7 @@ import 'package:flutter_chess_board/flutter_chess_board.dart';
 /// 
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({Key? key}) : super(key: key);
+  const GameScreen({super.key});
 
   @override
   GameScreenState createState() => GameScreenState();
@@ -30,15 +30,11 @@ class GameScreenState extends State<GameScreen> {
               Text("john, mike, susan"),
             ],
           ),
-          Container(
-            color: Colors.red,
-            child: Expanded(
-              child: Center(
-                child: ChessBoard(
-                  controller: controller,
-                  boardColor: BoardColor.darkBrown,
-                  boardOrientation: PlayerColor.white,
-                ),
+          Expanded(
+            child: Center(
+              child: ChessBoard(
+                controller: controller,
+                boardColor: BoardColor.darkBrown,
               ),
             ),
           ),

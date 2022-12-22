@@ -9,7 +9,6 @@ class JoinGameScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Host game"),
         ),
-        body: null
     );
   }
 }

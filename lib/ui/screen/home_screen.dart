@@ -17,13 +17,16 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Baton Chess"),
         ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Spacer(),
-          newGameButton(context),
-          joinGameButton(context),
-          const Spacer(),
-          userInfo(),
-        ]),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            newGameButton(context),
+            joinGameButton(context),
+            const Spacer(),
+            userInfo(),
+          ],
+        ),
       ),
     );
   }
@@ -39,9 +42,11 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   const Text("Username:"),
                   TextButton(
-                      onPressed: () async =>
-                        context.read<HomeBloc>().add(UpdateUsernameEvent(await promptNewUsername(context))),
-                      child: Text(state.user.name))
+                    onPressed: () async => context.read<HomeBloc>().add(
+                        UpdateUsernameEvent(
+                            await promptNewUsername(context) as String?,),),
+                    child: Text(state.user.name),
+                  )
                 ],
               ),
               Text(state.user.id),
@@ -82,26 +87,27 @@ class HomeScreen extends StatelessWidget {
 
   Future<dynamic> promptNewUsername(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (context) {
-          String input = "";
-          return SimpleDialog(
-            contentPadding: const EdgeInsets.all(20),
-            children: [
-              const Text("Change username"),
-              TextField(
-                onChanged: (t) {
-                  input = t;
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(input);
-                },
-                child: const Text('save'),
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (context) {
+        String input = "";
+        return SimpleDialog(
+          contentPadding: const EdgeInsets.all(20),
+          children: [
+            const Text("Change username"),
+            TextField(
+              onChanged: (t) {
+                input = t;
+              },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(input);
+              },
+              child: const Text('save'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

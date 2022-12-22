@@ -1,6 +1,6 @@
 import 'package:batonchess/bloc/model/user.dart';
 
-User u = User(id: "ciao", name: "anon");
+User u = User(id: "ciao");
 
 class UserRepository {
   // dao

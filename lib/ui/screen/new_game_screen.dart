@@ -46,16 +46,14 @@ class NewGameScreenState extends State<NewGameScreen> {
           ),
           Expanded(
               child: Container(
-            child: null,
-          )),
+            
+          ),),
           const Text("Time format:"),
           Expanded(
             flex: 4,
             child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: GridView.builder(
-                    shrinkWrap: false,
-                    scrollDirection: Axis.vertical,
                     itemCount: 9,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
@@ -91,13 +89,13 @@ class NewGameScreenState extends State<NewGameScreen> {
                           ),
                         ),
                       );
-                    })),
+                    },),),
           ),
                     Expanded(
               child: Container(
-            child: null,
-          )),
-        ]),
+            
+          ),),
+        ],),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(
@@ -105,6 +103,6 @@ class NewGameScreenState extends State<NewGameScreen> {
                 MaterialPageRoute(builder: (context) => const GameScreen()),
               );
             },
-            child: const Icon(Icons.gamepad)));
+            child: const Icon(Icons.gamepad),),);
   }
 }
