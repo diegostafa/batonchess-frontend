@@ -56,6 +56,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "group_button",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/group_button-5.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "lint",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/lint-2.0.1",
       "packageUri": "lib/",
@@ -92,6 +98,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "toggle_switch",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/toggle_switch-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "tuple",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/tuple-2.0.1",
       "packageUri": "lib/",
@@ -110,7 +122,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-12-22T21:53:13.218874Z",
+  "generated": "2022-12-23T16:38:16.501926Z",
   "generator": "pub",
   "generatorVersion": "2.18.5"
 }

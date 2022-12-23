@@ -1,108 +1,91 @@
+import 'package:batonchess/bloc/new_game/new_game_bloc.dart';
 import 'package:batonchess/ui/screen/game_screen.dart';
+import 'package:batonchess/ui/widget/button_bc.dart';
+import 'package:batonchess/ui/widget/selection_group_bc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:group_button/group_button.dart';
 
-
-class NewGameScreen extends StatefulWidget {
+class NewGameScreen extends StatelessWidget {
   const NewGameScreen({super.key});
 
   @override
-  State<NewGameScreen> createState() => NewGameScreenState();
-}
-
-class NewGameScreenState extends State<NewGameScreen> {
-  final myController = TextEditingController();
-  int selectedCard = -1;
-
-  @override
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (context) => NewGameBloc(),
+      child: Scaffold(
         appBar: AppBar(
           title: const Text('Game properties'),
         ),
-        body: Column(children: [
-          const Text("Start as:"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(value: false, onChanged: (b) {}),
-              Checkbox(value: true, onChanged: (b) {}),
-            ],
+        body: BlocBuilder<NewGameBloc, NewGameState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                playAsSelection(context),
+                playersPerSideSelection(context),
+                SelectionGroupBc(
+                  label: "Time format",
+                  padding: const EdgeInsets.all(100),
+                  values: const [
+                    "1+0",
+                    "2+1",
+                    "3+0",
+                    "3+2",
+                    "5+0",
+                    "5+3",
+                    "10+0",
+                    "10+5",
+                    "15+10",
+                  ],
+                  onSelected: (s, index, isSelected) => context
+                      .read<NewGameBloc>()
+                      .add(ChangeSideRadioEvent(index)),
+                ),
+                const Spacer(),
+                submitCreateGameButton(context),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  ButtonBc submitCreateGameButton(BuildContext context) {
+    return ButtonBc(
+      padding: const EdgeInsets.all(8),
+      text: "Create game",
+      onPressed: () {
+        context.read<NewGameBloc>().add(SubmitCreateGameEvent());
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const GameScreen(),
           ),
-          const Text("Max players per side:"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(value: false, onChanged: (b) {}),
-              Checkbox(value: true, onChanged: (b) {}),
-              Checkbox(value: false, onChanged: (b) {}),
-              Checkbox(value: true, onChanged: (b) {}),
-            ],
-          ),
-          Expanded(
-              child: Container(
-            
-          ),),
-          const Text("Time format:"),
-          Expanded(
-            flex: 4,
-            child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: GridView.builder(
-                    itemCount: 9,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 3),
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            // ontap of each card, set the defined int to the grid view index
-                            selectedCard = index;
-                          });
-                        },
-                        child: Card(
-                          // check if the index is equal to the selected Card integer
-                          color: selectedCard == index
-                              ? Colors.blue
-                              : Colors.amber,
-                          child: SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: Center(
-                              child: Text(
-                                '$index',
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },),),
-          ),
-                    Expanded(
-              child: Container(
-            
-          ),),
-        ],),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GameScreen()),
-              );
-            },
-            child: const Icon(Icons.gamepad),),);
+        );
+      },
+    );
+  }
+
+  SelectionGroupBc playersPerSideSelection(BuildContext context) {
+    return SelectionGroupBc(
+      label: "Players per side",
+      isRow: true,
+      padding: const EdgeInsets.all(8),
+      values: const ["1", "5", "10", "20"],
+      onSelected: (s, index, isSelected) =>
+          context.read<NewGameBloc>().add(ChangeSideRadioEvent(index)),
+    );
+  }
+
+  SelectionGroupBc playAsSelection(BuildContext context) {
+    return SelectionGroupBc(
+      label: "Play as",
+      isRow: true,
+      padding: const EdgeInsets.all(8),
+      values: const ["Random", "White", "Black"],
+      onSelected: (s, index, isSelected) =>
+          context.read<NewGameBloc>().add(ChangeSideRadioEvent(index)),
+    );
   }
 }

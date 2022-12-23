@@ -7,7 +7,7 @@ class JoinGameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Host game"),
+          title: const Text("Join a game"),
         ),
     );
   }

@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<HomeBloc, HomeState> userInfo() {
+  Widget userInfo() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is UserLoadedState) {
@@ -43,8 +43,10 @@ class HomeScreen extends StatelessWidget {
                   const Text("Username:"),
                   TextButton(
                     onPressed: () async => context.read<HomeBloc>().add(
-                        UpdateUsernameEvent(
-                            await promptNewUsername(context) as String?,),),
+                          UpdateUsernameEvent(
+                            await promptNewUsername(context) as String?,
+                          ),
+                        ),
                     child: Text(state.user.name),
                   )
                 ],
@@ -59,7 +61,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  ButtonBc joinGameButton(BuildContext context) {
+  Widget joinGameButton(BuildContext context) {
     return ButtonBc(
       text: "Join Game",
       padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
@@ -72,7 +74,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  ButtonBc newGameButton(BuildContext context) {
+  Widget newGameButton(BuildContext context) {
     return ButtonBc(
       text: "New Game",
       padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
@@ -85,28 +87,30 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget changeUsernameDialog(BuildContext context) {
+    String input = "";
+    return SimpleDialog(
+      contentPadding: const EdgeInsets.all(20),
+      children: [
+        TextField(
+          decoration: const InputDecoration(hintText: "Change username"),
+          onChanged: (changedText) {
+            input = changedText;
+          },
+        ),
+        ButtonBc(
+          text: "Save",
+          onPressed: () => Navigator.of(context).pop(input),
+        ),
+      ],
+    );
+  }
+
   Future<dynamic> promptNewUsername(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
-        String input = "";
-        return SimpleDialog(
-          contentPadding: const EdgeInsets.all(20),
-          children: [
-            const Text("Change username"),
-            TextField(
-              onChanged: (t) {
-                input = t;
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(input);
-              },
-              child: const Text('save'),
-            ),
-          ],
-        );
+        return changeUsernameDialog(context);
       },
     );
   }

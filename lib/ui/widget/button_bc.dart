@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ButtonBc extends StatelessWidget {
-  final EdgeInsetsGeometry padding;
   final String text;
   final void Function()? onPressed;
+  final EdgeInsetsGeometry padding;
 
-  const ButtonBc(
-      {super.key, required this.text, this.onPressed, required this.padding,});
+  const ButtonBc({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.padding = EdgeInsets.zero,
+  });
 
   @override
   Widget build(BuildContext context) {

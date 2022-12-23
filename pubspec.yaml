@@ -13,7 +13,10 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_chess_board: ^1.0.1
+  group_button: ^5.2.2
   meta: ^1.8.0
+  toggle_switch: ^2.0.1
+
 
 dev_dependencies:
   lint: ^2.0.0

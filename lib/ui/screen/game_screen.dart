@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chess_board/flutter_chess_board.dart';
 
-/// GameScreen with game id
-/// bloc calls the server to retrieve the game state
-/// 
+// GameScreen with game id
+// bloc calls the server to retrieve the game state
+//
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -13,7 +13,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class GameScreenState extends State<GameScreen> {
-  ChessBoardController controller = ChessBoardController();
+  final ChessBoardController controller = ChessBoardController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +23,10 @@ class GameScreenState extends State<GameScreen> {
       ),
       body: Column(
         children: [
-          Row(
-            children: const [
-              Text("john, mike, susan"),
-              Text("john, mike, susan"),
-              Text("john, mike, susan"),
-            ],
-          ),
           Expanded(
-            child: Center(
-              child: ChessBoard(
-                controller: controller,
-                boardColor: BoardColor.darkBrown,
-              ),
+            child: ChessBoard(
+              controller: controller,
+              boardColor: BoardColor.darkBrown,
             ),
           ),
           Row(
