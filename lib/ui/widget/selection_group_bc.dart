@@ -20,36 +20,34 @@ class SelectionGroupBc extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: () {
-        if (label == null) {
-          return _groupButton();
-        }
-        if (isRow) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(label!), _groupButton()],
-          );
-        } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(label!), _groupButton()],
-          );
-        }
-      }(),
-    );
+  Widget build(BuildContext context) => Padding(
+        padding: padding,
+        child: _buildSelectionGroup(),
+      );
+
+  Widget _buildSelectionGroup() {
+    if (label == null) {
+      return _groupButton();
+    }
+    if (isRow) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(label!), _groupButton()],
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(label!), _groupButton()],
+      );
+    }
   }
 
-  GroupButton<String> _groupButton() {
-    return GroupButton(
-      options: const GroupButtonOptions(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      onSelected: onSelected,
-      isRadio:  !multiSelection,
-      buttons: values,
-    );
-  }
+  Widget _groupButton() => GroupButton(
+        options: const GroupButtonOptions(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        onSelected: onSelected,
+        isRadio: !multiSelection,
+        buttons: values,
+      );
 }

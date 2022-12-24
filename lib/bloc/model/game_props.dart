@@ -1,21 +1,10 @@
+enum Side { random, white, black }
+
 class GameProps {
-  final Side _playAs = Side.Random;
-  final Visibility _vis = Visibility.Global;
-  final GameMode _gm = GameMode();
-}
+  final int maxPlayers;
+  final Side side;
+  final int minPerSide;
+  final int incrementPerMove;
 
-enum Side {
-  Random,
-  White,
-  Black
-}
-
-enum Visibility {
-  Local,
-  Global
-}
-
-class GameMode {
-  final int minPerSide = 0;
-  final int secPerMove = 0;
+  GameProps({required this.maxPlayers, required this.side, required this.minPerSide, required this.incrementPerMove});
 }

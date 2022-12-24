@@ -10,108 +10,123 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc()..add(FetchUserEvent()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Baton Chess"),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(),
-            newGameButton(context),
-            joinGameButton(context),
-            const Spacer(),
-            userInfo(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget userInfo() {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        if (state is UserLoadedState) {
-          return Column(
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => HomeBloc()..add(FetchUserEvent()),
+        child: Scaffold(
+          drawer: Drawer(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text("Active games")],),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 30,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(index.toString()),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          appBar: AppBar(
+            title: const Text("Baton Chess"),
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Username:"),
-                  TextButton(
-                    onPressed: () async => context.read<HomeBloc>().add(
-                          UpdateUsernameEvent(
-                            await promptNewUsername(context) as String?,
-                          ),
-                        ),
-                    child: Text(state.user.name),
-                  )
-                ],
-              ),
-              Text(state.user.id),
+              const Spacer(),
+              newGameButton(context),
+              joinGameButton(context),
+              settingsButton(context),
+              const Spacer(),
+              userInfo(),
             ],
+          ),
+        ),
+      );
+
+  Widget newGameButton(BuildContext context) => ButtonBc(
+        text: "New Game",
+        padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NewGameScreen()),
           );
-        } else {
-          return const EmptyBc();
-        }
-      },
-    );
-  }
+        },
+      );
 
-  Widget joinGameButton(BuildContext context) {
-    return ButtonBc(
-      text: "Join Game",
-      padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const JoinGameScreen()),
-        );
-      },
-    );
-  }
+  Widget joinGameButton(BuildContext context) => ButtonBc(
+        text: "Join Game",
+        padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const JoinGameScreen()),
+          );
+        },
+      );
 
-  Widget newGameButton(BuildContext context) {
-    return ButtonBc(
-      text: "New Game",
-      padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const NewGameScreen()),
-        );
-      },
-    );
-  }
+  Widget settingsButton(BuildContext context) => ButtonBc(
+        text: "Settings",
+        padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const JoinGameScreen()),
+          );
+        },
+      );
+
+  Widget userInfo() => BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is UserLoadedState) {
+            return Column(
+              children: [
+                TextButton(
+                  onPressed: () async => context.read<HomeBloc>().add(
+                        UpdateUsernameEvent(
+                          await promptNewUsername(context) as String?,
+                        ),
+                      ),
+                  child: Text(state.user.name),
+                ),
+                Text("#${state.user.id}"),
+              ],
+            );
+          } else {
+            return const EmptyBc();
+          }
+        },
+      );
 
   Widget changeUsernameDialog(BuildContext context) {
     String input = "";
     return SimpleDialog(
-      contentPadding: const EdgeInsets.all(20),
       children: [
-        TextField(
-          decoration: const InputDecoration(hintText: "Change username"),
-          onChanged: (changedText) {
-            input = changedText;
-          },
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: const InputDecoration(hintText: "Change username"),
+            onChanged: (changedText) {
+              input = changedText;
+            },
+          ),
         ),
-        ButtonBc(
-          text: "Save",
-          onPressed: () => Navigator.of(context).pop(input),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ButtonBc(
+            text: "Save",
+            onPressed: () => Navigator.of(context).pop(input),
+          ),
         ),
       ],
     );
   }
 
-  Future<dynamic> promptNewUsername(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return changeUsernameDialog(context);
-      },
-    );
-  }
+  Future<dynamic> promptNewUsername(BuildContext context) => showDialog(
+      context: context, builder: (context) => changeUsernameDialog(context));
 }

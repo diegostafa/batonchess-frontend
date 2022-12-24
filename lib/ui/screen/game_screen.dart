@@ -1,12 +1,11 @@
+import 'package:batonchess/bloc/model/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chess_board/flutter_chess_board.dart';
 
-// GameScreen with game id
-// bloc calls the server to retrieve the game state
-//
-
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+  final GameState? initialGameState;
+
+  const GameScreen({super.key, this.initialGameState});
 
   @override
   GameScreenState createState() => GameScreenState();

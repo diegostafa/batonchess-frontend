@@ -6,18 +6,14 @@ class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Baton Chess',
-      theme: lightTheme(),
-      home: const HomeScreen(),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Baton Chess',
+        theme: lightTheme(),
+        home: const HomeScreen(),
+      );
 
-  ThemeData lightTheme() {
-    return ThemeData(
-      primarySwatch: primaryBlack,
-      useMaterial3: true,
-    );
-  }
+  ThemeData lightTheme() => ThemeData(
+        primarySwatch: primaryBlack,
+        useMaterial3: true,
+      );
 }
