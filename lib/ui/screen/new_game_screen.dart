@@ -1,6 +1,4 @@
-import 'package:batonchess/bloc/model/game_props.dart';
 import 'package:batonchess/bloc/new_game/new_game_bloc.dart';
-import 'package:batonchess/ui/screen/game_screen.dart';
 import 'package:batonchess/ui/widget/button_bc.dart';
 import 'package:batonchess/ui/widget/selection_group_bc.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +24,8 @@ class NewGameScreen extends StatelessWidget {
                               const Spacer(),
                               submitCreateGameButton(context, state)
                             ],
-                          )),
-                )),
+                          ),),
+                ),),
       );
 
   SelectionGroupBc playAsSelection(BuildContext context) => SelectionGroupBc(

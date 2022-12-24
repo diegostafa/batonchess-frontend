@@ -1,13 +1,12 @@
 import 'package:batonchess/bloc/model/game_props.dart';
 import 'package:batonchess/bloc/model/game_state.dart';
-import 'package:batonchess/bloc/model/user.dart';
 
 GameState gs = GameState(
     GameProps(
-        maxPlayers: 10, side: Side.white, minPerSide: 10, incrementPerMove: 2),
+        maxPlayers: 10, side: Side.white, minPerSide: 10, incrementPerMove: 2,),
     0,
     [],
-    []);
+    [],);
 
 class GameRepository {
   // dao

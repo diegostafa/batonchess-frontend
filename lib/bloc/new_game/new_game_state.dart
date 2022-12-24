@@ -10,13 +10,13 @@ class NewGameState {
       {this.maxPlayers = 0,
       this.minPerSide = 0,
       this.incrementPerMove = 0,
-      this.side = Side.random});
+      this.side = Side.random,});
 
   NewGameState copyWith(
-          {int? maxPlayers, int? minPerSide, int? secPerMove, Side? side}) =>
+          {int? maxPlayers, int? minPerSide, int? secPerMove, Side? side,}) =>
       NewGameState(
         minPerSide: minPerSide ?? this.minPerSide,
-        incrementPerMove: secPerMove ?? this.incrementPerMove,
+        incrementPerMove: secPerMove ?? incrementPerMove,
         side: side ?? this.side,
       );
 }

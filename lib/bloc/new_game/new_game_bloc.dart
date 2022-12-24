@@ -35,6 +35,6 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     Emitter<NewGameState> emit,
   ) async {
     
-    print("submitting" + state.side.toString());
+    print("submitting${state.side}");
   }
 }
