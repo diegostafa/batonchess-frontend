@@ -9,7 +9,8 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
   NewGameBloc() : super(NewGameState()) {
     on<ChangeSideRadioEvent>(changeSideRadioHandler);
     on<ChangeMaxPlayersEvent>(changeMaxPlayersHandler);
-    on<ChangeTimeFormatRadioEvent>(changeTimeFormatRadioHandler);
+    on<ChangeMinutesPerSideEvent>(changeMinutesPerSideHandler);
+    on<ChangeSecondsPerMoveEvent>(changeSecondsPerMoveHandler);
     on<SubmitCreateGameEvent>(submitCreateGameHandler);
   }
 
@@ -25,16 +26,24 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     Emitter<NewGameState> emit,
   ) async {}
 
-  Future<void> changeTimeFormatRadioHandler(
-    ChangeTimeFormatRadioEvent e,
+  Future<void> changeMinutesPerSideHandler(
+    ChangeMinutesPerSideEvent e,
     Emitter<NewGameState> emit,
-  ) async {}
+  ) async {
+    emit(state.copyWith(minPerSide: e.minutes));
+  }
+
+  Future<void> changeSecondsPerMoveHandler(
+    ChangeSecondsPerMoveEvent e,
+    Emitter<NewGameState> emit,
+  ) async {
+    emit(state.copyWith(secondsPerMove: e.seconds));
+  }
 
   Future<void> submitCreateGameHandler(
     SubmitCreateGameEvent e,
     Emitter<NewGameState> emit,
   ) async {
-    
     print("submitting${state.side}");
   }
 }

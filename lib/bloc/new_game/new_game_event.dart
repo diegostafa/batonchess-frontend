@@ -13,9 +13,14 @@ class ChangeMaxPlayersEvent extends NewGameEvent {
   ChangeMaxPlayersEvent(this.players);
 }
 
-class ChangeTimeFormatRadioEvent extends NewGameEvent {
-  final int index;
-  ChangeTimeFormatRadioEvent(this.index);
+class ChangeMinutesPerSideEvent extends NewGameEvent {
+  final int minutes;
+  ChangeMinutesPerSideEvent(this.minutes);
+}
+
+class ChangeSecondsPerMoveEvent extends NewGameEvent {
+  final int seconds;
+  ChangeSecondsPerMoveEvent(this.seconds);
 }
 
 class SubmitCreateGameEvent extends NewGameEvent {}
