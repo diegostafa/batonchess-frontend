@@ -1,4 +1,5 @@
 import 'package:batonchess/bloc/new_game/new_game_bloc.dart';
+import 'package:batonchess/ui/screen/game_screen.dart';
 import 'package:batonchess/ui/widget/button_bc.dart';
 import 'package:batonchess/ui/widget/container_bc.dart';
 import 'package:batonchess/ui/widget/selection_group_bc.dart';
@@ -16,28 +17,52 @@ class NewGameScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Game properties'),
           ),
-          body: BlocBuilder<NewGameBloc, NewGameState>(
-            builder: (context, state) => Column(
-              children: [
-                playAsSelection(context),
-                playersPerSideSelection(context),
-                Row(
-                  children: [
-                    Expanded(
-                      child: minutesPerSideSlider(state, context),
-                    ),
-                    Expanded(
-                      child: secondsPerMoveSlider(state, context),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                submitCreateGameButton(context, state)
-              ],
+          body: BlocListener<NewGameBloc, NewGameState>(
+            listener: (context, state) {
+              if (state is SuccessCreateGameState) {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GameScreen()),
+                );
+              }
+              // TODO: implement listener
+            },
+            child: BlocBuilder<NewGameBloc, NewGameState>(
+              builder: (context, state) {
+                if (state is GamePropsState) {
+                  return stateIsGameProps(context, state);
+                } else if (state is IsCreatingGameState) {
+                  return const Text("Creating GAme.....");
+                } else {
+                  return const Text("FAILURE");
+                }
+              },
             ),
           ),
         ),
       );
+
+  Column stateIsGameProps(BuildContext context, GamePropsState state) {
+    return Column(
+      children: [
+        playAsSelection(context),
+        maxPlayersSelection(context),
+        Row(
+          children: [
+            Expanded(
+              child: minutesPerSideSlider(state, context),
+            ),
+            Expanded(
+              child: secondsPerMoveSlider(state, context),
+            ),
+          ],
+        ),
+        const Spacer(),
+        submitCreateGameButton(context, state)
+      ],
+    );
+  }
 
   ContainerBc secondsPerMoveSlider(NewGameState state, BuildContext context) {
     return ContainerBc(
@@ -45,7 +70,9 @@ class NewGameScreen extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Text("Increment per move (in seconds): ${state.secondsPerMove}"),
+          Text(
+            "Increment per move (in seconds): ${(state as GamePropsState).secondsPerMove}",
+          ),
           SliderBc(
             initialValue: state.secondsPerMove.toDouble(),
             minValue: 0,
@@ -53,7 +80,8 @@ class NewGameScreen extends StatelessWidget {
             isDiscrete: true,
             onDragging: (handlerIndex, lowerValue, upperValue) {
               context.read<NewGameBloc>().add(
-                  ChangeSecondsPerMoveEvent((lowerValue as double).toInt()),);
+                    ChangeSecondsPerMoveEvent((lowerValue as double).toInt()),
+                  );
             },
           ),
         ],
@@ -67,7 +95,7 @@ class NewGameScreen extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Text("Minutes per side: ${state.minPerSide}"),
+          Text("Minutes per side: ${(state as GamePropsState).minPerSide}"),
           SliderBc(
             initialValue: state.minPerSide.toDouble(),
             minValue: 1,
@@ -75,7 +103,8 @@ class NewGameScreen extends StatelessWidget {
             isDiscrete: true,
             onDragging: (handlerIndex, lowerValue, upperValue) {
               context.read<NewGameBloc>().add(
-                  ChangeMinutesPerSideEvent((lowerValue as double).toInt()),);
+                    ChangeMinutesPerSideEvent((lowerValue as double).toInt()),
+                  );
             },
           ),
         ],
@@ -95,15 +124,16 @@ class NewGameScreen extends StatelessWidget {
         ),
       );
 
-  ContainerBc playersPerSideSelection(BuildContext context) => ContainerBc(
+  ContainerBc maxPlayersSelection(BuildContext context) => ContainerBc(
         margin: const EdgeInsets.all(10),
         child: SelectionGroupBc(
           label: "Players per side",
           isRow: true,
           padding: const EdgeInsets.all(8),
           values: const ["1", "5", "10", "20"],
-          onSelected: (s, index, isSelected) =>
-              context.read<NewGameBloc>().add(ChangeSideRadioEvent(index)),
+          onSelected: (s, index, isSelected) => context
+              .read<NewGameBloc>()
+              .add(ChangeMaxPlayersRadioEvent(index)),
         ),
       );
 

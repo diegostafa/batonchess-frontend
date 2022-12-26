@@ -18,7 +18,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [Text("Active games")],),
+                  children: const [Text("Active games")],
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: 30,
@@ -128,5 +129,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Future<dynamic> promptNewUsername(BuildContext context) => showDialog(
-      context: context, builder: (context) => changeUsernameDialog(context),);
+        context: context,
+        builder: (context) => changeUsernameDialog(context),
+      );
 }

@@ -1,44 +1,17 @@
 import 'package:batonchess/bloc/model/game_props.dart';
 import 'package:batonchess/bloc/model/game_state.dart';
-
-GameState gs = GameState(
-    GameProps(
-        maxPlayers: 10, side: Side.white, minPerSide: 10, incrementPerMove: 2,),
-    0,
-    [],
-    [],);
+import 'package:batonchess/bloc/model/move.dart';
 
 class GameRepository {
-  // dao
-
-  Future<void> updateUsername(String newUsername) async {
-    print("update username");
-    /**
-     * (assume the user exists locally and remotely)
-     * async dao.updateUser(id, newName)
-     * async local.updateUser(id, newName)
-     * update inMemory
-     * update locally
-     * update remote
-     */
+  Future<GameState> createNewGame(GameProps props) async {
+    print("creating a new game");
+    print("SLEEPING");
+    await Future.delayed(const Duration(seconds: 5));
+    print("WOKE UP");
+    return GameState(props, 1, [], []);
   }
 
-  Future<GameState> getOrCreateUser() async {
-    print("try get user");
-    /**
-     * check local storage
-     * if there is an id
-     * get id
-     * get username
-     * return user(id,username)
-     * else
-     * let id = uuid
-     * let name = anon
-     * let user=(id, name)
-     * dao.putUser(user)
-     * return user
-     */
-
-    return gs;
+  Future<void> makeMove(Move move) async {
+    print("sending a move");
   }
 }

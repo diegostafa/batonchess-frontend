@@ -8,9 +8,9 @@ class ChangeSideRadioEvent extends NewGameEvent {
   ChangeSideRadioEvent(this.index);
 }
 
-class ChangeMaxPlayersEvent extends NewGameEvent {
-  final int players;
-  ChangeMaxPlayersEvent(this.players);
+class ChangeMaxPlayersRadioEvent extends NewGameEvent {
+  final int index;
+  ChangeMaxPlayersRadioEvent(this.index);
 }
 
 class ChangeMinutesPerSideEvent extends NewGameEvent {
