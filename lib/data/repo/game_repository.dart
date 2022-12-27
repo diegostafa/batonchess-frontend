@@ -5,9 +5,9 @@ import 'package:batonchess/bloc/model/move.dart';
 class GameRepository {
   Future<GameState> createNewGame(GameProps props) async {
     print("creating a new game");
-    print("SLEEPING");
-    await Future.delayed(const Duration(seconds: 5));
-    print("WOKE UP");
+    //print("SLEEPING");
+    //await Future.delayed(const Duration(seconds: 5));
+    //print("WOKE UP");
     return GameState(props, 1, [], []);
   }
 

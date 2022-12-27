@@ -31,6 +31,7 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     Emitter<NewGameState> emit,
   ) async {
     if (state is GamePropsState) {
+      // todo : think about maxplayers
       final Map<int, int> mockMap = {0: 1, 1: 5, 2: 1};
       emit((state as GamePropsState).copyWith(maxPlayers: mockMap[e.index]));
     }
