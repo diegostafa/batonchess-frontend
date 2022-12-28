@@ -15,14 +15,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> setupUserHandler(
-      FetchUserEvent e, Emitter<HomeState> emit,) async {
+    FetchUserEvent e,
+    Emitter<HomeState> emit,
+  ) async {
     emit(FetchingUserState());
     final user = await userRepo.getOrCreateUser();
     emit(UserLoadedState(user));
   }
 
   Future<void> updateUsernameHandler(
-      UpdateUsernameEvent e, Emitter<HomeState> emit,) async {
+    UpdateUsernameEvent e,
+    Emitter<HomeState> emit,
+  ) async {
     if (e.newUsername != null) {
       emit(FetchingUserState());
       await userRepo.updateUsername(e.newUsername!);

@@ -46,18 +46,18 @@ class NewGameScreen extends StatelessWidget {
   Column stateIsGameProps(BuildContext context, GamePropsState state) {
     return Column(
       children: [
-        playAsSelection(context),
-        maxPlayersSelection(context),
         Row(
           children: [
-            Expanded(
-              child: minutesPerSideSlider(state, context),
-            ),
-            Expanded(
-              child: secondsPerMoveSlider(state, context),
-            ),
+            Expanded(child: playAsSelection(context)),
           ],
         ),
+        Row(
+          children: [
+            Expanded(child: maxPlayersSelection(context)),
+          ],
+        ),
+        minutesPerSideSlider(state, context),
+        secondsPerMoveSlider(state, context),
         const Spacer(),
         submitCreateGameButton(context, state)
       ],
@@ -71,7 +71,7 @@ class NewGameScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Increment per move (in seconds): ${(state as GamePropsState).secondsPerMove}",
+            "Increment per move: ${(state as GamePropsState).secondsPerMove}s",
           ),
           SliderBc(
             initialValue: state.secondsPerMove.toDouble(),
@@ -115,8 +115,7 @@ class NewGameScreen extends StatelessWidget {
   ContainerBc playAsSelection(BuildContext context) => ContainerBc(
         margin: const EdgeInsets.all(10),
         child: SelectionGroupBc(
-          label: "Play as",
-          isRow: true,
+          label: "Play as:",
           padding: const EdgeInsets.all(8),
           values: const ["Random", "White", "Black"],
           onSelected: (s, index, isSelected) =>
@@ -127,8 +126,7 @@ class NewGameScreen extends StatelessWidget {
   ContainerBc maxPlayersSelection(BuildContext context) => ContainerBc(
         margin: const EdgeInsets.all(10),
         child: SelectionGroupBc(
-          label: "Players per side",
-          isRow: true,
+          label: "Max players:",
           padding: const EdgeInsets.all(8),
           values: const ["1", "5", "10", "20"],
           onSelected: (s, index, isSelected) => context

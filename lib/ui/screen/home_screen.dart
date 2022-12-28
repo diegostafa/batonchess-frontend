@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
           if (state is UserLoadedState) {
             return Column(
               children: [
-                TextButton(
+                ElevatedButton(
                   onPressed: () async => context.read<HomeBloc>().add(
                         UpdateUsernameEvent(
                           await promptNewUsername(context) as String?,

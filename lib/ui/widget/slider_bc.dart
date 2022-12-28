@@ -1,5 +1,4 @@
 import 'package:another_xlider/another_xlider.dart';
-import 'package:batonchess/ui/widget/empty_bc.dart';
 import 'package:flutter/material.dart';
 
 class SliderBc extends StatelessWidget {
@@ -8,7 +7,7 @@ class SliderBc extends StatelessWidget {
   final double maxValue;
   final dynamic Function(int, dynamic, dynamic)? onDragging;
   final int handleSize;
-  final Widget handle;
+  final Widget? handle;
   final bool isDiscrete;
 
   const SliderBc({
@@ -18,7 +17,7 @@ class SliderBc extends StatelessWidget {
     required this.maxValue,
     required this.onDragging,
     this.handleSize = 20,
-    this.handle = const EmptyBc(),
+    this.handle,
     required this.isDiscrete,
   });
 

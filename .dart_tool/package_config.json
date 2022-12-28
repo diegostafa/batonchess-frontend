@@ -14,6 +14,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "bottom_nav_layout",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/bottom_nav_layout-3.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/characters-1.2.1",
       "packageUri": "lib/",
@@ -38,6 +44,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "crypto",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.5",
       "packageUri": "lib/",
@@ -56,8 +68,8 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_chess_board",
-      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/flutter_chess_board-1.0.1",
+      "name": "flutter_stateless_chessboard",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/flutter_stateless_chessboard-0.0.7",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -116,6 +128,18 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "typed_data",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "universal_io",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/universal_io-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.2",
       "packageUri": "lib/",
@@ -128,7 +152,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-12-26T16:06:43.448624Z",
+  "generated": "2022-12-28T18:18:04.346193Z",
   "generator": "pub",
   "generatorVersion": "2.18.6"
 }

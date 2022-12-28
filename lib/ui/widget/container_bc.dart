@@ -5,11 +5,12 @@ class ContainerBc extends StatelessWidget {
   final EdgeInsets padding;
   final Widget child;
 
-  const ContainerBc(
-      {super.key,
-      this.margin = EdgeInsets.zero,
-      this.padding = EdgeInsets.zero,
-      required this.child,});
+  const ContainerBc({
+    super.key,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
