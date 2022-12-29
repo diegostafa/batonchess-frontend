@@ -1,11 +1,9 @@
+import 'package:batonchess/bloc/model/user.dart';
 
 class UserCache {
-  final String? username = null;
-  factory UserCache() {
-    return _singleton;
-  }
+  static final UserCache _singleton = UserCache._internal(null);
+  factory UserCache() => _singleton;
+  UserCache._internal(this.user);
 
-  UserCache._internal();
-
-  static final UserCache _singleton = UserCache._internal();
+  User? user;
 }

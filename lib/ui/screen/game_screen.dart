@@ -125,7 +125,8 @@ class GameScreenState extends State<GameScreen> {
                     );
                   } else {
                     return Text(
-                        (state as FinalChessState).finalGameState.toString());
+                      (state as FinalChessState).finalGameState.toString(),
+                    );
                   }
                 },
               ),

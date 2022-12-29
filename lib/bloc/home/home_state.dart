@@ -11,3 +11,13 @@ class UserLoadedState extends HomeState {
 }
 
 class FetchingUserState extends HomeState {}
+
+class FailedToLoadUserState extends HomeState {}
+
+class FailedToUpdateUsernameState extends HomeState {}
+
+class ErrorState extends HomeState {
+  final String msg;
+
+  ErrorState(this.msg);
+}

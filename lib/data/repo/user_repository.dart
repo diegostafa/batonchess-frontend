@@ -1,39 +1,46 @@
 import 'package:batonchess/bloc/model/user.dart';
-
-User u = User(id: "ciao");
+import 'package:batonchess/data/dao/user/user_cache.dart';
+import 'package:batonchess/data/dao/user/user_http.dart';
+import 'package:batonchess/data/dao/user/user_local.dart';
 
 class UserRepository {
-  // dao
+  final userCache = UserCache();
+  final userLocal = UserLocal();
+  final userHttp = UserHttp();
 
-  Future<void> updateUsername(String newUsername) async {
+  Future<bool> updateUsername(String newUsername) async {
     print("update username");
-    /**
-     * (assume the user exists locally and remotely)
-     * async dao.updateUser(id, newName)
-     * async local.updateUser(id, newName)
-     * update inMemory
-     * update locally
-     * update remote
-     */
-    u.name = newUsername;
+    final id = userCache.user!.id;
+    final success = await userHttp.updateUserNameById(id, newUsername);
+    if (success) {
+      userCache.user!.name = newUsername;
+      userLocal.setUserName(newUsername);
+    }
+    return success;
   }
 
-  Future<User> getOrCreateUser() async {
-    print("try get user");
-    /**
-     * check local storage
-     * if there is an id
-     * get id
-     * get username
-     * return user(id,username)
-     * else
-     * let id = uuid
-     * let name = anon
-     * let user=(id, name)
-     * dao.putUser(user)
-     * return user
-     */
+  Future<User?> tryGetUser() async {
+    print("TRY USER CACHE");
 
-    return u;
+    if (userCache.user != null) {
+      return userCache.user;
+    }
+
+    print("TRY USER LOCAL");
+    final id = await userLocal.getUserId();
+    final name = await userLocal.getUserName();
+    if (id != null && name != null) {
+      UserCache().user = User(id: id, name: name);
+      return UserCache().user!;
+    }
+
+    print("TRY USER REMOTE");
+    final user = await userHttp.getNewUser();
+    if (user != null) {
+      UserCache().user = user;
+      return UserCache().user!;
+    }
+
+    return null;
   }
 }

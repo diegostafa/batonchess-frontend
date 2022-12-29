@@ -32,6 +32,11 @@ class ChessBloc extends Bloc<ChessEvent, ChessState> {
         } else {
           emit(FinalChessState(finalFen: newFen, finalGameState: gameState));
         }
+        /**
+         * repo.broadCast(newfen)
+         * <backend calculates next player>
+         * 
+         */
       }
     }
   }

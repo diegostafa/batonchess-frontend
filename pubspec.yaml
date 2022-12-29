@@ -17,7 +17,10 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_stateless_chessboard: ^0.0.2
   group_button: ^5.2.2
+  http: ^0.13.5
+  http_status_code: ^0.0.2
   meta: ^1.8.0
+  shared_preferences: ^2.0.15
   toggle_switch: ^2.0.1
 
 dev_dependencies:
