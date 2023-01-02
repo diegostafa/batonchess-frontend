@@ -19,9 +19,18 @@ class UserHttp {
   }
 
   Future<bool> updateUserNameById(String userId, String newUsername) async {
-    final url = Uri.parse('http://localhost:2023/updateUserName/');
-    final res = await http.get(url);
+    final url = Uri.parse(
+      'http://localhost:2023/updateUserName/',
+    );
 
-    return true;
+    final res = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({'userId': userId, 'newUsername': newUsername}),
+    );
+
+    return res.statusCode == StatusCode.ACCEPTED;
   }
 }
