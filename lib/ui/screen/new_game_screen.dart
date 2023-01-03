@@ -71,10 +71,10 @@ class NewGameScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Increment per move: ${(state as GamePropsState).secondsPerMove}s",
+            "Increment per move: ${(state as GamePropsState).incPerMove}s",
           ),
           SliderBc(
-            initialValue: state.secondsPerMove.toDouble(),
+            initialValue: state.incPerMove.toDouble(),
             minValue: 0,
             maxValue: 10,
             isDiscrete: true,
