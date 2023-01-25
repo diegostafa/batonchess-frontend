@@ -9,7 +9,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: 'Baton Chess',
         theme: lightTheme(),
-        darkTheme: darkTheme(),
         home: const HomeScreen(),
       );
 

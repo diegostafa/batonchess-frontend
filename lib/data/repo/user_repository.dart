@@ -11,17 +11,16 @@ class UserRepository {
   Future<bool> updateUsername(String newUsername) async {
     print("update username");
     final id = userCache.user!.id;
-    final success = await userHttp.updateUserNameById(id, newUsername);
-    if (success) {
+    final ok = await userHttp.updateUserNameById(id, newUsername);
+    if (ok) {
       userCache.user!.name = newUsername;
       userLocal.setUserName(newUsername);
     }
-    return success;
+    return ok;
   }
 
   Future<User?> tryGetUser() async {
     print("TRY USER CACHE");
-
     if (userCache.user != null) {
       return userCache.user;
     }
@@ -30,15 +29,16 @@ class UserRepository {
     final id = await userLocal.getUserId();
     final name = await userLocal.getUserName();
     if (id != null && name != null) {
-      UserCache().user = User(id: id, name: name);
-      return UserCache().user!;
+      userCache.user = User(id: id, name: name);
+      return userCache.user!;
     }
 
     print("TRY USER REMOTE");
     final user = await userHttp.getNewUser();
     if (user != null) {
-      UserCache().user = user;
-      return UserCache().user!;
+      userCache.user = user;
+      userLocal.setUser(user);
+      return userCache.user!;
     }
 
     return null;

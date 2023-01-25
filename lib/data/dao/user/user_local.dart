@@ -1,3 +1,4 @@
+import 'package:batonchess/bloc/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLocal {
@@ -16,4 +17,9 @@ class UserLocal {
 
   Future<void> setUserName(String name) async =>
       (await prefs()).setString("user_name", name);
+
+  Future<void> setUser(User user) async {
+    (await prefs()).setString("user_id", user.id);
+    (await prefs()).setString("user_name", user.name);
+  }
 }
