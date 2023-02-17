@@ -1,4 +1,4 @@
-import 'package:batonchess/bloc/model/user.dart';
+import 'package:batonchess/data/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLocal {

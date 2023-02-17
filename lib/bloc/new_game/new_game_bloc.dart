@@ -1,4 +1,4 @@
-import 'package:batonchess/bloc/model/game_props.dart';
+import 'package:batonchess/data/model/game_props.dart';
 import 'package:batonchess/data/repo/game_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';

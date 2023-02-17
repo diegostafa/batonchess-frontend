@@ -1,4 +1,4 @@
-import 'package:batonchess/bloc/model/chess_game_state.dart';
+import 'package:batonchess/data/model/chess_game_state.dart';
 import 'package:batonchess/utils/chess_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_stateless_chessboard/types.dart';
@@ -35,7 +35,7 @@ class ChessBloc extends Bloc<ChessEvent, ChessState> {
         /**
          * repo.broadCast(newfen)
          * <backend calculates next player>
-         * 
+         *
          */
       }
     }

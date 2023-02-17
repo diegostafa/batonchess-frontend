@@ -1,9 +1,8 @@
-import 'package:batonchess/bloc/model/game_props.dart';
-import 'package:batonchess/bloc/model/game_state.dart';
-import 'package:batonchess/bloc/model/move.dart';
+import 'package:batonchess/data/model/game_props.dart';
+import 'package:batonchess/data/model/game_state.dart';
+import 'package:batonchess/data/model/move.dart';
 import 'package:batonchess/data/dao/game/game_http.dart';
 import 'package:batonchess/data/dao/user/user_cache.dart';
-import 'package:batonchess/data/dao/user/user_http.dart';
 
 class GameRepository {
   final gameHttp = GameHttp();
@@ -15,6 +14,10 @@ class GameRepository {
     return (gameId != null)
         ? GameState(gameId: gameId, props: props, whiteTeam: [], blackTeam: [])
         : null;
+  }
+
+  Future<GameState?> getActiveGames(GameProps props) async {
+    return null;
   }
 
   Future<void> makeMove(Move move) async {

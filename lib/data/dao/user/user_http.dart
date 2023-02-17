@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:batonchess/bloc/model/user.dart';
+import 'package:batonchess/data/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status_code/http_status_code.dart';
 

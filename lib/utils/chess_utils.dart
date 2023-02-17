@@ -1,4 +1,4 @@
-import 'package:batonchess/bloc/model/chess_game_state.dart';
+import 'package:batonchess/data/model/chess_game_state.dart';
 import 'package:chess/chess.dart' as ch;
 
 const String initialFen =

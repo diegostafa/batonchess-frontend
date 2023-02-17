@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:batonchess/bloc/model/game_props.dart';
+import 'package:batonchess/data/model/game_props.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_status_code/http_status_code.dart';
 
 class GameHttp {
   factory GameHttp() => _singleton;
@@ -34,6 +35,12 @@ class GameHttp {
 
   Future<bool> sendMove() async {
     return false;
+  }
+
+  Future<List<int>?> getActiveGames() async {
+    final url = Uri.parse('http://localhost:2023/getActiveGames');
+    final res = await http.get(url);
+    return res.statusCode == StatusCode.OK ? [] : [];
   }
 
   // TODO : createNewGame, joinGame, leaveGame, sendMove

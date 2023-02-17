@@ -1,4 +1,4 @@
-import 'package:batonchess/bloc/model/user.dart';
+import 'package:batonchess/data/model/user.dart';
 import 'package:batonchess/data/dao/user/user_cache.dart';
 import 'package:batonchess/data/dao/user/user_http.dart';
 import 'package:batonchess/data/dao/user/user_local.dart';
