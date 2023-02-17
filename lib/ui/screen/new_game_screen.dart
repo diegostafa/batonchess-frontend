@@ -3,7 +3,6 @@ import 'package:batonchess/ui/screen/game_screen.dart';
 import 'package:batonchess/ui/widget/button_bc.dart';
 import 'package:batonchess/ui/widget/container_bc.dart';
 import 'package:batonchess/ui/widget/selection_group_bc.dart';
-import 'package:batonchess/ui/widget/slider_bc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

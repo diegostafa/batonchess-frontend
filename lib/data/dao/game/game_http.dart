@@ -23,6 +23,7 @@ class GameHttp {
         'playAsWhite': gp.playAsWhite
       }),
     );
+    return null;
   }
 
   Future<bool> joinGame() async {

@@ -10,11 +10,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final userRepo = UserRepository();
 
   HomeBloc() : super(InitialHomeState()) {
-    on<FetchUserEvent>(setupUserHandler);
+    on<FetchUserEvent>(fetchUserHandler);
     on<UpdateUsernameEvent>(updateUsernameHandler);
   }
 
-  Future<void> setupUserHandler(
+  Future<void> fetchUserHandler(
     FetchUserEvent e,
     Emitter<HomeState> emit,
   ) async {

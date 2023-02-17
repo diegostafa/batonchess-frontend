@@ -68,7 +68,7 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
             // minutesPerSide: s.minPerSide,
             // incrementPerMove: s.incPerMove,
             maxPlayers: s.maxPlayers,
-            playAsWhite: s.playAsWhite),
+            playAsWhite: s.playAsWhite,),
       );
       emit(SuccessCreateGameState());
     }

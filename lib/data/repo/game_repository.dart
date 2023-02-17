@@ -1,8 +1,8 @@
+import 'package:batonchess/data/dao/game/game_http.dart';
+import 'package:batonchess/data/dao/user/user_cache.dart';
 import 'package:batonchess/data/model/game_props.dart';
 import 'package:batonchess/data/model/game_state.dart';
 import 'package:batonchess/data/model/move.dart';
-import 'package:batonchess/data/dao/game/game_http.dart';
-import 'package:batonchess/data/dao/user/user_cache.dart';
 
 class GameRepository {
   final gameHttp = GameHttp();
@@ -16,7 +16,7 @@ class GameRepository {
         : null;
   }
 
-  Future<GameState?> getActiveGames(GameProps props) async {
+  Future<List<GameState>?> getActiveGames() async {
     return null;
   }
 

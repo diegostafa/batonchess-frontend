@@ -1,11 +1,14 @@
+import 'package:batonchess/data/model/game_state.dart';
 import 'package:flutter/material.dart';
 
 class JoinGameCardBc extends StatelessWidget {
   final void Function()? onTap;
+  final GameState gs;
 
   const JoinGameCardBc({
     super.key,
     this.onTap,
+    required this.gs,
   });
 
   @override
@@ -13,12 +16,12 @@ class JoinGameCardBc extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: onTap,
-        child: const Padding(
-          padding: EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            leading: Icon(Icons.album),
-            title: Text('title'),
-            subtitle: Text('subtitle'),
+            leading: const Icon(Icons.album),
+            title: Text(gs.gameId.toString()),
+            subtitle: Text(gs.props.maxPlayers.toString()),
           ),
         ),
       ),
