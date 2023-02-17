@@ -12,8 +12,8 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
   NewGameBloc() : super(GamePropsState()) {
     on<ChangeSideRadioEvent>(changeSideRadioHandler);
     on<ChangeMaxPlayersRadioEvent>(changeMaxPlayersRadioHandler);
-    on<ChangeMinutesPerSideEvent>(changeMinutesPerSideHandler);
-    on<ChangeSecondsPerMoveEvent>(changeSecondsPerMoveHandler);
+    // on<ChangeMinutesPerSideEvent>(changeMinutesPerSideHandler);
+    // on<ChangeSecondsPerMoveEvent>(changeSecondsPerMoveHandler);
     on<SubmitCreateGameEvent>(submitCreateGameHandler);
   }
 
@@ -22,8 +22,7 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     Emitter<NewGameState> emit,
   ) async {
     if (state is GamePropsState) {
-      emit(
-          (state as GamePropsState).copyWith(playerSide: Side.values[e.index]));
+      emit((state as GamePropsState).copyWith(playAsWhite: e.index == 0));
     }
   }
 
@@ -38,23 +37,23 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     }
   }
 
-  Future<void> changeMinutesPerSideHandler(
-    ChangeMinutesPerSideEvent e,
-    Emitter<NewGameState> emit,
-  ) async {
-    if (state is GamePropsState) {
-      emit((state as GamePropsState).copyWith(minPerSide: e.minutes));
-    }
-  }
+  // Future<void> changeMinutesPerSideHandler(
+  //   ChangeMinutesPerSideEvent e,
+  //   Emitter<NewGameState> emit,
+  // ) async {
+  //   if (state is GamePropsState) {
+  //     emit((state as GamePropsState).copyWith(minPerSide: e.minutes));
+  //   }
+  // }
 
-  Future<void> changeSecondsPerMoveHandler(
-    ChangeSecondsPerMoveEvent e,
-    Emitter<NewGameState> emit,
-  ) async {
-    if (state is GamePropsState) {
-      emit((state as GamePropsState).copyWith(incPerMove: e.seconds));
-    }
-  }
+  // Future<void> changeSecondsPerMoveHandler(
+  //   ChangeSecondsPerMoveEvent e,
+  //   Emitter<NewGameState> emit,
+  // ) async {
+  //   if (state is GamePropsState) {
+  //     emit((state as GamePropsState).copyWith(incPerMove: e.seconds));
+  //   }
+  // }
 
   Future<void> submitCreateGameHandler(
     SubmitCreateGameEvent e,
@@ -64,13 +63,12 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
       // todo : validation
       final s = state as GamePropsState;
       emit(IsCreatingGameState());
-      final game = await gameRepo.createNewGame(
+      final game = await gameRepo.createGame(
         GameProps(
-          playerSide: s.playerSide,
-          minutesPerSide: s.minPerSide,
-          incrementPerMove: s.incPerMove,
-          maxPlayers: s.maxPlayers,
-        ),
+            // minutesPerSide: s.minPerSide,
+            // incrementPerMove: s.incPerMove,
+            maxPlayers: s.maxPlayers,
+            playAsWhite: s.playAsWhite),
       );
       emit(SuccessCreateGameState());
     }

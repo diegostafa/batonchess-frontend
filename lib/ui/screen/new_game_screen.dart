@@ -56,68 +56,68 @@ class NewGameScreen extends StatelessWidget {
             Expanded(child: maxPlayersSelection(context)),
           ],
         ),
-        minutesPerSideSlider(state, context),
-        secondsPerMoveSlider(state, context),
+        // minutesPerSideSlider(state, context),
+        // secondsPerMoveSlider(state, context),
         const Spacer(),
         submitCreateGameButton(context, state)
       ],
     );
   }
 
-  ContainerBc secondsPerMoveSlider(NewGameState state, BuildContext context) {
-    return ContainerBc(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Text(
-            "Increment per move: ${(state as GamePropsState).incPerMove}s",
-          ),
-          SliderBc(
-            initialValue: state.incPerMove.toDouble(),
-            minValue: 0,
-            maxValue: 10,
-            isDiscrete: true,
-            onDragging: (handlerIndex, lowerValue, upperValue) {
-              context.read<NewGameBloc>().add(
-                    ChangeSecondsPerMoveEvent((lowerValue as double).toInt()),
-                  );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // ContainerBc secondsPerMoveSlider(NewGameState state, BuildContext context) {
+  //   return ContainerBc(
+  //     padding: const EdgeInsets.all(10),
+  //     margin: const EdgeInsets.all(10),
+  //     child: Column(
+  //       children: [
+  //         Text(
+  //           "Increment per move: ${(state as GamePropsState).incPerMove}s",
+  //         ),
+  //         SliderBc(
+  //           initialValue: state.incPerMove.toDouble(),
+  //           minValue: 0,
+  //           maxValue: 10,
+  //           isDiscrete: true,
+  //           onDragging: (handlerIndex, lowerValue, upperValue) {
+  //             context.read<NewGameBloc>().add(
+  //                   ChangeSecondsPerMoveEvent((lowerValue as double).toInt()),
+  //                 );
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  ContainerBc minutesPerSideSlider(NewGameState state, BuildContext context) {
-    return ContainerBc(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Text("Minutes per side: ${(state as GamePropsState).minPerSide}"),
-          SliderBc(
-            initialValue: state.minPerSide.toDouble(),
-            minValue: 1,
-            maxValue: 10,
-            isDiscrete: true,
-            onDragging: (handlerIndex, lowerValue, upperValue) {
-              context.read<NewGameBloc>().add(
-                    ChangeMinutesPerSideEvent((lowerValue as double).toInt()),
-                  );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // ContainerBc minutesPerSideSlider(NewGameState state, BuildContext context) {
+  //   return ContainerBc(
+  //     padding: const EdgeInsets.all(10),
+  //     margin: const EdgeInsets.all(10),
+  //     child: Column(
+  //       children: [
+  //         Text("Minutes per side: ${(state as GamePropsState).minPerSide}"),
+  //         SliderBc(
+  //           initialValue: state.minPerSide.toDouble(),
+  //           minValue: 1,
+  //           maxValue: 10,
+  //           isDiscrete: true,
+  //           onDragging: (handlerIndex, lowerValue, upperValue) {
+  //             context.read<NewGameBloc>().add(
+  //                   ChangeMinutesPerSideEvent((lowerValue as double).toInt()),
+  //                 );
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   ContainerBc playAsSelection(BuildContext context) => ContainerBc(
         margin: const EdgeInsets.all(10),
         child: SelectionGroupBc(
           label: "Play as:",
           padding: const EdgeInsets.all(8),
-          values: const ["Random", "White", "Black"],
+          values: const ["White", "Black"],
           onSelected: (s, index, isSelected) =>
               context.read<NewGameBloc>().add(ChangeSideRadioEvent(index)),
         ),

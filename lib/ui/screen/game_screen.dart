@@ -51,7 +51,7 @@ class GameScreenState extends State<GameScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        timers(),
+        // timers(),
         chessBoard(),
       ],
     );
@@ -88,19 +88,19 @@ class GameScreenState extends State<GameScreen> {
     );
   }
 
-  ContainerBc timers() {
-    return ContainerBc(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          Text("WHITE 10:00"),
-          Text("BLACK 00:12"),
-        ],
-      ),
-    );
-  }
+  // ContainerBc timers() {
+  //   return ContainerBc(
+  //     margin: const EdgeInsets.all(10),
+  //     padding: const EdgeInsets.all(10),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: const [
+  //         Text("WHITE 10:00"),
+  //         Text("BLACK 00:12"),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   BlocBuilder<ChessBloc, ChessState> chessBoard() {
     return BlocBuilder<ChessBloc, ChessState>(
