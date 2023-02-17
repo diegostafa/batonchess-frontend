@@ -3,13 +3,13 @@ enum Side { random, white, black }
 class GameProps {
   // ??? : bool trustPlayers
   final int maxPlayers;
-  final Side side;
+  final Side playerSide;
   final int minutesPerSide;
   final int incrementPerMove;
 
   GameProps({
     required this.maxPlayers,
-    required this.side,
+    required this.playerSide,
     required this.minutesPerSide,
     required this.incrementPerMove,
   });
@@ -17,7 +17,7 @@ class GameProps {
   // FIXME
   factory GameProps.fromJson(Map<String, dynamic> json) => GameProps(
         maxPlayers: json["maxPlayers"] as int,
-        side: json["Side"] as Side,
+        playerSide: json["playerSide"] as Side,
         minutesPerSide: json["minutesPerSide"] as int,
         incrementPerMove: json["incrementPerMove"] as int,
       );

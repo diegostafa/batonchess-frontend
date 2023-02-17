@@ -7,25 +7,25 @@ class GamePropsState extends NewGameState {
   final int maxPlayers;
   final int minPerSide;
   final int incPerMove;
-  final Side side;
+  final Side playerSide;
 
   GamePropsState({
     this.maxPlayers = 0,
     this.minPerSide = 1,
     this.incPerMove = 0,
-    this.side = Side.random,
+    this.playerSide = Side.random,
   });
 
   GamePropsState copyWith({
     int? maxPlayers,
     int? minPerSide,
     int? incPerMove,
-    Side? side,
+    Side? playerSide,
   }) =>
       GamePropsState(
         minPerSide: minPerSide ?? this.minPerSide,
         incPerMove: incPerMove ?? this.incPerMove,
-        side: side ?? this.side,
+        playerSide: playerSide ?? this.playerSide,
       );
 }
 

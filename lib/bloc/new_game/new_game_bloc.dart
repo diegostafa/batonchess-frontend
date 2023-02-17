@@ -22,7 +22,8 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     Emitter<NewGameState> emit,
   ) async {
     if (state is GamePropsState) {
-      emit((state as GamePropsState).copyWith(side: Side.values[e.index]));
+      emit(
+          (state as GamePropsState).copyWith(playerSide: Side.values[e.index]));
     }
   }
 
@@ -65,7 +66,7 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
       emit(IsCreatingGameState());
       final game = await gameRepo.createNewGame(
         GameProps(
-          side: s.side,
+          playerSide: s.playerSide,
           minutesPerSide: s.minPerSide,
           incrementPerMove: s.incPerMove,
           maxPlayers: s.maxPlayers,

@@ -3,13 +3,18 @@ import 'package:batonchess/data/dao/user/user_cache.dart';
 import 'package:batonchess/data/dao/user/user_http.dart';
 import 'package:batonchess/data/dao/user/user_local.dart';
 
+/**
+ * updateUsername
+ * tryGetUser
+ */
+
 class UserRepository {
   final userCache = UserCache();
   final userLocal = UserLocal();
   final userHttp = UserHttp();
 
   Future<bool> updateUsername(String newUsername) async {
-    print("update username");
+    print("debug");
     final id = userCache.user!.id;
     final ok = await userHttp.updateUserNameById(id, newUsername);
     if (ok) {
