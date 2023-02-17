@@ -11,12 +11,12 @@ class GameState {
       {required this.gameId,
       required this.props,
       required this.whiteTeam,
-      required this.blackTeam});
+      required this.blackTeam,});
 
   // FIXME
   factory GameState.fromJson(Map<String, dynamic> json) => GameState(
       gameId: json["maxPlayers"] as int,
       props: json["Side"] as GameProps,
       whiteTeam: json["whiteTeam"] as List<User>,
-      blackTeam: json["blackTeam"] as List<User>);
+      blackTeam: json["blackTeam"] as List<User>,);
 }

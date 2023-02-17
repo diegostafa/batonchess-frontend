@@ -1,4 +1,5 @@
 import 'package:batonchess/ui/screen/game_screen.dart';
+import 'package:batonchess/ui/widget/join_game_card_bc.dart';
 import 'package:flutter/material.dart';
 
 /*
@@ -25,23 +26,13 @@ class JoinGameScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return Card(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GameScreen()),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: ListTile(
-                  leading: Icon(Icons.album),
-                  title: Text('title'),
-                  subtitle: Text('subtitle'),
-                ),
-              ),
-            ),
+          return JoinGameCardBc(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const GameScreen()),
+              );
+            },
           );
         },
       ),

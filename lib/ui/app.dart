@@ -1,5 +1,4 @@
 import 'package:batonchess/ui/screen/home_screen.dart';
-import 'package:batonchess/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -13,7 +12,7 @@ class App extends StatelessWidget {
       );
 
   ThemeData lightTheme() => ThemeData(
-        primarySwatch: primaryBlack,
+        primarySwatch: Colors.brown,
         useMaterial3: true,
       );
 

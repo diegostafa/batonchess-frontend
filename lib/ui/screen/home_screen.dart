@@ -3,6 +3,7 @@ import 'package:batonchess/ui/screen/join_game_screen.dart';
 import 'package:batonchess/ui/screen/new_game_screen.dart';
 import 'package:batonchess/ui/widget/button_bc.dart';
 import 'package:batonchess/ui/widget/empty_bc.dart';
+import 'package:batonchess/ui/widget/join_game_card_bc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,11 +23,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 30,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(index.toString()),
-                    ),
+                    itemCount: 5,
+                    itemBuilder: (context, index) => const JoinGameCardBc(),
                   ),
                 ),
               ],

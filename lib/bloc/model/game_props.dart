@@ -7,16 +7,18 @@ class GameProps {
   final int minutesPerSide;
   final int incrementPerMove;
 
-  GameProps(
-      {required this.maxPlayers,
-      required this.side,
-      required this.minutesPerSide,
-      required this.incrementPerMove});
+  GameProps({
+    required this.maxPlayers,
+    required this.side,
+    required this.minutesPerSide,
+    required this.incrementPerMove,
+  });
 
   // FIXME
   factory GameProps.fromJson(Map<String, dynamic> json) => GameProps(
-      maxPlayers: json["maxPlayers"] as int,
-      side: json["Side"] as Side,
-      minutesPerSide: json["minutesPerSide"] as int,
-      incrementPerMove: json["incrementPerMove"] as int);
+        maxPlayers: json["maxPlayers"] as int,
+        side: json["Side"] as Side,
+        minutesPerSide: json["minutesPerSide"] as int,
+        incrementPerMove: json["incrementPerMove"] as int,
+      );
 }
