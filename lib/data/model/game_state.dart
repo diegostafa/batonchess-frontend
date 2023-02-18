@@ -5,7 +5,7 @@ class GameState {
   final int gameId;
   final String fen;
   final String status;
-  final GameProps props;
+  final NewGameProps props;
   final List<User> whiteTeam;
   final List<User> blackTeam;
 
@@ -22,7 +22,7 @@ class GameState {
         gameId: json["id"] as int,
         fen: json["fen"] as String,
         status: json["status"] as String,
-        props: json["props"] as GameProps,
+        props: json["props"] as NewGameProps,
         whiteTeam: json["whiteTeam"] as List<User>,
         blackTeam: json["blackTeam"] as List<User>,
       );

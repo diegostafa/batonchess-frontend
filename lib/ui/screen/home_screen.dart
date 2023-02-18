@@ -106,7 +106,7 @@ class HomeScreen extends StatelessWidget {
     String input = "";
     return SimpleDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),),
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),

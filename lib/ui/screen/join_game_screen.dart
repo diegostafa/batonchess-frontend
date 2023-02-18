@@ -34,7 +34,7 @@ class JoinGameScreen extends StatelessWidget {
                 itemCount: state.games.length,
                 itemBuilder: (context, index) {
                   return JoinGameCardBc(
-                    gs: state.games[index],
+                    gameInfo: state.games[index],
                     onTap: () {
                       Navigator.push(
                         context,

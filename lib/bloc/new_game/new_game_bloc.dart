@@ -40,13 +40,17 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     if (state is GamePropsState) {
       final s = state as GamePropsState;
       emit(IsCreatingGameState());
-      final game = await gameRepo.createGame(
-        GameProps(
+
+      final gameInfo = await gameRepo.createGame(
+        NewGameProps(
           maxPlayers: s.maxPlayers,
-          playAsWhite: s.playAsWhite,
         ),
       );
-      emit(SuccessCreateGameState());
+      if (gameInfo != null) {
+        final gameState =
+            await gameRepo.joinGame(gameInfo, playAsWhite: s.playAsWhite);
+        emit(SuccessCreateGameState());
+      }
     }
   }
 }

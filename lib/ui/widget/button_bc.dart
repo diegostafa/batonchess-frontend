@@ -35,12 +35,12 @@ class ButtonBc extends StatelessWidget {
   ElevatedButton button() {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(text),
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
       ),
+      child: Text(text),
     );
   }
 }

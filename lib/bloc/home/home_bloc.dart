@@ -18,9 +18,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchUserEvent e,
     Emitter<HomeState> emit,
   ) async {
-    print("SETUP USER");
     emit(FetchingUserState());
-    final user = await userRepo.tryGetUser();
+    final user = await userRepo.createUser();
     user == null ? emit(FailedToLoadUserState()) : emit(UserLoadedState(user));
   }
 

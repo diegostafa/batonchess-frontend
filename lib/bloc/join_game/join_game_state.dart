@@ -6,7 +6,7 @@ abstract class JoinGameState {}
 class JoinGameInitial extends JoinGameState {}
 
 class GamesLoadedState extends JoinGameState {
-  final List<GameState> games;
+  final List<GameInfo> games;
   GamesLoadedState(this.games);
 }
 

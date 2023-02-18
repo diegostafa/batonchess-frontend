@@ -1,14 +1,14 @@
-import 'package:batonchess/data/model/game_state.dart';
+import 'package:batonchess/data/model/game_info.dart';
 import 'package:flutter/material.dart';
 
 class JoinGameCardBc extends StatelessWidget {
   final void Function()? onTap;
-  final GameState gs;
+  final GameInfo gameInfo;
 
   const JoinGameCardBc({
     super.key,
     this.onTap,
-    required this.gs,
+    required this.gameInfo,
   });
 
   @override
@@ -20,8 +20,8 @@ class JoinGameCardBc extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             leading: const Icon(Icons.album),
-            title: Text(gs.gameId.toString()),
-            subtitle: Text(gs.props.maxPlayers.toString()),
+            title: Text(gameInfo.gameId.toString()),
+            subtitle: Text(gameInfo.maxPlayers.toString()),
           ),
         ),
       ),

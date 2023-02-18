@@ -8,14 +8,21 @@ class UserRepository {
   final userLocal = UserLocal();
   final userHttp = UserHttp();
 
-  Future<bool> updateUsername(String newUsername) async {
-    final id = userCache.user!.id;
-    final ok = await userHttp.updateUserNameById(id, newUsername);
-    if (ok) {
-      userCache.user!.name = newUsername;
-      userLocal.setUserName(newUsername);
+  Future<void> saveUser(User? user) async {
+    if (user != null) {
+      userCache.user = user;
+      userLocal.setUser(user);
     }
-    return ok;
+  }
+
+  Future<User?> thisOrValidUser(User u) async {
+    if (await userHttp.isValidUser(u.id)) {
+      return u;
+    } else {
+      final u = await userHttp.getNewUser();
+      saveUser(u);
+      return u;
+    }
   }
 
   Future<User?> tryGetUser() async {
@@ -32,14 +39,32 @@ class UserRepository {
       return userCache.user!;
     }
 
-    print("TRY USER REMOTE");
-    final user = await userHttp.getNewUser();
-    if (user != null) {
-      userCache.user = user;
-      userLocal.setUser(user);
-      return userCache.user!;
-    }
+    final u = await userHttp.getNewUser();
+    saveUser(u);
+    return u;
+  }
 
-    return null;
+  Future<User?> createUser() async {
+    print("TRY USER LOCAL");
+    final id = await userLocal.getUserId();
+    final name = await userLocal.getUserName();
+    if (id != null && name != null) {
+      userCache.user = User(id: id, name: name);
+      return thisOrValidUser(userCache.user!);
+    }
+    print("TRY USER REMOTE");
+    final u = await userHttp.getNewUser();
+    saveUser(u);
+    return u;
+  }
+
+  Future<bool> updateUsername(String newUsername) async {
+    final ok =
+        await userHttp.updateUserNameById(userCache.user!.id, newUsername);
+    if (ok) {
+      userCache.user!.name = newUsername;
+      userLocal.setUserName(newUsername);
+    }
+    return ok;
   }
 }

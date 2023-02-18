@@ -24,7 +24,7 @@ class SliderBc extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FlutterSlider(
         handlerAnimation:
-            FlutterSliderHandlerAnimation(duration: Duration(milliseconds: 0)),
+            const FlutterSliderHandlerAnimation(duration: Duration()),
         trackBar: FlutterSliderTrackBar(
           activeTrackBar: BoxDecoration(color: Theme.of(context).primaryColor),
         ),

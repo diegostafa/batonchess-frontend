@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:batonchess/data/model/game_info.dart';
 import 'package:batonchess/data/model/game_props.dart';
 import 'package:batonchess/data/model/game_state.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,7 @@ class GameHttp {
   GameHttp._internal();
   static final GameHttp _singleton = GameHttp._internal();
 
-  Future<int?> createGame(String creatorId, GameProps gp) async {
+  Future<GameInfo?> createGame(String creatorId, NewGameProps gp) async {
     final url = Uri.parse('http://localhost:2023/createGame');
 
     final res = await http.post(
@@ -21,15 +22,28 @@ class GameHttp {
       body: jsonEncode({
         'creatorId': creatorId,
         'maxPlayersPerSide': gp.maxPlayers,
-        'playAsWhite': gp.playAsWhite
       }),
     );
 
-    return 1;
+    return null;
   }
 
-  Future<bool> joinGame() async {
-    return false;
+  Future<GameState?> joinGame(
+      int gameId, String userId, bool playAsWhite,) async {
+    final url = Uri.parse('http://localhost:2023/createGame');
+
+    final res = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'gameId': gameId,
+        'userId': userId,
+      }),
+    );
+
+    return null;
   }
 
   Future<bool> leaveGame() async {
@@ -40,16 +54,17 @@ class GameHttp {
     return false;
   }
 
-  Future<List<GameState>?> getActiveGames() async {
+  Future<List<GameInfo>?> getActiveGames() async {
     final url = Uri.parse('http://localhost:2023/getActiveGames');
     final res = await http.get(url);
     print("HELLO");
     print(res.body);
     if (res.statusCode == StatusCode.OK) {
+      //Game.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
       // List<dynamic> jsonList = json.decode(res.body);
       // List<GameState> gs =
       //     jsonList.map((json) => GamesState.fromJson(json)).toList();
-      return null;
+      return [];
     } else {
       return null;
     }
