@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:batonchess/data/model/game_props.dart';
+import 'package:batonchess/data/model/game_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status_code/http_status_code.dart';
 
@@ -23,7 +24,8 @@ class GameHttp {
         'playAsWhite': gp.playAsWhite
       }),
     );
-    return null;
+
+    return 1;
   }
 
   Future<bool> joinGame() async {
@@ -38,10 +40,19 @@ class GameHttp {
     return false;
   }
 
-  Future<List<int>?> getActiveGames() async {
+  Future<List<GameState>?> getActiveGames() async {
     final url = Uri.parse('http://localhost:2023/getActiveGames');
     final res = await http.get(url);
-    return res.statusCode == StatusCode.OK ? [] : [];
+    print("HELLO");
+    print(res.body);
+    if (res.statusCode == StatusCode.OK) {
+      // List<dynamic> jsonList = json.decode(res.body);
+      // List<GameState> gs =
+      //     jsonList.map((json) => GamesState.fromJson(json)).toList();
+      return null;
+    } else {
+      return null;
+    }
   }
 
   // TODO : createNewGame, joinGame, leaveGame, sendMove

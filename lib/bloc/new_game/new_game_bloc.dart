@@ -10,15 +10,13 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
   GameRepository gameRepo = GameRepository();
 
   NewGameBloc() : super(GamePropsState()) {
-    on<ChangeSideRadioEvent>(changeSideRadioHandler);
-    on<ChangeMaxPlayersRadioEvent>(changeMaxPlayersRadioHandler);
-    // on<ChangeMinutesPerSideEvent>(changeMinutesPerSideHandler);
-    // on<ChangeSecondsPerMoveEvent>(changeSecondsPerMoveHandler);
+    on<ChangeSideEvent>(changeSideHandler);
+    on<ChangeMaxPlayersEvent>(changeMaxPlayersHandler);
     on<SubmitCreateGameEvent>(submitCreateGameHandler);
   }
 
-  Future<void> changeSideRadioHandler(
-    ChangeSideRadioEvent e,
+  Future<void> changeSideHandler(
+    ChangeSideEvent e,
     Emitter<NewGameState> emit,
   ) async {
     if (state is GamePropsState) {
@@ -26,49 +24,27 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     }
   }
 
-  Future<void> changeMaxPlayersRadioHandler(
-    ChangeMaxPlayersRadioEvent e,
+  Future<void> changeMaxPlayersHandler(
+    ChangeMaxPlayersEvent e,
     Emitter<NewGameState> emit,
   ) async {
     if (state is GamePropsState) {
-      // todo : think about maxplayers
-      final Map<int, int> mockMap = {0: 1, 1: 5, 2: 1};
-      emit((state as GamePropsState).copyWith(maxPlayers: mockMap[e.index]));
+      emit((state as GamePropsState).copyWith(maxPlayers: e.sliderVal));
     }
   }
-
-  // Future<void> changeMinutesPerSideHandler(
-  //   ChangeMinutesPerSideEvent e,
-  //   Emitter<NewGameState> emit,
-  // ) async {
-  //   if (state is GamePropsState) {
-  //     emit((state as GamePropsState).copyWith(minPerSide: e.minutes));
-  //   }
-  // }
-
-  // Future<void> changeSecondsPerMoveHandler(
-  //   ChangeSecondsPerMoveEvent e,
-  //   Emitter<NewGameState> emit,
-  // ) async {
-  //   if (state is GamePropsState) {
-  //     emit((state as GamePropsState).copyWith(incPerMove: e.seconds));
-  //   }
-  // }
 
   Future<void> submitCreateGameHandler(
     SubmitCreateGameEvent e,
     Emitter<NewGameState> emit,
   ) async {
     if (state is GamePropsState) {
-      // todo : validation
       final s = state as GamePropsState;
       emit(IsCreatingGameState());
       final game = await gameRepo.createGame(
         GameProps(
-            // minutesPerSide: s.minPerSide,
-            // incrementPerMove: s.incPerMove,
-            maxPlayers: s.maxPlayers,
-            playAsWhite: s.playAsWhite,),
+          maxPlayers: s.maxPlayers,
+          playAsWhite: s.playAsWhite,
+        ),
       );
       emit(SuccessCreateGameState());
     }

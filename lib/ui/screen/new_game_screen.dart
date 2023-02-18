@@ -3,6 +3,7 @@ import 'package:batonchess/ui/screen/game_screen.dart';
 import 'package:batonchess/ui/widget/button_bc.dart';
 import 'package:batonchess/ui/widget/container_bc.dart';
 import 'package:batonchess/ui/widget/selection_group_bc.dart';
+import 'package:batonchess/ui/widget/slider_bc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,87 +53,61 @@ class NewGameScreen extends StatelessWidget {
         ),
         Row(
           children: [
-            Expanded(child: maxPlayersSelection(context)),
+            Expanded(child: maxPlayersSelection(state, context)),
           ],
         ),
-        // minutesPerSideSlider(state, context),
-        // secondsPerMoveSlider(state, context),
         const Spacer(),
         submitCreateGameButton(context, state)
       ],
     );
   }
 
-  // ContainerBc secondsPerMoveSlider(NewGameState state, BuildContext context) {
-  //   return ContainerBc(
-  //     padding: const EdgeInsets.all(10),
-  //     margin: const EdgeInsets.all(10),
-  //     child: Column(
-  //       children: [
-  //         Text(
-  //           "Increment per move: ${(state as GamePropsState).incPerMove}s",
-  //         ),
-  //         SliderBc(
-  //           initialValue: state.incPerMove.toDouble(),
-  //           minValue: 0,
-  //           maxValue: 10,
-  //           isDiscrete: true,
-  //           onDragging: (handlerIndex, lowerValue, upperValue) {
-  //             context.read<NewGameBloc>().add(
-  //                   ChangeSecondsPerMoveEvent((lowerValue as double).toInt()),
-  //                 );
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // ContainerBc minutesPerSideSlider(NewGameState state, BuildContext context) {
-  //   return ContainerBc(
-  //     padding: const EdgeInsets.all(10),
-  //     margin: const EdgeInsets.all(10),
-  //     child: Column(
-  //       children: [
-  //         Text("Minutes per side: ${(state as GamePropsState).minPerSide}"),
-  //         SliderBc(
-  //           initialValue: state.minPerSide.toDouble(),
-  //           minValue: 1,
-  //           maxValue: 10,
-  //           isDiscrete: true,
-  //           onDragging: (handlerIndex, lowerValue, upperValue) {
-  //             context.read<NewGameBloc>().add(
-  //                   ChangeMinutesPerSideEvent((lowerValue as double).toInt()),
-  //                 );
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   ContainerBc playAsSelection(BuildContext context) => ContainerBc(
-        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.only(left: 40, top: 10, right: 40, bottom: 10),
         child: SelectionGroupBc(
           label: "Play as:",
           padding: const EdgeInsets.all(8),
           values: const ["White", "Black"],
           onSelected: (s, index, isSelected) =>
-              context.read<NewGameBloc>().add(ChangeSideRadioEvent(index)),
+              context.read<NewGameBloc>().add(ChangeSideEvent(index)),
         ),
       );
 
-  ContainerBc maxPlayersSelection(BuildContext context) => ContainerBc(
-        margin: const EdgeInsets.all(10),
-        child: SelectionGroupBc(
-          label: "Max players:",
-          padding: const EdgeInsets.all(8),
-          values: const ["1", "5", "10", "20"],
-          onSelected: (s, index, isSelected) => context
-              .read<NewGameBloc>()
-              .add(ChangeMaxPlayersRadioEvent(index)),
-        ),
-      );
+  // ContainerBc maxPlayersSelection(BuildContext context) => ContainerBc(
+  //       margin: const EdgeInsets.all(10),
+  //       child: SelectionGroupBc(
+  //         label: "Max players:",
+  //         padding: const EdgeInsets.all(8),
+  //         values: const ["1", "5", "10", "20"],
+  //         onSelected: (s, index, isSelected) => context
+  //             .read<NewGameBloc>()
+  //             .add(ChangeMaxPlayersRadioEvent(index)),
+  //       ),
+  //     );
+
+  ContainerBc maxPlayersSelection(NewGameState state, BuildContext context) {
+    return ContainerBc(
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(left: 40, top: 10, right: 40, bottom: 10),
+      child: Column(
+        children: [
+          Text("Groups size: ${(state as GamePropsState).maxPlayers}"),
+          SliderBc(
+            initialValue: state.maxPlayers,
+            minValue: 1,
+            maxValue: 10,
+            isDiscrete: true,
+            onDragging: (handlerIndex, lowerValue, upperValue) {
+              context.read<NewGameBloc>().add(
+                    ChangeMaxPlayersEvent((lowerValue as double).toInt()),
+                  );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   ButtonBc submitCreateGameButton(BuildContext context, NewGameState state) =>
       ButtonBc(

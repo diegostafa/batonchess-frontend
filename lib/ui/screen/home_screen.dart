@@ -84,13 +84,14 @@ class HomeScreen extends StatelessWidget {
           if (state is UserLoadedState) {
             return Column(
               children: [
-                ElevatedButton(
+                ButtonBc(
+                  expand: false,
                   onPressed: () async => context.read<HomeBloc>().add(
                         UpdateUsernameEvent(
                           await promptNewUsername(context) as String?,
                         ),
                       ),
-                  child: Text(state.user.name),
+                  text: state.user.name,
                 ),
                 Text("#${state.user.id}"),
               ],
@@ -104,6 +105,8 @@ class HomeScreen extends StatelessWidget {
   Widget changeUsernameDialog(BuildContext context) {
     String input = "";
     return SimpleDialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),

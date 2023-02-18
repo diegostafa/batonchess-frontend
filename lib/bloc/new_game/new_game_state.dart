@@ -5,27 +5,22 @@ abstract class NewGameState {}
 
 class GamePropsState extends NewGameState {
   final int maxPlayers;
+  final bool playAsWhite;
   // final int minPerSide;
   // final int incPerMove;
-  final bool playAsWhite;
 
   GamePropsState({
-    this.maxPlayers = 0,
-    // this.minPerSide = 1,
-    // this.incPerMove = 0,
+    this.maxPlayers = 1,
     this.playAsWhite = true,
   });
 
   GamePropsState copyWith({
     int? maxPlayers,
-    // int? minPerSide,
-    // int? incPerMove,
     bool? playAsWhite,
   }) =>
       GamePropsState(
-        // minPerSide: minPerSide ?? this.minPerSide,
-        // incPerMove: incPerMove ?? this.incPerMove,
         playAsWhite: playAsWhite ?? this.playAsWhite,
+        maxPlayers: maxPlayers ?? this.maxPlayers,
       );
 }
 

@@ -3,24 +3,14 @@ part of 'new_game_bloc.dart';
 @immutable
 abstract class NewGameEvent {}
 
-class ChangeMaxPlayersRadioEvent extends NewGameEvent {
+class ChangeSideEvent extends NewGameEvent {
   final int index;
-  ChangeMaxPlayersRadioEvent(this.index);
+  ChangeSideEvent(this.index);
 }
 
-class ChangeSideRadioEvent extends NewGameEvent {
-  final int index;
-  ChangeSideRadioEvent(this.index);
+class ChangeMaxPlayersEvent extends NewGameEvent {
+  final int sliderVal;
+  ChangeMaxPlayersEvent(this.sliderVal);
 }
-
-// class ChangeMinutesPerSideEvent extends NewGameEvent {
-//   final int minutes;
-//   ChangeMinutesPerSideEvent(this.minutes);
-// }
-
-// class ChangeSecondsPerMoveEvent extends NewGameEvent {
-//   final int seconds;
-//   ChangeSecondsPerMoveEvent(this.seconds);
-// }
 
 class SubmitCreateGameEvent extends NewGameEvent {}

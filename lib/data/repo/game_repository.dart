@@ -12,12 +12,19 @@ class GameRepository {
     final gameId = await gameHttp.createGame(userCache.user!.id, props);
 
     return (gameId != null)
-        ? GameState(gameId: gameId, props: props, whiteTeam: [], blackTeam: [])
+        ? GameState(
+            gameId: gameId,
+            fen: "",
+            status: "",
+            props: props,
+            whiteTeam: [],
+            blackTeam: [])
         : null;
   }
 
   Future<List<GameState>?> getActiveGames() async {
-    return null;
+    final res = await gameHttp.getActiveGames();
+    return res;
   }
 
   Future<void> makeMove(Move move) async {

@@ -2,9 +2,9 @@ import 'package:another_xlider/another_xlider.dart';
 import 'package:flutter/material.dart';
 
 class SliderBc extends StatelessWidget {
-  final double initialValue;
-  final double minValue;
-  final double maxValue;
+  final int initialValue;
+  final int minValue;
+  final int maxValue;
   final dynamic Function(int, dynamic, dynamic)? onDragging;
   final int handleSize;
   final Widget? handle;
@@ -23,6 +23,8 @@ class SliderBc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FlutterSlider(
+        handlerAnimation:
+            FlutterSliderHandlerAnimation(duration: Duration(milliseconds: 0)),
         trackBar: FlutterSliderTrackBar(
           activeTrackBar: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
@@ -31,9 +33,9 @@ class SliderBc extends StatelessWidget {
         handler: FlutterSliderHandler(
           child: Container(padding: EdgeInsets.zero, child: handle),
         ),
-        values: [initialValue],
-        min: minValue,
-        max: maxValue,
+        values: [initialValue.toDouble()],
+        min: minValue.toDouble(),
+        max: maxValue.toDouble(),
         onDragging: onDragging,
       );
 }

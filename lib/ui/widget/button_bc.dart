@@ -4,12 +4,14 @@ class ButtonBc extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
   final EdgeInsetsGeometry padding;
+  final bool expand;
 
   const ButtonBc({
     super.key,
     required this.text,
     required this.onPressed,
     this.padding = EdgeInsets.zero,
+    this.expand = true,
   });
 
   @override
@@ -19,10 +21,25 @@ class ButtonBc extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: ElevatedButton(onPressed: onPressed, child: Text(text)),
-          )
+          if (expand)
+            Expanded(
+              child: button(),
+            )
+          else
+            button()
         ],
+      ),
+    );
+  }
+
+  ElevatedButton button() {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(text),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     );
   }
