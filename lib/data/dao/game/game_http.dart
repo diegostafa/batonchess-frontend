@@ -61,18 +61,14 @@ class GameHttp {
   Future<List<GameInfo>?> getActiveGames() async {
     final url = Uri.parse('http://localhost:2023/getActiveGames');
     final res = await http.get(url);
-    print("HELLO");
-    print(res.body);
     if (res.statusCode == StatusCode.OK) {
-      //Game.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
-      // List<dynamic> jsonList = json.decode(res.body);
-      // List<GameState> gs =
-      //     jsonList.map((json) => GamesState.fromJson(json)).toList();
-      return [];
+      final List<dynamic> gameInfosJson = jsonDecode(res.body) as List<dynamic>;
+      final gameInfos = gameInfosJson
+          .map((e) => GameInfo.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return gameInfos;
     } else {
       return null;
     }
   }
-
-  // TODO : createNewGame, joinGame, leaveGame, sendMove
 }

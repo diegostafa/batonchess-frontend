@@ -20,8 +20,20 @@ class JoinGameCardBc extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             leading: const Icon(Icons.album),
-            title: Text(gameInfo.gameId.toString()),
-            subtitle: Text(gameInfo.maxPlayers.toString()),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Creator: ${gameInfo.creatorName}"),
+                Text("Started: ${gameInfo.createdAt}"),
+              ],
+            ),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                    "${gameInfo.currentPlayers}/${gameInfo.maxPlayers} currently playing"),
+              ],
+            ),
           ),
         ),
       ),

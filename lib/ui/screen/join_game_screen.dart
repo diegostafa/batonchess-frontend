@@ -36,12 +36,14 @@ class JoinGameScreen extends StatelessWidget {
                   return JoinGameCardBc(
                     gameInfo: state.games[index],
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const GameScreen(),
-                        ),
-                      );
+                      /**
+                       * show dialog play as white/black
+                       * emit JoinGameEvent(selected_game, side)
+                       * bloc --> repo.joinGame --> http.joinGame
+                       * get gameInfo
+                       * emit JoinSuccessState
+                       * bloc listener --> route.push(gameScreen(GameInfo))
+                       */
                     },
                   );
                 },
