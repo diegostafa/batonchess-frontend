@@ -5,11 +5,20 @@ abstract class JoinGameState {}
 
 class JoinGameInitial extends JoinGameState {}
 
-class GamesLoadedState extends JoinGameState {
+class FetchingGamesState extends JoinGameState {}
+
+class SuccessLoadingGamesState extends JoinGameState {
   final List<GameInfo> games;
-  GamesLoadedState(this.games);
+  SuccessLoadingGamesState(this.games);
 }
 
-class FetchingActiveGamesState extends JoinGameState {}
+class FailureLoadingGamesState extends JoinGameState {}
 
-class FailedToLoadGamesState extends JoinGameState {}
+class JoiningGameState extends JoinGameState {}
+
+class SuccessJoiningGameState extends JoinGameState {
+  final GameState joinedGame;
+  SuccessJoiningGameState(this.joinedGame);
+}
+
+class FailureJoiningGameState extends JoinGameState {}

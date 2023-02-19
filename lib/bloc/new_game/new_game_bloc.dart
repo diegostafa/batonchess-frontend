@@ -1,4 +1,5 @@
 import 'package:batonchess/data/model/game_props.dart';
+import 'package:batonchess/data/model/game_state.dart';
 import 'package:batonchess/data/repo/game_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -9,7 +10,7 @@ part 'new_game_state.dart';
 class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
   GameRepository gameRepo = GameRepository();
 
-  NewGameBloc() : super(GamePropsState()) {
+  NewGameBloc() : super(SettingGamePropsState()) {
     on<ChangeSideEvent>(changeSideHandler);
     on<ChangeMaxPlayersEvent>(changeMaxPlayersHandler);
     on<SubmitCreateGameEvent>(submitCreateGameHandler);
@@ -19,8 +20,9 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     ChangeSideEvent e,
     Emitter<NewGameState> emit,
   ) async {
-    if (state is GamePropsState) {
-      emit((state as GamePropsState).copyWith(playAsWhite: e.index == 0));
+    if (state is SettingGamePropsState) {
+      emit(
+          (state as SettingGamePropsState).copyWith(playAsWhite: e.index == 0));
     }
   }
 
@@ -28,8 +30,8 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     ChangeMaxPlayersEvent e,
     Emitter<NewGameState> emit,
   ) async {
-    if (state is GamePropsState) {
-      emit((state as GamePropsState).copyWith(maxPlayers: e.sliderVal));
+    if (state is SettingGamePropsState) {
+      emit((state as SettingGamePropsState).copyWith(maxPlayers: e.sliderVal));
     }
   }
 
@@ -37,9 +39,9 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     SubmitCreateGameEvent e,
     Emitter<NewGameState> emit,
   ) async {
-    if (state is GamePropsState) {
-      final s = state as GamePropsState;
-      emit(IsCreatingGameState());
+    if (state is SettingGamePropsState) {
+      final s = state as SettingGamePropsState;
+      emit(CreatingGameState());
 
       final gameInfo = await gameRepo.createGame(
         NewGameProps(
@@ -51,7 +53,9 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
         print("GOT GAME INFO CREATOR IS: ${gameInfo.creatorName}");
         final gameState =
             await gameRepo.joinGame(gameInfo, playAsWhite: s.playAsWhite);
-        emit(SuccessCreateGameState());
+        gameState == null
+            ? emit(FailureCreatingGameState())
+            : emit(SuccessCreatingGameState(gameState));
       }
     }
   }

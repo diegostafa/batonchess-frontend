@@ -9,7 +9,7 @@ import 'package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart';
 class GameScreen extends StatefulWidget {
   final GameState? initialGameState;
 
-  const GameScreen({super.key, this.initialGameState});
+  const GameScreen({super.key, required this.initialGameState});
 
   @override
   GameScreenState createState() => GameScreenState();

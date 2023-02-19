@@ -35,7 +35,11 @@ class GameRepository {
   }) async {
     final user = await userRepo.tryGetUser();
     if (user != null) {
-      return gameHttp.joinGame(gameInfo.gameId, user.id, playAsWhite);
+      return gameHttp.joinGame(
+        gameInfo.gameId,
+        user.id,
+        playAsWhite: playAsWhite,
+      );
     }
     return null;
   }

@@ -19,22 +19,24 @@ class NewGameScreen extends StatelessWidget {
           ),
           body: BlocListener<NewGameBloc, NewGameState>(
             listener: (context, state) {
-              if (state is SuccessCreateGameState) {
+              if (state is SuccessCreatingGameState) {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const GameScreen()),
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        GameScreen(initialGameState: state.joinedGame),
+                  ),
                 );
               }
-              // TODO: implement listener
             },
             child: BlocBuilder<NewGameBloc, NewGameState>(
               builder: (context, state) {
-                if (state is GamePropsState) {
+                if (state is SettingGamePropsState) {
                   return stateIsGameProps(context, state);
-                } else if (state is IsCreatingGameState) {
+                } else if (state is CreatingGameState) {
                   return const Text("LOADING: CREATING GAME...");
-                } else if (state is SuccessCreateGameState) {
+                } else if (state is SuccessCreatingGameState) {
                   return const Text("GAME CREATED, JOINING...");
                 } else {
                   return const Text("FAILED TO CREATE THE GAME, GO BACK");
@@ -45,7 +47,7 @@ class NewGameScreen extends StatelessWidget {
         ),
       );
 
-  Column stateIsGameProps(BuildContext context, GamePropsState state) {
+  Column stateIsGameProps(BuildContext context, SettingGamePropsState state) {
     return Column(
       children: [
         Row(
@@ -76,25 +78,13 @@ class NewGameScreen extends StatelessWidget {
         ),
       );
 
-  // ContainerBc maxPlayersSelection(BuildContext context) => ContainerBc(
-  //       margin: const EdgeInsets.all(10),
-  //       child: SelectionGroupBc(
-  //         label: "Max players:",
-  //         padding: const EdgeInsets.all(8),
-  //         values: const ["1", "5", "10", "20"],
-  //         onSelected: (s, index, isSelected) => context
-  //             .read<NewGameBloc>()
-  //             .add(ChangeMaxPlayersRadioEvent(index)),
-  //       ),
-  //     );
-
   ContainerBc maxPlayersSelection(NewGameState state, BuildContext context) {
     return ContainerBc(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(left: 40, top: 10, right: 40, bottom: 10),
       child: Column(
         children: [
-          Text("Groups size: ${(state as GamePropsState).maxPlayers}"),
+          Text("Groups size: ${(state as SettingGamePropsState).maxPlayers}"),
           SliderBc(
             initialValue: state.maxPlayers,
             minValue: 1,

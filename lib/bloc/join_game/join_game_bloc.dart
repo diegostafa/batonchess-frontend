@@ -1,7 +1,9 @@
 import 'package:batonchess/data/model/game_info.dart';
+import 'package:batonchess/data/model/game_state.dart';
 import 'package:batonchess/data/repo/game_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:meta/meta_meta.dart';
 
 part 'join_game_event.dart';
 part 'join_game_state.dart';
@@ -11,16 +13,30 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
 
   JoinGameBloc() : super(JoinGameInitial()) {
     on<FetchGamesEvent>(fetchGamesHandler);
+    on<SubmitJoinGameEvent>(submitJoinGameHandler);
   }
 
   Future<void> fetchGamesHandler(
     FetchGamesEvent e,
     Emitter<JoinGameState> emit,
   ) async {
-    emit(FetchingActiveGamesState());
+    emit(FetchingGamesState());
     final games = await gameRepo.getActiveGames();
     games == null
-        ? emit(FailedToLoadGamesState())
-        : emit(GamesLoadedState(games));
+        ? emit(FailureLoadingGamesState())
+        : emit(SuccessLoadingGamesState(games));
+  }
+
+  Future<void> submitJoinGameHandler(
+    SubmitJoinGameEvent e,
+    Emitter<JoinGameState> emit,
+  ) async {
+    emit(JoiningGameState());
+    final gameState =
+        await gameRepo.joinGame(e.targetGame, playAsWhite: e.sideIndex == 0);
+
+    gameState == null
+        ? emit(FailureJoiningGameState())
+        : emit(SuccessJoiningGameState(gameState));
   }
 }

@@ -30,11 +30,8 @@ class GameHttp {
         : null;
   }
 
-  Future<GameState?> joinGame(
-    int gameId,
-    String userId,
-    bool playAsWhite,
-  ) async {
+  Future<GameState?> joinGame(int gameId, String userId,
+      {required bool playAsWhite}) async {
     final url = Uri.parse('http://localhost:2023/createGame');
 
     final res = await http.post(
@@ -45,9 +42,12 @@ class GameHttp {
       body: jsonEncode({
         'gameId': gameId,
         'userId': userId,
+        'playAsWhite': playAsWhite,
       }),
     );
-    return null;
+    return res.statusCode == StatusCode.OK
+        ? GameState.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
+        : null;
   }
 
   Future<bool> leaveGame() async {

@@ -13,22 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => HomeBloc()..add(FetchUserEvent()),
         child: Scaffold(
-          drawer: Drawer(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [Text("Active games")],
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) => const Text("-..."),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          drawer: historyPanel(),
           appBar: AppBar(
             title: const Text("Baton Chess"),
           ),
@@ -45,6 +30,25 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       );
+
+  Drawer historyPanel() {
+    return Drawer(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [Text("History")],
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) => Text("game $index"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget newGameButton(BuildContext context) => ButtonBc(
         text: "New Game",
@@ -106,7 +110,8 @@ class HomeScreen extends StatelessWidget {
     String input = "";
     return SimpleDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      ),
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),

@@ -3,27 +3,30 @@ part of 'new_game_bloc.dart';
 @immutable
 abstract class NewGameState {}
 
-class GamePropsState extends NewGameState {
+class SettingGamePropsState extends NewGameState {
   final int maxPlayers;
   final bool playAsWhite;
 
-  GamePropsState({
+  SettingGamePropsState({
     this.maxPlayers = 1,
     this.playAsWhite = true,
   });
 
-  GamePropsState copyWith({
+  SettingGamePropsState copyWith({
     int? maxPlayers,
     bool? playAsWhite,
   }) =>
-      GamePropsState(
+      SettingGamePropsState(
         playAsWhite: playAsWhite ?? this.playAsWhite,
         maxPlayers: maxPlayers ?? this.maxPlayers,
       );
 }
 
-class IsCreatingGameState extends NewGameState {}
+class CreatingGameState extends NewGameState {}
 
-class SuccessCreateGameState extends NewGameState {}
+class SuccessCreatingGameState extends NewGameState {
+  final GameState joinedGame;
+  SuccessCreatingGameState(this.joinedGame);
+}
 
-class FailedCreateGameState extends NewGameState {}
+class FailureCreatingGameState extends NewGameState {}
