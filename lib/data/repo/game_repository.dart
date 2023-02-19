@@ -11,6 +11,7 @@ class GameRepository {
 
   Future<GameInfo?> createGame(NewGameProps props) async {
     final user = await userRepo.tryGetUser();
+    print("CREATING GAME GOT USER");
     if (user != null) {
       return gameHttp.createGame(
         user.id,
@@ -28,8 +29,10 @@ class GameRepository {
     print("sending a move");
   }
 
-  Future<GameState?> joinGame(GameInfo gameInfo,
-      {required bool playAsWhite,}) async {
+  Future<GameState?> joinGame(
+    GameInfo gameInfo, {
+    required bool playAsWhite,
+  }) async {
     final user = await userRepo.tryGetUser();
     if (user != null) {
       return gameHttp.joinGame(gameInfo.gameId, user.id, playAsWhite);

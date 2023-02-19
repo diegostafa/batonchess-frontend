@@ -33,9 +33,11 @@ class NewGameScreen extends StatelessWidget {
                 if (state is GamePropsState) {
                   return stateIsGameProps(context, state);
                 } else if (state is IsCreatingGameState) {
-                  return const Text("Creating GAme.....");
+                  return const Text("LOADING: CREATING GAME...");
+                } else if (state is SuccessCreateGameState) {
+                  return const Text("GAME CREATED, JOINING...");
                 } else {
-                  return const Text("FAILURE");
+                  return const Text("FAILED TO CREATE THE GAME, GO BACK");
                 }
               },
             ),

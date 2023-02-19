@@ -33,7 +33,7 @@ class UserHttp {
 
   Future<bool> updateUserNameById(String userId, String newUsername) async {
     final url = Uri.parse(
-      'http://localhost:2023/updateUserName/',
+      'http://localhost:2023/updateUserName',
     );
 
     final res = await http.post(

@@ -13,7 +13,7 @@ class GameHttp {
 
   Future<GameInfo?> createGame(String creatorId, NewGameProps gp) async {
     final url = Uri.parse('http://localhost:2023/createGame');
-
+    print("WAITING SERVER");
     final res = await http.post(
       url,
       headers: {
@@ -21,15 +21,20 @@ class GameHttp {
       },
       body: jsonEncode({
         'creatorId': creatorId,
-        'maxPlayersPerSide': gp.maxPlayers,
+        'maxPlayers': gp.maxPlayers,
       }),
     );
 
-    return null;
+    return res.statusCode == StatusCode.CREATED
+        ? GameInfo.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
+        : null;
   }
 
   Future<GameState?> joinGame(
-      int gameId, String userId, bool playAsWhite,) async {
+    int gameId,
+    String userId,
+    bool playAsWhite,
+  ) async {
     final url = Uri.parse('http://localhost:2023/createGame');
 
     final res = await http.post(
@@ -42,7 +47,6 @@ class GameHttp {
         'userId': userId,
       }),
     );
-
     return null;
   }
 

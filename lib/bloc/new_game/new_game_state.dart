@@ -6,8 +6,6 @@ abstract class NewGameState {}
 class GamePropsState extends NewGameState {
   final int maxPlayers;
   final bool playAsWhite;
-  // final int minPerSide;
-  // final int incPerMove;
 
   GamePropsState({
     this.maxPlayers = 1,

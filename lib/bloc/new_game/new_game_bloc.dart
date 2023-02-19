@@ -46,7 +46,9 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
           maxPlayers: s.maxPlayers,
         ),
       );
+
       if (gameInfo != null) {
+        print("GOT GAME INFO CREATOR IS: ${gameInfo.creatorName}");
         final gameState =
             await gameRepo.joinGame(gameInfo, playAsWhite: s.playAsWhite);
         emit(SuccessCreateGameState());
