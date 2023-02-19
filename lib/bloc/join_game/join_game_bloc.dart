@@ -3,7 +3,6 @@ import 'package:batonchess/data/model/game_state.dart';
 import 'package:batonchess/data/repo/game_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:meta/meta_meta.dart';
 
 part 'join_game_event.dart';
 part 'join_game_state.dart';

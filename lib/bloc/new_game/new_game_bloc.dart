@@ -22,7 +22,7 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
   ) async {
     if (state is SettingGamePropsState) {
       emit(
-          (state as SettingGamePropsState).copyWith(playAsWhite: e.index == 0));
+          (state as SettingGamePropsState).copyWith(playAsWhite: e.index == 0),);
     }
   }
 

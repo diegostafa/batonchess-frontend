@@ -31,7 +31,7 @@ class JoinGameCardBc extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                    "${gameInfo.currentPlayers}/${gameInfo.maxPlayers} currently playing"),
+                    "${gameInfo.currentPlayers}/${gameInfo.maxPlayers} currently playing",),
               ],
             ),
           ),

@@ -31,7 +31,7 @@ class GameHttp {
   }
 
   Future<GameState?> joinGame(int gameId, String userId,
-      {required bool playAsWhite}) async {
+      {required bool playAsWhite,}) async {
     final url = Uri.parse('http://localhost:2023/createGame');
 
     final res = await http.post(

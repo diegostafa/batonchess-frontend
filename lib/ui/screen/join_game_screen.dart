@@ -37,7 +37,7 @@ class JoinGameScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        GameScreen(initialGameState: state.joinedGame)),
+                        GameScreen(initialGameState: state.joinedGame),),
               );
             }
           },
@@ -88,7 +88,7 @@ class JoinGameScreen extends StatelessWidget {
             values: const ["White", "Black"],
             onSelected: (s, index, isSelected) {
               sideIndex = index;
-            }),
+            },),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ButtonBc(
