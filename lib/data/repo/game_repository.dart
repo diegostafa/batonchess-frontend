@@ -1,4 +1,4 @@
-import 'package:batonchess/data/dao/game/game_http.dart';
+import 'package:batonchess/data/dao/http/game_http.dart';
 import 'package:batonchess/data/model/game_info.dart';
 import 'package:batonchess/data/model/game_props.dart';
 import 'package:batonchess/data/model/game_state.dart';

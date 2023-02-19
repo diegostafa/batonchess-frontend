@@ -1,21 +1,26 @@
 import 'dart:convert';
 
+import 'package:batonchess/data/dao/http/http_dao.dart';
 import 'package:batonchess/data/model/game_info.dart';
 import 'package:batonchess/data/model/game_props.dart';
 import 'package:batonchess/data/model/game_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status_code/http_status_code.dart';
 
+enum Endpoint { createGame, joinGame, leaveGame, makeMove, getActiveGames }
+
 class GameHttp {
-  factory GameHttp() => _singleton;
-  GameHttp._internal();
-  static final GameHttp _singleton = GameHttp._internal();
+  final Map<Endpoint, String> endpoints = {
+    Endpoint.createGame: "${HttpDao.addr}:${HttpDao.port}/createGame",
+    Endpoint.joinGame: "${HttpDao.addr}:${HttpDao.port}/joinGame",
+    Endpoint.leaveGame: "${HttpDao.addr}:${HttpDao.port}/leaveGame",
+    Endpoint.makeMove: "${HttpDao.addr}:${HttpDao.port}/makeMove",
+    Endpoint.getActiveGames: "${HttpDao.addr}:${HttpDao.port}/getActiveGames",
+  };
 
   Future<GameInfo?> createGame(String creatorId, NewGameProps gp) async {
-    final url = Uri.parse('http://localhost:2023/createGame');
-    print("WAITING SERVER");
     final res = await http.post(
-      url,
+      Uri.parse(endpoints[Endpoint.createGame]!),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -30,12 +35,13 @@ class GameHttp {
         : null;
   }
 
-  Future<GameState?> joinGame(int gameId, String userId,
-      {required bool playAsWhite,}) async {
-    final url = Uri.parse('http://localhost:2023/createGame');
-
+  Future<GameState?> joinGame(
+    int gameId,
+    String userId, {
+    required bool playAsWhite,
+  }) async {
     final res = await http.post(
-      url,
+      Uri.parse(endpoints[Endpoint.joinGame]!),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -54,13 +60,12 @@ class GameHttp {
     return false;
   }
 
-  Future<bool> sendMove() async {
+  Future<bool> makeMove() async {
     return false;
   }
 
   Future<List<GameInfo>?> getActiveGames() async {
-    final url = Uri.parse('http://localhost:2023/getActiveGames');
-    final res = await http.get(url);
+    final res = await http.get(Uri.parse(endpoints[Endpoint.getActiveGames]!));
     if (res.statusCode == StatusCode.OK) {
       final List<dynamic> gameInfosJson = jsonDecode(res.body) as List<dynamic>;
       final gameInfos = gameInfosJson

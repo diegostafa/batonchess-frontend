@@ -1,6 +1,6 @@
-import 'package:batonchess/data/dao/user/user_cache.dart';
-import 'package:batonchess/data/dao/user/user_http.dart';
-import 'package:batonchess/data/dao/user/user_local.dart';
+import 'package:batonchess/data/dao/local/user_cache.dart';
+import 'package:batonchess/data/dao/http/user_http.dart';
+import 'package:batonchess/data/dao/local/user_local.dart';
 import 'package:batonchess/data/model/user.dart';
 
 class UserRepository {
@@ -45,22 +45,19 @@ class UserRepository {
   }
 
   Future<User?> createUser() async {
-    print("TRY USER LOCAL");
     final id = await userLocal.getUserId();
     final name = await userLocal.getUserName();
     if (id != null && name != null) {
       userCache.user = User(id: id, name: name);
       return thisOrValidUser(userCache.user!);
     }
-    print("TRY USER REMOTE");
     final u = await userHttp.getNewUser();
     saveUser(u);
     return u;
   }
 
   Future<bool> updateUsername(String newUsername) async {
-    final ok =
-        await userHttp.updateUserNameById(userCache.user!.id, newUsername);
+    final ok = await userHttp.updateUserName(userCache.user!.id, newUsername);
     if (ok) {
       userCache.user!.name = newUsername;
       userLocal.setUserName(newUsername);
