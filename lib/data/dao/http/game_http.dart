@@ -11,11 +11,11 @@ enum Endpoint { createGame, joinGame, leaveGame, makeMove, getActiveGames }
 
 class GameHttp {
   final Map<Endpoint, String> endpoints = {
-    Endpoint.createGame: "${HttpDao.addr}:${HttpDao.port}/createGame",
-    Endpoint.joinGame: "${HttpDao.addr}:${HttpDao.port}/joinGame",
-    Endpoint.leaveGame: "${HttpDao.addr}:${HttpDao.port}/leaveGame",
-    Endpoint.makeMove: "${HttpDao.addr}:${HttpDao.port}/makeMove",
-    Endpoint.getActiveGames: "${HttpDao.addr}:${HttpDao.port}/getActiveGames",
+    Endpoint.createGame: "${HttpDao.server}/createGame",
+    Endpoint.joinGame: "${HttpDao.server}/joinGame",
+    Endpoint.leaveGame: "${HttpDao.server}/leaveGame",
+    Endpoint.makeMove: "${HttpDao.server}/makeMove",
+    Endpoint.getActiveGames: "${HttpDao.server}/getActiveGames",
   };
 
   Future<GameInfo?> createGame(String creatorId, NewGameProps gp) async {
@@ -51,6 +51,7 @@ class GameHttp {
         'playAsWhite': playAsWhite,
       }),
     );
+    print(res.statusCode.toString());
     return res.statusCode == StatusCode.OK
         ? GameState.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
         : null;

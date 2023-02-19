@@ -9,9 +9,9 @@ enum Endpoint { getNewUser, isValidUser, updateUserName }
 
 class UserHttp {
   final Map<Endpoint, String> endpoints = {
-    Endpoint.getNewUser: "${HttpDao.addr}:${HttpDao.port}/getNewUser",
-    Endpoint.isValidUser: "${HttpDao.addr}:${HttpDao.port}/isValidUser",
-    Endpoint.updateUserName: "${HttpDao.addr}:${HttpDao.port}/updateUserName",
+    Endpoint.getNewUser: "${HttpDao.server}/createUser",
+    Endpoint.isValidUser: "${HttpDao.server}/isValidUser",
+    Endpoint.updateUserName: "${HttpDao.server}/updateUserName",
   };
 
   Future<User?> getNewUser() async {

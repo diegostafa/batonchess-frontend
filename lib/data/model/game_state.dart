@@ -1,29 +1,21 @@
 import 'package:batonchess/data/model/game_props.dart';
+import 'package:batonchess/data/model/player.dart';
 import 'package:batonchess/data/model/user.dart';
 
 class GameState {
-  final int gameId;
   final String fen;
-  final String status;
-  final NewGameProps props;
-  final List<User> whiteTeam;
-  final List<User> blackTeam;
+  final List<Player> players;
+  final List<String> turnQueue;
 
   GameState({
-    required this.gameId,
     required this.fen,
-    required this.status,
-    required this.props,
-    required this.whiteTeam,
-    required this.blackTeam,
+    required this.players,
+    required this.turnQueue,
   });
 
   factory GameState.fromJson(Map<String, dynamic> json) => GameState(
-        gameId: json["id"] as int,
         fen: json["fen"] as String,
-        status: json["status"] as String,
-        props: json["props"] as NewGameProps,
-        whiteTeam: json["whiteTeam"] as List<User>,
-        blackTeam: json["blackTeam"] as List<User>,
+        players: json["players"] as List<Player>,
+        turnQueue: json["turnQueue"] as List<String>,
       );
 }

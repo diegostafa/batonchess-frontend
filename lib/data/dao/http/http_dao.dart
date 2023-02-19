@@ -1,4 +1,3 @@
 abstract class HttpDao {
-  static const String addr = "localhost";
-  static const String port = "2023";
+  static const server = "http://localhost:2023";
 }
