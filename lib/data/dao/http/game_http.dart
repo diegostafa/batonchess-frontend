@@ -32,7 +32,6 @@ class GameHttp {
   }
 
   Future<GameState?> joinGame(JoinGameRequest joinReq) async {
-    print(joinReq.toJson());
     final res = await http.post(
       Uri.parse(endpoints[Endpoint.joinGame]!),
       headers: HttpDao.headers,

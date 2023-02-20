@@ -37,8 +37,6 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
     emit(JoiningGameState());
     final gameState =
         await gameRepo.joinGame(e.targetGame, playAsWhite: e.sideIndex == 0);
-    print("DIOCAN");
-    print(gameState.toString());
     gameState == null
         ? emit(FailureJoiningGameState())
         : emit(SuccessJoiningGameState(gameState));
