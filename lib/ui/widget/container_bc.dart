@@ -22,13 +22,13 @@ class ContainerBc extends StatelessWidget {
         color: Colors.white,
         boxShadow: const [
           BoxShadow(
-            color: Colors.grey,
+            color: Colors.black,
             offset: Offset(0.0, 1.0), //(x,y)
-            blurRadius: 6.0,
+            blurRadius: 2.0,
           ),
         ],
       ),
-      child: child,
+      child: Center(child: child),
     );
   }
 }

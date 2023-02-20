@@ -1,4 +1,3 @@
-
 import 'package:batonchess/data/model/user/user_player.dart';
 
 class GameState {

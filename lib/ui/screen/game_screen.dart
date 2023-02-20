@@ -1,4 +1,7 @@
-import 'package:batonchess/bloc/chess/chess_bloc.dart';
+import 'dart:math';
+
+import 'package:batonchess/bloc/chessboard/chessboard_bloc.dart';
+import 'package:batonchess/bloc/game_manager/game_manager_bloc.dart';
 import 'package:batonchess/data/model/game/game_state.dart';
 import 'package:batonchess/ui/widget/container_bc.dart';
 import 'package:batonchess/ui/widget/player_card_bc.dart';
@@ -7,27 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart';
 
-class GameScreen extends StatefulWidget {
+class GameScreen extends StatelessWidget {
   final GameState initialGameState;
 
   const GameScreen({super.key, required this.initialGameState});
-
-  @override
-  GameScreenState createState() => GameScreenState();
-}
-
-class GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ChessBloc>(
-          create: (BuildContext context) => ChessBloc(),
+        BlocProvider<GameManagerBloc>(
+          create: (BuildContext context) => GameManagerBloc(),
+        ),
+        BlocProvider<ChessboardBloc>(
+          create: (BuildContext context) => ChessboardBloc(),
         ),
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Player to move: ${widget.initialGameState.userIdTurn}"),
+          title: Text("Player to move: ${initialGameState.userIdTurn}"),
         ),
         body: BottomNavLayout(
           savePageState: true,
@@ -36,6 +36,9 @@ class GameScreenState extends State<GameScreen> {
             (_) => playersPage(),
           ],
           bottomNavigationBar: (currentIndex, onTap) => BottomNavigationBar(
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white,
+            backgroundColor: Colors.brown,
             currentIndex: currentIndex,
             onTap: (index) => onTap(index),
             items: const [
@@ -52,53 +55,47 @@ class GameScreenState extends State<GameScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        chessBoard(),
+        BlocBuilder<ChessboardBloc, ChessboardState>(
+          builder: (context, state) {
+            return chessBoard(state, context);
+          },
+        ),
       ],
+    );
+  }
+
+  ContainerBc chessBoard(ChessboardState state, BuildContext context) {
+    return ContainerBc(
+      margin: const EdgeInsets.all(10),
+      child: LayoutBuilder(
+        builder: (ctx, constraints) {
+          if (state is NormalChessboardState) {
+            return Chessboard(
+              lightSquareColor: Colors.white,
+              darkSquareColor: Colors.brown,
+              fen: state.fen,
+              size: min(constraints.maxWidth, constraints.maxHeight),
+              onMove: (move) {
+                context.read<ChessboardBloc>().add(MakeMoveEvent(move));
+              },
+            );
+          } else {
+            return Text(
+              (state as FinalChessboardState).finalGameState.toString(),
+            );
+          }
+        },
+      ),
     );
   }
 
   Widget playersPage() {
     return ListView.builder(
-      itemCount: widget.initialGameState.players.length,
+      itemCount: initialGameState.players.length,
       itemBuilder: (context, index) => PlayerCardBc(
-        player: widget.initialGameState.players[index],
+        player: initialGameState.players[index],
         onTap: () {},
       ),
-    );
-  }
-
-  BlocBuilder<ChessBloc, ChessState> chessBoard() {
-    return BlocBuilder<ChessBloc, ChessState>(
-      builder: (context, state) {
-        return Expanded(
-          flex: 5,
-          child: ContainerBc(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            child: Center(
-              child: LayoutBuilder(
-                builder: (ctx, constraints) {
-                  if (state is NormalChessState) {
-                    return Chessboard(
-                      lightSquareColor: Colors.white,
-                      darkSquareColor: Colors.brown,
-                      fen: state.fen,
-                      size: constraints.maxWidth,
-                      onMove: (move) {
-                        context.read<ChessBloc>().add(MakeMoveEvent(move));
-                      },
-                    );
-                  } else {
-                    return Text(
-                      (state as FinalChessState).finalGameState.toString(),
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }

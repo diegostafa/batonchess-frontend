@@ -6,18 +6,6 @@ import 'package:batonchess/ui/widget/selection_group_bc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/*
-  - select a game
-  - retrieve the gameProps for the selected game
-  - show dialog "join as <SIDE>"
-  - post /join gameId, playerId, side -> return gameState
-  - gameScreen(gameState)
-
-  ui:
-  - scaffold
-    - local tab
-*/
-
 class JoinGameScreen extends StatelessWidget {
   const JoinGameScreen({super.key});
 
@@ -64,7 +52,10 @@ class JoinGameScreen extends StatelessWidget {
   }
 
   JoinGameCardBc joinGameCard(
-      SuccessLoadingGamesState state, int gameIndex, BuildContext context,) {
+    SuccessLoadingGamesState state,
+    int gameIndex,
+    BuildContext context,
+  ) {
     return JoinGameCardBc(
       gameInfo: state.games[gameIndex],
       onTap: () async {

@@ -4,20 +4,20 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_stateless_chessboard/types.dart';
 import 'package:meta/meta.dart';
 
-part 'chess_event.dart';
-part 'chess_state.dart';
+part 'chessboard_event.dart';
+part 'chessboard_state.dart';
 
-class ChessBloc extends Bloc<ChessEvent, ChessState> {
-  ChessBloc() : super(NormalChessState()) {
+class ChessboardBloc extends Bloc<ChessboardEvent, ChessboardState> {
+  ChessboardBloc() : super(NormalChessboardState()) {
     on<MakeMoveEvent>(makeMoveHandler);
   }
 
   Future<void> makeMoveHandler(
     MakeMoveEvent e,
-    Emitter<ChessState> emit,
+    Emitter<ChessboardState> emit,
   ) async {
-    if (state is NormalChessState) {
-      final state = this.state as NormalChessState;
+    if (state is NormalChessboardState) {
+      final state = this.state as NormalChessboardState;
 
       final newFen = tryExecMove(state.fen, {
         'from': e.move.from,
@@ -30,7 +30,8 @@ class ChessBloc extends Bloc<ChessEvent, ChessState> {
         if (gameState == ChessGameState.normal) {
           emit(state.copyWith(fen: newFen));
         } else {
-          emit(FinalChessState(finalFen: newFen, finalGameState: gameState));
+          emit(FinalChessboardState(
+              finalFen: newFen, finalGameState: gameState));
         }
         /**
          * repo.broadCast(newfen)
