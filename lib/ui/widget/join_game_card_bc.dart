@@ -20,11 +20,19 @@ class JoinGameCardBc extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             leading: const Icon(Icons.album),
-            title: Row(
+            title: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Creator: ${gameInfo.creatorName}"),
-                Text("Started: ${gameInfo.createdAt}"),
+                Row(
+                  children: [
+                    Text("Creator: ${gameInfo.creatorName}"),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Started: ${gameInfo.createdAt}"),
+                  ],
+                ),
               ],
             ),
             subtitle: Row(

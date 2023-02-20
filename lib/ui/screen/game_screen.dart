@@ -1,13 +1,14 @@
 import 'package:batonchess/bloc/chess/chess_bloc.dart';
 import 'package:batonchess/data/model/game/game_state.dart';
 import 'package:batonchess/ui/widget/container_bc.dart';
+import 'package:batonchess/ui/widget/player_card_bc.dart';
 import 'package:bottom_nav_layout/bottom_nav_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart';
 
 class GameScreen extends StatefulWidget {
-  final GameState? initialGameState;
+  final GameState initialGameState;
 
   const GameScreen({super.key, required this.initialGameState});
 
@@ -26,7 +27,7 @@ class GameScreenState extends State<GameScreen> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Chess Demo'),
+          title: Text("Player to move: ${widget.initialGameState.userIdTurn}"),
         ),
         body: BottomNavLayout(
           savePageState: true,
@@ -51,40 +52,18 @@ class GameScreenState extends State<GameScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // timers(),
         chessBoard(),
       ],
     );
   }
 
-  Column playersPage() {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
-            itemBuilder: (context, index) =>
-                // todo :
-                ContainerBc(
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(4),
-              child: Text("User $index"),
-            ),
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
-            itemBuilder: (context, index) => ContainerBc(
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(4),
-              child: Text("User $index"),
-            ),
-          ),
-        )
-      ],
+  Widget playersPage() {
+    return ListView.builder(
+      itemCount: widget.initialGameState.players.length,
+      itemBuilder: (context, index) => PlayerCardBc(
+        player: widget.initialGameState.players[index],
+        onTap: () {},
+      ),
     );
   }
 

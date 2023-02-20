@@ -1,8 +1,10 @@
 import 'package:batonchess/bloc/home/home_bloc.dart';
+import 'package:batonchess/data/model/game/game_info.dart';
 import 'package:batonchess/ui/screen/join_game_screen.dart';
 import 'package:batonchess/ui/screen/new_game_screen.dart';
 import 'package:batonchess/ui/widget/button_bc.dart';
 import 'package:batonchess/ui/widget/empty_bc.dart';
+import 'package:batonchess/ui/widget/join_game_card_bc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,14 +39,33 @@ class HomeScreen extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [Text("History")],
+            children: const [Text("Games history")],
           ),
           Expanded(
+            /**
+             * todo:
+             * - home bloc --> add game info history
+             * - history is saved locally
+             * - userRepo.getGamesHistory
+             * - every time you join a game save the game info locally
+             * - add clear history button
+             */
             child: ListView.builder(
               itemCount: 5,
-              itemBuilder: (context, index) => Text("game $index"),
+              itemBuilder: (context, index) => JoinGameCardBc(
+                onTap: () {},
+                gameInfo: GameInfo(
+                  gameId: 1,
+                  creatorName: "anon",
+                  gameStatus: "NORMAL",
+                  createdAt: "yesterday",
+                  maxPlayers: 10,
+                  currentPlayers: 5,
+                ),
+              ),
             ),
           ),
+          ButtonBc(borderRadius: 0, text: "Clear history", onPressed: () {})
         ],
       ),
     );
@@ -87,18 +108,27 @@ class HomeScreen extends StatelessWidget {
   Widget userInfo() => BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is UserLoadedState) {
-            return Column(
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    child: Text("User ID: #${state.user.prettyId()}"),
+                    onPressed: () {},
+                  ),
+                ),
                 ButtonBc(
+                  borderRadius: 4,
+                  padding: const EdgeInsets.all(8),
                   expand: false,
                   onPressed: () async => context.read<HomeBloc>().add(
                         UpdateUsernameEvent(
                           await promptNewUsername(context) as String?,
                         ),
                       ),
-                  text: state.user.name,
+                  text: "Username: ${state.user.name}",
                 ),
-                Text("#${state.user.id}"),
               ],
             );
           } else {

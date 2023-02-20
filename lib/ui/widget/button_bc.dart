@@ -5,6 +5,7 @@ class ButtonBc extends StatelessWidget {
   final void Function()? onPressed;
   final EdgeInsetsGeometry padding;
   final bool expand;
+  final double borderRadius;
 
   const ButtonBc({
     super.key,
@@ -12,6 +13,7 @@ class ButtonBc extends StatelessWidget {
     required this.onPressed,
     this.padding = EdgeInsets.zero,
     this.expand = true,
+    this.borderRadius = 8,
   });
 
   @override
@@ -37,7 +39,7 @@ class ButtonBc extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
       ),
       child: Text(text),
