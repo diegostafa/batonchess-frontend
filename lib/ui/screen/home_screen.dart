@@ -76,9 +76,10 @@ class HomeScreen extends StatelessWidget {
         text: "Settings",
         padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const JoinGameScreen()),
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('COMING SOON'),
+            ),
           );
         },
       );

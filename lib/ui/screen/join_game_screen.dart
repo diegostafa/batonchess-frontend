@@ -36,8 +36,9 @@ class JoinGameScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        GameScreen(initialGameState: state.joinedGame),),
+                  builder: (context) =>
+                      GameScreen(initialGameState: state.joinedGame),
+                ),
               );
             }
           },
@@ -47,20 +48,7 @@ class JoinGameScreen extends StatelessWidget {
                 return ListView.builder(
                   itemCount: state.games.length,
                   itemBuilder: (context, gameIndex) {
-                    return JoinGameCardBc(
-                      gameInfo: state.games[gameIndex],
-                      onTap: () async {
-                        context.read<JoinGameBloc>().add(
-                              SubmitJoinGameEvent(
-                                state.games[gameIndex],
-                                await promptSide(context) as int,
-                              ),
-                            );
-                        /**
-                               * bloc listener --> route.push(gameScreen(GameInfo))
-                               */
-                      },
-                    );
+                    return joinGameCard(state, gameIndex, context);
                   },
                 );
               } else if (state is FailureLoadingGamesState) {
@@ -75,6 +63,21 @@ class JoinGameScreen extends StatelessWidget {
     );
   }
 
+  JoinGameCardBc joinGameCard(
+      SuccessLoadingGamesState state, int gameIndex, BuildContext context,) {
+    return JoinGameCardBc(
+      gameInfo: state.games[gameIndex],
+      onTap: () async {
+        context.read<JoinGameBloc>().add(
+              SubmitJoinGameEvent(
+                state.games[gameIndex],
+                await promptSide(context) as int?,
+              ),
+            );
+      },
+    );
+  }
+
   Widget chooseSideDialog(BuildContext context) {
     int sideIndex = 0;
     return SimpleDialog(
@@ -83,12 +86,13 @@ class JoinGameScreen extends StatelessWidget {
       ),
       children: [
         SelectionGroupBc(
-            label: "Play as:",
-            padding: const EdgeInsets.all(8),
-            values: const ["White", "Black"],
-            onSelected: (s, index, isSelected) {
-              sideIndex = index;
-            },),
+          label: "Play as:",
+          padding: const EdgeInsets.all(8),
+          values: const ["White", "Black"],
+          onSelected: (s, index, isSelected) {
+            sideIndex = index;
+          },
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ButtonBc(

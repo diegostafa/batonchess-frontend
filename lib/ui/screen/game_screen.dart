@@ -1,5 +1,5 @@
 import 'package:batonchess/bloc/chess/chess_bloc.dart';
-import 'package:batonchess/data/model/game_state.dart';
+import 'package:batonchess/data/model/game/game_state.dart';
 import 'package:batonchess/ui/widget/container_bc.dart';
 import 'package:bottom_nav_layout/bottom_nav_layout.dart';
 import 'package:flutter/material.dart';

@@ -44,6 +44,7 @@ class SelectionGroupBc extends StatelessWidget {
 
   Widget _groupButton() => GroupButton(
         options: const GroupButtonOptions(
+          elevation: 6,
           spacing: 8,
           borderRadius: BorderRadius.all(Radius.circular(4)),
         ),

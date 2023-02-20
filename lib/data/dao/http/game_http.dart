@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:batonchess/data/dao/http/http_dao.dart';
-import 'package:batonchess/data/model/game_info.dart';
-import 'package:batonchess/data/model/game_props.dart';
-import 'package:batonchess/data/model/game_state.dart';
+import 'package:batonchess/data/model/game/create_game_request.dart';
+import 'package:batonchess/data/model/game/game_info.dart';
+import 'package:batonchess/data/model/game/game_state.dart';
+import 'package:batonchess/data/model/game/join_game_request.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status_code/http_status_code.dart';
 
@@ -18,16 +19,11 @@ class GameHttp {
     Endpoint.getActiveGames: "${HttpDao.server}/getActiveGames",
   };
 
-  Future<GameInfo?> createGame(String creatorId, NewGameProps gp) async {
+  Future<GameInfo?> createGame(CreateGameRequest createGameReq) async {
     final res = await http.post(
       Uri.parse(endpoints[Endpoint.createGame]!),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        'creatorId': creatorId,
-        'maxPlayers': gp.maxPlayers,
-      }),
+      headers: HttpDao.headers,
+      body: jsonEncode(createGameReq),
     );
 
     return res.statusCode == StatusCode.CREATED
@@ -35,24 +31,14 @@ class GameHttp {
         : null;
   }
 
-  Future<GameState?> joinGame(
-    int gameId,
-    String userId, {
-    required bool playAsWhite,
-  }) async {
+  Future<GameState?> joinGame(JoinGameRequest joinReq) async {
+    print(joinReq.toJson());
     final res = await http.post(
       Uri.parse(endpoints[Endpoint.joinGame]!),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        'gameId': gameId,
-        'userId': userId,
-        'playAsWhite': playAsWhite,
-      }),
+      headers: HttpDao.headers,
+      body: jsonEncode(joinReq),
     );
-    print(res.statusCode.toString());
-    return res.statusCode == StatusCode.OK
+    return res.statusCode == StatusCode.ACCEPTED
         ? GameState.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
         : null;
   }

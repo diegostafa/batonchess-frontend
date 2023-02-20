@@ -9,7 +9,7 @@ class ChooseGameEvent extends JoinGameEvent {}
 
 class SubmitJoinGameEvent extends JoinGameEvent {
   final GameInfo targetGame;
-  final int sideIndex;
+  final int? sideIndex;
 
   SubmitJoinGameEvent(this.targetGame, this.sideIndex);
 }

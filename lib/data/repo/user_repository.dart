@@ -1,67 +1,62 @@
-import 'package:batonchess/data/dao/local/user_cache.dart';
 import 'package:batonchess/data/dao/http/user_http.dart';
-import 'package:batonchess/data/dao/local/user_local.dart';
-import 'package:batonchess/data/model/user.dart';
+import 'package:batonchess/data/dao/local/user_memory.dart';
+import 'package:batonchess/data/model/user/update_username_request.dart';
+import 'package:batonchess/data/model/user/user.dart';
+import 'package:batonchess/data/model/user/user_id.dart';
 
 class UserRepository {
-  final userCache = UserCache();
-  final userLocal = UserLocal();
+  final userMem = UserMemory();
   final userHttp = UserHttp();
 
-  Future<void> saveUser(User? user) async {
-    if (user != null) {
-      userCache.user = user;
-      userLocal.setUser(user);
-    }
-  }
-
-  Future<User?> thisOrValidUser(User u) async {
-    if (await userHttp.isValidUser(u.id)) {
+  Future<User?> thisOrValidUser(User? u) async {
+    if (u != null && await userHttp.isValidUser(UserId(id: u.id))) {
       return u;
     } else {
       final u = await userHttp.getNewUser();
-      saveUser(u);
       return u;
     }
   }
 
-  Future<User?> tryGetUser() async {
-    print("TRY USER CACHE");
-    if (userCache.user != null) {
-      return userCache.user;
+  Future<User?> initUser() async {
+    final user = await getUser();
+    final validUser = await thisOrValidUser(user);
+    if (user != null) {
+      await userMem.setUser(validUser!);
+      return user;
     }
-
-    print("TRY USER LOCAL");
-    final id = await userLocal.getUserId();
-    final name = await userLocal.getUserName();
-    if (id != null && name != null) {
-      userCache.user = User(id: id, name: name);
-      return userCache.user!;
-    }
-
-    final u = await userHttp.getNewUser();
-    saveUser(u);
-    return u;
+    return null;
   }
 
-  Future<User?> createUser() async {
-    final id = await userLocal.getUserId();
-    final name = await userLocal.getUserName();
-    if (id != null && name != null) {
-      userCache.user = User(id: id, name: name);
-      return thisOrValidUser(userCache.user!);
+  Future<User?> getUser() async {
+    final user = await userMem.getUser();
+    if (user != null) {
+      return user;
     }
-    final u = await userHttp.getNewUser();
-    saveUser(u);
-    return u;
+
+    final newUser = await userHttp.getNewUser();
+    if (user != null) {
+      await userMem.setUser(newUser!);
+      return user;
+    }
+
+    return null;
   }
 
   Future<bool> updateUsername(String newUsername) async {
-    final ok = await userHttp.updateUserName(userCache.user!.id, newUsername);
-    if (ok) {
-      userCache.user!.name = newUsername;
-      userLocal.setUserName(newUsername);
+    final user = await getUser();
+    if (user == null) {
+      return false;
     }
-    return ok;
+
+    final success = await userHttp.updateUserName(
+        UpdateUsernameRequest(id: user.id, newName: newUsername),);
+
+    if (!success) {
+      return false;
+    }
+
+    user.name = newUsername;
+    await userMem.setUser(user);
+    return true;
   }
 }

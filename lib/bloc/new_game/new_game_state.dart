@@ -30,3 +30,5 @@ class SuccessCreatingGameState extends NewGameState {
 }
 
 class FailureCreatingGameState extends NewGameState {}
+
+class FailureJoiningGameState extends NewGameState {}

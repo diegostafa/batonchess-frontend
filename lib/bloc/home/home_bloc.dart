@@ -1,4 +1,4 @@
-import 'package:batonchess/data/model/user.dart';
+import 'package:batonchess/data/model/user/user.dart';
 import 'package:batonchess/data/repo/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -19,7 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(FetchingUserState());
-    final user = await userRepo.createUser();
+    final user = await userRepo.initUser();
     user == null ? emit(FailedToLoadUserState()) : emit(UserLoadedState(user));
   }
 
@@ -30,7 +30,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (e.newUsername != null) {
       emit(FetchingUserState());
       await userRepo.updateUsername(e.newUsername!)
-          ? emit(UserLoadedState((await userRepo.tryGetUser())!))
+          ? emit(UserLoadedState((await userRepo.getUser())!))
           : emit(FailedToUpdateUsernameState());
     }
   }

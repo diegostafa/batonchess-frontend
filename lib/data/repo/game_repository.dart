@@ -1,24 +1,19 @@
 import 'package:batonchess/data/dao/http/game_http.dart';
-import 'package:batonchess/data/model/game_info.dart';
-import 'package:batonchess/data/model/game_props.dart';
-import 'package:batonchess/data/model/game_state.dart';
-import 'package:batonchess/data/model/move.dart';
+import 'package:batonchess/data/model/game/create_game_request.dart';
+import 'package:batonchess/data/model/game/game_info.dart';
+import 'package:batonchess/data/model/game/game_state.dart';
+import 'package:batonchess/data/model/game/join_game_request.dart';
 import 'package:batonchess/data/repo/user_repository.dart';
+
+class Move {}
 
 class GameRepository {
   final gameHttp = GameHttp();
   final userRepo = UserRepository();
 
-  Future<GameInfo?> createGame(NewGameProps props) async {
-    final user = await userRepo.tryGetUser();
-    print("CREATING GAME GOT USER");
-    if (user != null) {
-      return gameHttp.createGame(
-        user.id,
-        props,
-      );
-    }
-    return null;
+  Future<GameInfo?> createGame(CreateGameRequest props) async {
+    final user = await userRepo.getUser();
+    return user == null ? null : gameHttp.createGame(props);
   }
 
   Future<List<GameInfo>?> getActiveGames() async {
@@ -33,14 +28,15 @@ class GameRepository {
     GameInfo gameInfo, {
     required bool playAsWhite,
   }) async {
-    final user = await userRepo.tryGetUser();
-    if (user != null) {
-      return gameHttp.joinGame(
-        gameInfo.gameId,
-        user.id,
-        playAsWhite: playAsWhite,
-      );
-    }
-    return null;
+    final user = await userRepo.getUser();
+    return user == null
+        ? null
+        : gameHttp.joinGame(
+            JoinGameRequest(
+              userId: user.id,
+              gameId: gameInfo.gameId,
+              playAsWhite: playAsWhite,
+            ),
+          );
   }
 }

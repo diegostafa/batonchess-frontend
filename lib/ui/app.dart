@@ -13,10 +13,10 @@ class App extends StatelessWidget {
 
   ThemeData lightTheme() => ThemeData(
         primarySwatch: Colors.brown,
-        useMaterial3: true,
+        useMaterial3: false,
       );
 
   ThemeData darkTheme() => ThemeData.dark(
-        useMaterial3: true,
+        useMaterial3: false,
       );
 }

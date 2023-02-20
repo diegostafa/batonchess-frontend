@@ -1,4 +1,4 @@
-import 'package:batonchess/data/model/game_info.dart';
+import 'package:batonchess/data/model/game/game_info.dart';
 import 'package:flutter/material.dart';
 
 class JoinGameCardBc extends StatelessWidget {
@@ -31,7 +31,8 @@ class JoinGameCardBc extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                    "${gameInfo.currentPlayers}/${gameInfo.maxPlayers} currently playing",),
+                  "${gameInfo.currentPlayers}/${gameInfo.maxPlayers} currently playing",
+                ),
               ],
             ),
           ),

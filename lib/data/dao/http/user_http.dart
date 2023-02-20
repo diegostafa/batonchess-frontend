@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:batonchess/data/dao/http/http_dao.dart';
-import 'package:batonchess/data/model/user.dart';
+import 'package:batonchess/data/model/user/update_username_request.dart';
+import 'package:batonchess/data/model/user/user.dart';
+import 'package:batonchess/data/model/user/user_id.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_status_code/http_status_code.dart';
 
@@ -24,25 +26,21 @@ class UserHttp {
         : null;
   }
 
-  Future<bool> isValidUser(String userId) async {
+  Future<bool> isValidUser(UserId userId) async {
     final res = await http.post(
       Uri.parse(endpoints[Endpoint.isValidUser]!),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({'userId': userId}),
+      headers: HttpDao.headers,
+      body: jsonEncode(userId),
     );
 
     return res.statusCode == StatusCode.OK;
   }
 
-  Future<bool> updateUserName(String userId, String newUsername) async {
+  Future<bool> updateUserName(UpdateUsernameRequest updateNameReq) async {
     final res = await http.post(
       Uri.parse(endpoints[Endpoint.updateUserName]!),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({'userId': userId, 'newUsername': newUsername}),
+      headers: HttpDao.headers,
+      body: jsonEncode(updateNameReq),
     );
 
     return res.statusCode == StatusCode.ACCEPTED;

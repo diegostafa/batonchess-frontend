@@ -1,5 +1,5 @@
-import 'package:batonchess/data/model/game_info.dart';
-import 'package:batonchess/data/model/game_state.dart';
+import 'package:batonchess/data/model/game/game_info.dart';
+import 'package:batonchess/data/model/game/game_state.dart';
 import 'package:batonchess/data/repo/game_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -30,10 +30,15 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
     SubmitJoinGameEvent e,
     Emitter<JoinGameState> emit,
   ) async {
+    if (e.sideIndex == null) {
+      return;
+    }
+
     emit(JoiningGameState());
     final gameState =
         await gameRepo.joinGame(e.targetGame, playAsWhite: e.sideIndex == 0);
-
+    print("DIOCAN");
+    print(gameState.toString());
     gameState == null
         ? emit(FailureJoiningGameState())
         : emit(SuccessJoiningGameState(gameState));
