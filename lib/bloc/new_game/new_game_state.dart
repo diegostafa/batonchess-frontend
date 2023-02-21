@@ -1,4 +1,4 @@
-part of 'new_game_bloc.dart';
+part of "new_game_bloc.dart";
 
 @immutable
 abstract class NewGameState {}

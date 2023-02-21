@@ -1,12 +1,12 @@
-import 'package:batonchess/data/model/game/create_game_request.dart';
-import 'package:batonchess/data/model/game/game_state.dart';
-import 'package:batonchess/data/repo/game_repository.dart';
-import 'package:batonchess/data/repo/user_repository.dart';
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import "package:batonchess/data/model/game/create_game_request.dart";
+import "package:batonchess/data/model/game/game_state.dart";
+import "package:batonchess/data/repo/game_repository.dart";
+import "package:batonchess/data/repo/user_repository.dart";
+import "package:bloc/bloc.dart";
+import "package:meta/meta.dart";
 
-part 'new_game_event.dart';
-part 'new_game_state.dart';
+part "new_game_event.dart";
+part "new_game_state.dart";
 
 class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
   UserRepository userRepo = UserRepository();

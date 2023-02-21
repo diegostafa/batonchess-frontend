@@ -7,8 +7,8 @@ class JoinGameRequest {
       {required this.userId, required this.gameId, required this.playAsWhite,});
 
   Map<String, dynamic> toJson() => {
-        'userId': userId,
-        'gameId': gameId,
-        'playAsWhite': playAsWhite,
+        "userId": userId,
+        "gameId": gameId,
+        "playAsWhite": playAsWhite,
       };
 }

@@ -1,11 +1,11 @@
-import 'package:batonchess/data/model/game/game_info.dart';
-import 'package:batonchess/data/model/game/game_state.dart';
-import 'package:batonchess/data/repo/game_repository.dart';
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import "package:batonchess/data/model/game/game_info.dart";
+import "package:batonchess/data/model/game/game_state.dart";
+import "package:batonchess/data/repo/game_repository.dart";
+import "package:bloc/bloc.dart";
+import "package:meta/meta.dart";
 
-part 'join_game_event.dart';
-part 'join_game_state.dart';
+part "join_game_event.dart";
+part "join_game_state.dart";
 
 class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
   final gameRepo = GameRepository();

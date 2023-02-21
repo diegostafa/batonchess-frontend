@@ -1,5 +1,5 @@
-import 'package:batonchess/data/model/chess_game_state.dart';
-import 'package:chess/chess.dart' as ch;
+import "package:batonchess/data/model/chess_game_state.dart";
+import "package:chess/chess.dart" as ch;
 
 const String initialFen =
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";

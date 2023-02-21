@@ -1,5 +1,5 @@
-import 'package:another_xlider/another_xlider.dart';
-import 'package:flutter/material.dart';
+import "package:another_xlider/another_xlider.dart";
+import "package:flutter/material.dart";
 
 class SliderBc extends StatelessWidget {
   final int initialValue;
@@ -24,7 +24,7 @@ class SliderBc extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FlutterSlider(
         handlerAnimation:
-            const FlutterSliderHandlerAnimation(duration: Duration()),
+            const FlutterSliderHandlerAnimation(duration: Duration.zero),
         trackBar: FlutterSliderTrackBar(
           activeTrackBar: BoxDecoration(color: Theme.of(context).primaryColor),
         ),

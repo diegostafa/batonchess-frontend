@@ -5,7 +5,7 @@ class CreateGameRequest {
   CreateGameRequest({required this.creatorId, required this.maxPlayers});
 
   Map<String, dynamic> toJson() => {
-        'creatorId': creatorId,
-        'maxPlayers': maxPlayers,
+        "creatorId": creatorId,
+        "maxPlayers": maxPlayers,
       };
 }

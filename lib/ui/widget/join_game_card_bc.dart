@@ -1,5 +1,5 @@
-import 'package:batonchess/data/model/game/game_info.dart';
-import 'package:flutter/material.dart';
+import "package:batonchess/data/model/game/game_info.dart";
+import "package:flutter/material.dart";
 
 class JoinGameCardBc extends StatelessWidget {
   final void Function()? onTap;

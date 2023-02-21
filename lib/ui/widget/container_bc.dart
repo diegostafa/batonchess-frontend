@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class ContainerBc extends StatelessWidget {
   final EdgeInsets margin;
@@ -22,7 +22,6 @@ class ContainerBc extends StatelessWidget {
         color: Colors.white,
         boxShadow: const [
           BoxShadow(
-            color: Colors.black,
             offset: Offset(0.0, 1.0), //(x,y)
             blurRadius: 2.0,
           ),

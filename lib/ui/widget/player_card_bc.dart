@@ -1,5 +1,5 @@
-import 'package:batonchess/data/model/user/user_player.dart';
-import 'package:flutter/material.dart';
+import "package:batonchess/data/model/user/user_player.dart";
+import "package:flutter/material.dart";
 
 class PlayerCardBc extends StatelessWidget {
   final void Function()? onTap;

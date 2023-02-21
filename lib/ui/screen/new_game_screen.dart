@@ -1,11 +1,11 @@
-import 'package:batonchess/bloc/new_game/new_game_bloc.dart';
-import 'package:batonchess/ui/screen/game_screen.dart';
-import 'package:batonchess/ui/widget/button_bc.dart';
-import 'package:batonchess/ui/widget/container_bc.dart';
-import 'package:batonchess/ui/widget/selection_group_bc.dart';
-import 'package:batonchess/ui/widget/slider_bc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:batonchess/bloc/new_game/new_game_bloc.dart";
+import "package:batonchess/ui/screen/game_screen.dart";
+import "package:batonchess/ui/widget/button_bc.dart";
+import "package:batonchess/ui/widget/container_bc.dart";
+import "package:batonchess/ui/widget/selection_group_bc.dart";
+import "package:batonchess/ui/widget/slider_bc.dart";
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class NewGameScreen extends StatelessWidget {
   const NewGameScreen({super.key});
@@ -15,7 +15,7 @@ class NewGameScreen extends StatelessWidget {
         create: (context) => NewGameBloc(),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Game properties'),
+            title: const Text("Game properties"),
           ),
           body: BlocListener<NewGameBloc, NewGameState>(
             listener: (context, state) {

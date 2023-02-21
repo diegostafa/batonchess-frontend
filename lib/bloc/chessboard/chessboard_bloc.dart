@@ -1,11 +1,11 @@
-import 'package:batonchess/data/model/chess_game_state.dart';
-import 'package:batonchess/utils/chess_utils.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter_stateless_chessboard/types.dart';
-import 'package:meta/meta.dart';
+import "package:batonchess/data/model/chess_game_state.dart";
+import "package:batonchess/utils/chess_utils.dart";
+import "package:bloc/bloc.dart";
+import "package:flutter_stateless_chessboard/types.dart";
+import "package:meta/meta.dart";
 
-part 'chessboard_event.dart';
-part 'chessboard_state.dart';
+part "chessboard_event.dart";
+part "chessboard_state.dart";
 
 class ChessboardBloc extends Bloc<ChessboardEvent, ChessboardState> {
   ChessboardBloc() : super(NormalChessboardState()) {
@@ -20,9 +20,9 @@ class ChessboardBloc extends Bloc<ChessboardEvent, ChessboardState> {
       final state = this.state as NormalChessboardState;
 
       final newFen = tryExecMove(state.fen, {
-        'from': e.move.from,
-        'to': e.move.to,
-        'promotion': 'q',
+        "from": e.move.from,
+        "to": e.move.to,
+        "promotion": "q",
       });
 
       if (newFen != null) {
@@ -31,7 +31,7 @@ class ChessboardBloc extends Bloc<ChessboardEvent, ChessboardState> {
           emit(state.copyWith(fen: newFen));
         } else {
           emit(FinalChessboardState(
-              finalFen: newFen, finalGameState: gameState));
+              finalFen: newFen, finalGameState: gameState,),);
         }
         /**
          * repo.broadCast(newfen)

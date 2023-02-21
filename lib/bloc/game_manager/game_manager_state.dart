@@ -1,6 +1,16 @@
-part of 'game_manager_bloc.dart';
+part of "game_manager_bloc.dart";
 
 @immutable
 abstract class GameManagerState {}
 
-class GameInitial extends GameManagerState {}
+class IdleGameManagerState extends GameManagerState {
+  final GameState gameState;
+
+  IdleGameManagerState({required this.gameState});
+}
+
+class ValidateMoveState extends GameManagerState {
+  final Move move;
+
+  ValidateMoveState(this.move);
+}

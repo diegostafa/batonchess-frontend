@@ -1,4 +1,4 @@
-import 'package:batonchess/data/model/user/user_player.dart';
+import "package:batonchess/data/model/user/user_player.dart";
 
 class GameState {
   final String fen;

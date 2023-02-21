@@ -1,4 +1,4 @@
-part of 'chessboard_bloc.dart';
+part of "chessboard_bloc.dart";
 
 @immutable
 abstract class ChessboardState {}

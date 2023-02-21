@@ -1,11 +1,11 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:batonchess/data/dao/http/http_dao.dart';
-import 'package:batonchess/data/model/user/update_username_request.dart';
-import 'package:batonchess/data/model/user/user.dart';
-import 'package:batonchess/data/model/user/user_id.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_status_code/http_status_code.dart';
+import "package:batonchess/data/dao/http/http_dao.dart";
+import "package:batonchess/data/model/user/update_username_request.dart";
+import "package:batonchess/data/model/user/user.dart";
+import "package:batonchess/data/model/user/user_id.dart";
+import "package:http/http.dart" as http;
+import "package:http_status_code/http_status_code.dart";
 
 enum Endpoint { getNewUser, isValidUser, updateUserName }
 

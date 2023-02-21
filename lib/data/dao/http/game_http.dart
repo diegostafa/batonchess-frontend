@@ -1,12 +1,12 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:batonchess/data/dao/http/http_dao.dart';
-import 'package:batonchess/data/model/game/create_game_request.dart';
-import 'package:batonchess/data/model/game/game_info.dart';
-import 'package:batonchess/data/model/game/game_state.dart';
-import 'package:batonchess/data/model/game/join_game_request.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_status_code/http_status_code.dart';
+import "package:batonchess/data/dao/http/http_dao.dart";
+import "package:batonchess/data/model/game/create_game_request.dart";
+import "package:batonchess/data/model/game/game_info.dart";
+import "package:batonchess/data/model/game/game_state.dart";
+import "package:batonchess/data/model/game/join_game_request.dart";
+import "package:http/http.dart" as http;
+import "package:http_status_code/http_status_code.dart";
 
 enum Endpoint { createGame, joinGame, leaveGame, makeMove, getActiveGames }
 

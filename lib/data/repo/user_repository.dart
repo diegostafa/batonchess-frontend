@@ -1,8 +1,8 @@
-import 'package:batonchess/data/dao/http/user_http.dart';
-import 'package:batonchess/data/dao/local/user_memory.dart';
-import 'package:batonchess/data/model/user/update_username_request.dart';
-import 'package:batonchess/data/model/user/user.dart';
-import 'package:batonchess/data/model/user/user_id.dart';
+import "package:batonchess/data/dao/http/user_http.dart";
+import "package:batonchess/data/dao/local/user_memory.dart";
+import "package:batonchess/data/model/user/update_username_request.dart";
+import "package:batonchess/data/model/user/user.dart";
+import "package:batonchess/data/model/user/user_id.dart";
 
 class UserRepository {
   final userMem = UserMemory();

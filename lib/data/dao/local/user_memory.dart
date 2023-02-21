@@ -1,5 +1,5 @@
-import 'package:batonchess/data/model/user/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:batonchess/data/model/user/user.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class UserMemory {
   factory UserMemory() => _singleton;
