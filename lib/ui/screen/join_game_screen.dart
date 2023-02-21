@@ -19,14 +19,13 @@ class JoinGameScreen extends StatelessWidget {
         ),
         body: BlocListener<JoinGameBloc, JoinGameState>(
           listener: (context, state) {
-            if (state is SuccessJoiningGameState) {
+            if (state is JoiningGameState) {
               Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => GameScreen(
-                    initialGameState: state.joinedGameState,
-                    gameInfo: state.joinedGameInfo,
+                    joinProps: state.joinProps,
                   ),
                 ),
               );

@@ -3,8 +3,16 @@ part of "game_controller_bloc.dart";
 @immutable
 abstract class GameControllerEvent {}
 
-class MakeMoveEvent extends GameControllerEvent {
+class JoinGameEvent extends GameControllerEvent {
+  final JoinGameRequest joinProps;
+
+  JoinGameEvent({required this.joinProps});
+}
+
+class LeaveGameEvent extends GameControllerEvent {}
+
+class SubmitMoveEvent extends GameControllerEvent {
   final ShortMove move;
 
-  MakeMoveEvent({required this.move});
+  SubmitMoveEvent({required this.move});
 }

@@ -25,10 +25,10 @@ class SettingGamePropsState extends NewGameState {
 class CreatingGameState extends NewGameState {}
 
 class SuccessCreatingGameState extends NewGameState {
-  final GameState joinedGameState;
-  final GameInfo joinedGameInfo;
-  SuccessCreatingGameState(
-      {required this.joinedGameState, required this.joinedGameInfo,});
+  final JoinGameRequest joinProps;
+  SuccessCreatingGameState({
+    required this.joinProps,
+  });
 }
 
 class FailureCreatingGameState extends NewGameState {}

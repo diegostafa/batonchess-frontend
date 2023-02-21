@@ -1,5 +1,5 @@
 import "package:batonchess/data/model/game/game_info.dart";
-import "package:batonchess/data/model/game/game_state.dart";
+import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/game_repository.dart";
 import "package:bloc/bloc.dart";
 import "package:meta/meta.dart";
@@ -34,12 +34,13 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
       return;
     }
 
-    emit(JoiningGameState());
-    final gameState =
-        await gameRepo.joinGame(e.targetGame, playAsWhite: e.sideIndex == 0);
-    gameState == null
-        ? emit(FailureJoiningGameState())
-        : emit(SuccessJoiningGameState(
-            joinedGameState: gameState, joinedGameInfo: e.targetGame,),);
+    emit(
+      JoiningGameState(
+        joinProps: JoinGameRequest(
+          gameInfo: e.targetGame,
+          playAsWhite: e.sideIndex == 0,
+        ),
+      ),
+    );
   }
 }

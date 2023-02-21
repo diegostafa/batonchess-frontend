@@ -1,4 +1,6 @@
+import "package:batonchess/data/model/chess/make_move_request.dart";
 import "package:batonchess/data/model/game/game_state.dart";
+import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/game_repository.dart";
 import "package:batonchess/data/repo/user_repository.dart";
 import "package:batonchess/utils/chess_utils.dart";
@@ -15,13 +17,30 @@ class GameControllerBloc
   final gameRepo = GameRepository();
   final chessEngine = ChessEngineAdapter();
 
-  GameControllerBloc({required GameState gameState})
-      : super(IdleGameControllerState(gameState: gameState)) {
-    on<MakeMoveEvent>(makeMoveHandler);
+  GameControllerBloc() : super(InitialGameControllerState()) {
+    on<JoinGameEvent>(joinGameHandler);
+    on<LeaveGameEvent>(leaveGameHandler);
+    on<SubmitMoveEvent>(submitMoveHandler);
   }
 
-  Future<void> makeMoveHandler(
-    MakeMoveEvent e,
+  Future<void> joinGameHandler(
+    JoinGameEvent e,
+    Emitter<GameControllerState> emit,
+  ) async {
+    /**
+     * final gameState = await gameRepo.join(gameid)
+     * if
+     *
+     */
+  }
+
+  Future<void> leaveGameHandler(
+    LeaveGameEvent e,
+    Emitter<GameControllerState> emit,
+  ) async {}
+
+  Future<void> submitMoveHandler(
+    SubmitMoveEvent e,
     Emitter<GameControllerState> emit,
   ) async {
     if (state is IdleGameControllerState) {
@@ -36,7 +55,9 @@ class GameControllerBloc
         return;
       }
 
-      await gameRepo.sendMove(e.move);
+      await gameRepo.sendMove(
+        MakeMoveRequest(gameId: s.gameId, userId: u.id, move: e.move),
+      );
     }
   }
 }
