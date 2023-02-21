@@ -1,27 +1,13 @@
-import "package:batonchess/data/model/chess_game_state.dart";
-import "package:chess/chess.dart" as ch;
+import 'package:batonchess/data/model/chess/chess_game_state.dart';
+import "package:batonchess/data/model/chess/chess_move.dart";
+import "package:chess/chess.dart";
+import "package:flutter_stateless_chessboard/types.dart";
 
-const String initialFen =
-    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+class ChessEngineAdapter {
+  Chess chessControllerFrom(String fen) => Chess.fromFEN(fen);
 
-ch.Chess chessControllerFrom(String fen) => ch.Chess.fromFEN(fen);
-
-String? tryExecMove(String fen, dynamic move) {
-  final controller = chessControllerFrom(fen);
-  return controller.move(move) ? controller.fen : null;
-}
-
-ChessGameState gameStateFrom(String fen) {
-  final controller = chessControllerFrom(fen);
-  if (controller.in_checkmate) {
-    return ChessGameState.checkmate;
-  } else if (controller.in_stalemate) {
-    return ChessGameState.stalemate;
-  } else if (controller.in_threefold_repetition) {
-    return ChessGameState.threefoldRepetition;
-  } else if (controller.insufficient_material) {
-    return ChessGameState.insufficientMaterial;
-  } else {
-    return ChessGameState.normal;
+  String? execMove(String fen, ShortMove move) {
+    final ctrl = chessControllerFrom(fen);
+    return ctrl.move(move.toJson()) ? ctrl.fen : null;
   }
 }

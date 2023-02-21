@@ -1,7 +1,7 @@
 import "dart:math";
 
-import "package:batonchess/bloc/chessboard/chessboard_bloc.dart";
 import "package:batonchess/bloc/game_manager/game_manager_bloc.dart";
+import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
 import "package:batonchess/ui/widget/player_card_bc.dart";
@@ -12,8 +12,10 @@ import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
 
 class GameScreen extends StatelessWidget {
   final GameState initialGameState;
+  final GameInfo gameInfo;
 
-  const GameScreen({super.key, required this.initialGameState});
+  const GameScreen(
+      {super.key, required this.initialGameState, required this.gameInfo});
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -21,9 +23,6 @@ class GameScreen extends StatelessWidget {
         BlocProvider<GameManagerBloc>(
           create: (BuildContext context) =>
               GameManagerBloc(gameState: initialGameState),
-        ),
-        BlocProvider<ChessboardBloc>(
-          create: (BuildContext context) => ChessboardBloc(),
         ),
       ],
       child: Scaffold(
@@ -52,57 +51,34 @@ class GameScreen extends StatelessWidget {
     );
   }
 
-/* TODO:
-    * take move
-    * send to game manager
-    * - if not your turn --> return
-    * - emit validateM-oveState(move
-    * bloc listener chessboard manager
-    *  - validate move
-    *  -
-    * - await gameRepo.updateGameState(newFen)
-    *    - gameHttp.updateGame(UpdateGameRequest{gameid, player, newFen})
-    * - if success --> gameRepo.retrieveGameState
-    *
-   nb: tcp connection
-*/
-
   Column gamePage() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         BlocBuilder<GameManagerBloc, GameManagerState>(
           builder: (context, state) {
-            return BlocBuilder<ChessboardBloc, ChessboardState>(
-              builder: (context, state) {
-                return ContainerBc(
-                  margin: const EdgeInsets.all(10),
-                  child: LayoutBuilder(
-                    builder: (ctx, constraints) {
-                      if (state is NormalChessboardState) {
-                        return Chessboard(
-                          lightSquareColor: Colors.white,
-                          darkSquareColor: Colors.brown,
-                          fen: state.fen,
-                          size:
-                              min(constraints.maxWidth, constraints.maxHeight),
-                          onMove: (move) {
-                            context
-                                .read<ChessboardBloc>()
-                                .add(MakeMoveEvent(move));
-                          },
-                        );
-                      } else {
-                        return Text(
-                          (state as FinalChessboardState)
-                              .finalGameState
-                              .toString(),
-                        );
-                      }
-                    },
-                  ),
-                );
-              },
+            return ContainerBc(
+              margin: const EdgeInsets.all(10),
+              child: LayoutBuilder(
+                builder: (ctx, constraints) {
+                  if (state is IdleGameManagerState) {
+                    return Chessboard(
+                      lightSquareColor: Colors.white,
+                      darkSquareColor: Colors.brown,
+                      fen: state.gameState.fen,
+                      size: min(constraints.maxWidth, constraints.maxHeight),
+                      orientation: Color.WHITE,
+                      onMove: (move) {
+                        context
+                            .read<GameManagerBloc>()
+                            .add(MakeMoveEvent(move: move));
+                      },
+                    );
+                  } else {
+                    return Text("yoooo");
+                  }
+                },
+              ),
             );
           },
         )

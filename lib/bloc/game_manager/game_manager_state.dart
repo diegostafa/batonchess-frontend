@@ -9,8 +9,8 @@ class IdleGameManagerState extends GameManagerState {
   IdleGameManagerState({required this.gameState});
 }
 
-class ValidateMoveState extends GameManagerState {
-  final Move move;
+class ValidatingMoveState extends GameManagerState {
+  final ShortMove move;
 
-  ValidateMoveState(this.move);
+  ValidatingMoveState(this.move);
 }

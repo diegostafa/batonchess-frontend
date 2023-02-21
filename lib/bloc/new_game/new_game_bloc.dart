@@ -1,4 +1,5 @@
 import "package:batonchess/data/model/game/create_game_request.dart";
+import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/repo/game_repository.dart";
 import "package:batonchess/data/repo/user_repository.dart";
@@ -9,8 +10,8 @@ part "new_game_event.dart";
 part "new_game_state.dart";
 
 class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
-  UserRepository userRepo = UserRepository();
-  GameRepository gameRepo = GameRepository();
+  final userRepo = UserRepository();
+  final gameRepo = GameRepository();
 
   NewGameBloc() : super(SettingGamePropsState()) {
     on<ChangeSideEvent>(changeSideHandler);
@@ -63,13 +64,15 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
         return;
       }
 
-      final gs = await gameRepo.joinGame(gameInfo, playAsWhite: s.playAsWhite);
-      if (gs == null) {
+      final gameState =
+          await gameRepo.joinGame(gameInfo, playAsWhite: s.playAsWhite);
+      if (gameState == null) {
         emit(FailureJoiningGameState());
         return;
       }
 
-      emit(SuccessCreatingGameState(gs));
+      emit(SuccessCreatingGameState(
+          joinedGameState: gameState, joinedGameInfo: gameInfo));
     }
   }
 }

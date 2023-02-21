@@ -39,6 +39,7 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
         await gameRepo.joinGame(e.targetGame, playAsWhite: e.sideIndex == 0);
     gameState == null
         ? emit(FailureJoiningGameState())
-        : emit(SuccessJoiningGameState(gameState));
+        : emit(SuccessJoiningGameState(
+            joinedGameState: gameState, joinedGameInfo: e.targetGame));
   }
 }
