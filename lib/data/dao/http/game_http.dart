@@ -1,6 +1,6 @@
 import "dart:convert";
 
-import "package:batonchess/data/dao/http/http_dao.dart";
+import 'package:batonchess/data/dao/http/http_client.dart';
 import "package:batonchess/data/model/game/create_game_request.dart";
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
@@ -11,19 +11,19 @@ import "package:http_status_code/http_status_code.dart";
 enum Endpoint { createGame, joinGame, leaveGame, makeMove, getActiveGames }
 
 class GameHttp {
+  final httpClient = HttpClient();
   final Map<Endpoint, String> endpoints = {
-    Endpoint.createGame: "${HttpDao.server}/createGame",
-    Endpoint.joinGame: "${HttpDao.server}/joinGame",
-    Endpoint.leaveGame: "${HttpDao.server}/leaveGame",
-    Endpoint.makeMove: "${HttpDao.server}/makeMove",
-    Endpoint.getActiveGames: "${HttpDao.server}/getActiveGames",
+    Endpoint.createGame: "createGame",
+    Endpoint.joinGame: "joinGame",
+    Endpoint.leaveGame: "leaveGame",
+    Endpoint.makeMove: "makeMove",
+    Endpoint.getActiveGames: "getActiveGames",
   };
 
   Future<GameInfo?> createGame(CreateGameRequest createGameReq) async {
-    final res = await http.post(
-      Uri.parse(endpoints[Endpoint.createGame]!),
-      headers: HttpDao.headers,
-      body: jsonEncode(createGameReq),
+    final res = await httpClient.post(
+      endpoints[Endpoint.createGame]!,
+      jsonEncode(createGameReq),
     );
 
     return res.statusCode == StatusCode.CREATED
@@ -32,26 +32,17 @@ class GameHttp {
   }
 
   Future<GameState?> joinGame(JoinGameRequest joinReq) async {
-    final res = await http.post(
-      Uri.parse(endpoints[Endpoint.joinGame]!),
-      headers: HttpDao.headers,
-      body: jsonEncode(joinReq),
+    final res = await httpClient.post(
+      endpoints[Endpoint.joinGame]!,
+      jsonEncode(joinReq),
     );
     return res.statusCode == StatusCode.ACCEPTED
         ? GameState.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
         : null;
   }
 
-  Future<bool> leaveGame() async {
-    return false;
-  }
-
-  Future<bool> makeMove() async {
-    return false;
-  }
-
   Future<List<GameInfo>?> getActiveGames() async {
-    final res = await http.get(Uri.parse(endpoints[Endpoint.getActiveGames]!));
+    final res = await httpClient.get(endpoints[Endpoint.getActiveGames]!);
     if (res.statusCode == StatusCode.OK) {
       final List<dynamic> gameInfosJson = jsonDecode(res.body) as List<dynamic>;
       final gameInfos = gameInfosJson

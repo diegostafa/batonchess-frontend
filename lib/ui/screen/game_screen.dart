@@ -1,6 +1,6 @@
 import "dart:math";
 
-import "package:batonchess/bloc/game_manager/game_manager_bloc.dart";
+import 'package:batonchess/bloc/game_controller/game_controller_bloc.dart';
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
@@ -20,9 +20,9 @@ class GameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<GameManagerBloc>(
+        BlocProvider<GameControllerBloc>(
           create: (BuildContext context) =>
-              GameManagerBloc(gameState: initialGameState),
+              GameControllerBloc(gameState: initialGameState),
         ),
       ],
       child: Scaffold(
@@ -55,13 +55,13 @@ class GameScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        BlocBuilder<GameManagerBloc, GameManagerState>(
+        BlocBuilder<GameControllerBloc, GameControllerState>(
           builder: (context, state) {
             return ContainerBc(
               margin: const EdgeInsets.all(10),
               child: LayoutBuilder(
                 builder: (ctx, constraints) {
-                  if (state is IdleGameManagerState) {
+                  if (state is IdleGameControllerState) {
                     return Chessboard(
                       lightSquareColor: Colors.white,
                       darkSquareColor: Colors.brown,
@@ -70,7 +70,7 @@ class GameScreen extends StatelessWidget {
                       orientation: Color.WHITE,
                       onMove: (move) {
                         context
-                            .read<GameManagerBloc>()
+                            .read<GameControllerBloc>()
                             .add(MakeMoveEvent(move: move));
                       },
                     );
