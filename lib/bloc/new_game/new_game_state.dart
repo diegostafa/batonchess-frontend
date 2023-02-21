@@ -28,7 +28,7 @@ class SuccessCreatingGameState extends NewGameState {
   final GameState joinedGameState;
   final GameInfo joinedGameInfo;
   SuccessCreatingGameState(
-      {required this.joinedGameState, required this.joinedGameInfo});
+      {required this.joinedGameState, required this.joinedGameInfo,});
 }
 
 class FailureCreatingGameState extends NewGameState {}

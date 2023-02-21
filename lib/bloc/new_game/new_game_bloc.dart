@@ -72,7 +72,7 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
       }
 
       emit(SuccessCreatingGameState(
-          joinedGameState: gameState, joinedGameInfo: gameInfo));
+          joinedGameState: gameState, joinedGameInfo: gameInfo,),);
     }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:batonchess/data/model/chess/chess_game_state.dart';
 import "package:batonchess/data/model/chess/chess_move.dart";
 import "package:chess/chess.dart";
 import "package:flutter_stateless_chessboard/types.dart";

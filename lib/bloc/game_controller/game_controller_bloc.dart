@@ -1,4 +1,3 @@
-import "package:batonchess/data/model/chess/chess_move.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/repo/game_repository.dart";
 import "package:batonchess/data/repo/user_repository.dart";
@@ -7,8 +6,8 @@ import "package:bloc/bloc.dart";
 import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
 import "package:meta/meta.dart";
 
-part 'game_controller_event.dart';
-part 'game_controller_state.dart';
+part "game_controller_event.dart";
+part "game_controller_state.dart";
 
 class GameControllerBloc
     extends Bloc<GameControllerEvent, GameControllerState> {

@@ -40,6 +40,6 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
     gameState == null
         ? emit(FailureJoiningGameState())
         : emit(SuccessJoiningGameState(
-            joinedGameState: gameState, joinedGameInfo: e.targetGame));
+            joinedGameState: gameState, joinedGameInfo: e.targetGame,),);
   }
 }

@@ -1,4 +1,4 @@
-part of 'game_controller_bloc.dart';
+part of "game_controller_bloc.dart";
 
 @immutable
 abstract class GameControllerEvent {}

@@ -20,7 +20,7 @@ class SuccessJoiningGameState extends JoinGameState {
   final GameState joinedGameState;
   final GameInfo joinedGameInfo;
   SuccessJoiningGameState(
-      {required this.joinedGameState, required this.joinedGameInfo});
+      {required this.joinedGameState, required this.joinedGameInfo,});
 }
 
 class FailureJoiningGameState extends JoinGameState {}

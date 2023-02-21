@@ -1,10 +1,9 @@
 import "dart:convert";
 
-import 'package:batonchess/data/dao/http/http_client.dart';
+import "package:batonchess/data/dao/http/http_client.dart";
 import "package:batonchess/data/model/user/update_username_request.dart";
 import "package:batonchess/data/model/user/user.dart";
 import "package:batonchess/data/model/user/user_id.dart";
-import "package:http/http.dart" as http;
 import "package:http_status_code/http_status_code.dart";
 
 enum Endpoint { createUser, isValidUser, updateUserName }

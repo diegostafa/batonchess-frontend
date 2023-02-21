@@ -1,6 +1,6 @@
 import "dart:math";
 
-import 'package:batonchess/bloc/game_controller/game_controller_bloc.dart';
+import "package:batonchess/bloc/game_controller/game_controller_bloc.dart";
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
@@ -15,7 +15,7 @@ class GameScreen extends StatelessWidget {
   final GameInfo gameInfo;
 
   const GameScreen(
-      {super.key, required this.initialGameState, required this.gameInfo});
+      {super.key, required this.initialGameState, required this.gameInfo,});
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -67,7 +67,6 @@ class GameScreen extends StatelessWidget {
                       darkSquareColor: Colors.brown,
                       fen: state.gameState.fen,
                       size: min(constraints.maxWidth, constraints.maxHeight),
-                      orientation: Color.WHITE,
                       onMove: (move) {
                         context
                             .read<GameControllerBloc>()
@@ -75,7 +74,7 @@ class GameScreen extends StatelessWidget {
                       },
                     );
                   } else {
-                    return Text("yoooo");
+                    return const Text("yoooo");
                   }
                 },
               ),
