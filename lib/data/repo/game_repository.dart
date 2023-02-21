@@ -4,6 +4,7 @@ import "package:batonchess/data/model/chess/make_move_request.dart";
 import "package:batonchess/data/model/game/create_game_request.dart";
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
+import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/user_repository.dart";
 
 class Move {}
@@ -28,10 +29,7 @@ class GameRepository {
     return null;
   }
 
-  Future<GameState?> joinGame(
-    GameInfo gameInfo, {
-    required bool playAsWhite,
-  }) async {
+  Future<GameState?> joinGame(JoinGameRequest joinReq) async {
     final user = await userRepo.getUser();
     return null;
     /**

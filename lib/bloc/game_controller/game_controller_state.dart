@@ -5,11 +5,17 @@ abstract class GameControllerState {}
 
 class InitialGameControllerState extends GameControllerState {}
 
-class IdleGameControllerState extends GameControllerState {
-  final GameState gameState;
-  final int gameId;
+class JoiningGameControllerState extends GameControllerState {}
 
-  IdleGameControllerState({required this.gameState, required this.gameId});
+class SuccessJoiningGameControllerState extends GameControllerState {}
+
+class FailureJoiningGameControllerState extends GameControllerState {}
+
+class ReadyGameControllerState extends GameControllerState {
+  final GameState gameState;
+  final GameInfo gameInfo;
+
+  ReadyGameControllerState({required this.gameState, required this.gameInfo});
 }
 
 class ValidatingMoveState extends GameControllerState {

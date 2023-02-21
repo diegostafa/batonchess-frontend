@@ -45,15 +45,15 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
     if (state is SettingGamePropsState) {
       final s = state as SettingGamePropsState;
       emit(CreatingGameState());
-      final user = await userRepo.getUser();
-      if (user == null) {
+      final u = await userRepo.getUser();
+      if (u == null) {
         emit(FailureCreatingGameState());
         return;
       }
 
       final gameInfo = await gameRepo.createGame(
         CreateGameRequest(
-          creatorId: user.id,
+          creatorId: u.id,
           maxPlayers: s.maxPlayers,
         ),
       );

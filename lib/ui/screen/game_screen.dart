@@ -64,13 +64,21 @@ class GameScreen extends StatelessWidget {
     if (screen.width < screen.height * verticalRatio) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [const Text("data"), chessboard(state, context), const Text("data")],
+        children: [
+          const Text("data"),
+          chessboard(state, context),
+          const Text("data")
+        ],
       );
     }
     if (screen.height < screen.width * horizontalRatio) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [const Text("data"), chessboard(state, context), const Text("data")],
+        children: [
+          const Text("data"),
+          chessboard(state, context),
+          const Text("data")
+        ],
       );
     }
 
@@ -80,7 +88,7 @@ class GameScreen extends StatelessWidget {
   LayoutBuilder chessboard(GameControllerState state, BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, constraints) {
-        if (state is IdleGameControllerState) {
+        if (state is ReadyGameControllerState) {
           return Chessboard(
             lightSquareColor: Colors.white,
             darkSquareColor: Colors.brown,
