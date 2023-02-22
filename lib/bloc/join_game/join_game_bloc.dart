@@ -1,6 +1,7 @@
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/game_repository.dart";
+import "package:batonchess/data/repo/user_repository.dart";
 import "package:bloc/bloc.dart";
 import "package:meta/meta.dart";
 
@@ -8,6 +9,7 @@ part "join_game_event.dart";
 part "join_game_state.dart";
 
 class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
+  final userRepo = UserRepository();
   final gameRepo = GameRepository();
 
   JoinGameBloc() : super(JoinGameInitial()) {
@@ -21,9 +23,12 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
   ) async {
     emit(FetchingGamesState());
     final games = await gameRepo.getActiveGames();
-    games == null
-        ? emit(FailureLoadingGamesState())
-        : emit(SuccessLoadingGamesState(games));
+    if (games == null) {
+      emit(FailureLoadingGamesState());
+      return;
+    }
+
+    emit(SuccessLoadingGamesState(games));
   }
 
   Future<void> submitJoinGameHandler(
@@ -33,11 +38,16 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
     if (e.sideIndex == null) {
       return;
     }
-
+    final u = await userRepo.getUser();
+    if (u == null) {
+      return;
+    }
     emit(
       JoiningGameState(
-        joinProps: JoinGameRequest(
-          gameInfo: e.targetGame,
+        gameInfo: e.targetGame,
+        joinReq: JoinGameRequest(
+          userId: u.id,
+          gameId: e.targetGame.gameId,
           playAsWhite: e.sideIndex == 0,
         ),
       ),

@@ -15,8 +15,7 @@ class GameRepository {
   final userRepo = UserRepository();
 
   Future<GameInfo?> createGame(CreateGameRequest props) async {
-    final user = await userRepo.getUser();
-    return user == null ? null : gameHttp.createGame(props);
+    return gameHttp.createGame(props);
   }
 
   Future<List<GameInfo>?> getActiveGames() async {
@@ -24,16 +23,15 @@ class GameRepository {
   }
 
   Future<GameState?> sendMove(MakeMoveRequest makeMoveReq) async {
-    final accepted = gameTcp.makeMove(makeMoveReq);
-    final newGameState = gameTcp.getGameState(makeMoveReq.gameId);
-    return null;
+    return gameTcp.makeMove(makeMoveReq);
   }
 
   Future<GameState?> joinGame(JoinGameRequest joinReq) async {
-    final user = await userRepo.getUser();
-    return null;
-    /**
-     *
-     */
+    final u = await userRepo.getUser();
+    if (u == null) {
+      return null;
+    }
+
+    final gameState = gameTcp.joinGame(u, joinReq);
   }
 }

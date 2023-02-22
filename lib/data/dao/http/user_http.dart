@@ -18,10 +18,11 @@ class UserHttp {
   };
 
   Future<User?> getNewUser() async {
-    final res = await httpClient.get(endpoints[Endpoint.isValidUser]!);
-    return res.statusCode == StatusCode.CREATED
-        ? User.fromJson(jsonDecode(res.body) as Map<String, dynamic>)
-        : null;
+    final res = await httpClient.get(endpoints[Endpoint.createUser]!);
+
+    if (res.statusCode != StatusCode.CREATED) return null;
+
+    return User.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
   }
 
   Future<bool> isValidUser(UserId userId) async {

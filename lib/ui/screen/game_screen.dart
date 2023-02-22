@@ -1,6 +1,7 @@
 import "dart:math";
 
 import "package:batonchess/bloc/game_controller/game_controller_bloc.dart";
+import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
@@ -10,16 +11,19 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
 
 class GameScreen extends StatelessWidget {
-  final JoinGameRequest joinProps;
+  final GameInfo gameInfo;
+  final JoinGameRequest joinReq;
+
   const GameScreen({
     super.key,
-    required this.joinProps,
+    required this.gameInfo,
+    required this.joinReq,
   });
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          GameControllerBloc()..add(JoinGameEvent(joinProps: joinProps)),
+          GameControllerBloc()..add(JoinGameEvent(joinReq: joinReq)),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Player to move: TODO CHECK STATE"),
@@ -101,7 +105,7 @@ class GameScreen extends StatelessWidget {
             },
           );
         } else {
-          return const Text("yoooo");
+          return const Text("NOT READY");
         }
       },
     );

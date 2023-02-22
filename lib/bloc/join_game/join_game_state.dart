@@ -15,7 +15,11 @@ class SuccessLoadingGamesState extends JoinGameState {
 class FailureLoadingGamesState extends JoinGameState {}
 
 class JoiningGameState extends JoinGameState {
-  final JoinGameRequest joinProps;
+  final GameInfo gameInfo;
+  final JoinGameRequest joinReq;
 
-  JoiningGameState({required this.joinProps});
+  JoiningGameState({
+    required this.gameInfo,
+    required this.joinReq,
+  });
 }

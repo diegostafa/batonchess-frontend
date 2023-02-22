@@ -1,16 +1,19 @@
 import "package:batonchess/data/model/game/game_info.dart";
 
 class JoinGameRequest {
-  final GameInfo gameInfo;
+  final String userId;
+  final int gameId;
   final bool playAsWhite;
 
   JoinGameRequest({
-    required this.gameInfo,
+    required this.userId,
+    required this.gameId,
     required this.playAsWhite,
   });
 
   Map<String, dynamic> toJson() => {
-        "gameInfo": gameInfo,
+        "userId": userId,
+        "gameId": gameId,
         "playAsWhite": playAsWhite,
       };
 }

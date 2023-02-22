@@ -4,9 +4,9 @@ part of "game_controller_bloc.dart";
 abstract class GameControllerEvent {}
 
 class JoinGameEvent extends GameControllerEvent {
-  final JoinGameRequest joinProps;
+  final JoinGameRequest joinReq;
 
-  JoinGameEvent({required this.joinProps});
+  JoinGameEvent({required this.joinReq});
 }
 
 class LeaveGameEvent extends GameControllerEvent {}

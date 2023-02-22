@@ -25,7 +25,8 @@ class JoinGameScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => GameScreen(
-                    joinProps: state.joinProps,
+                    gameInfo: state.gameInfo,
+                    joinReq: state.joinReq,
                   ),
                 ),
               );

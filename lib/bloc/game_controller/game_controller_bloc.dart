@@ -1,4 +1,5 @@
 import "package:batonchess/data/model/chess/make_move_request.dart";
+import "package:batonchess/data/model/game/game_id.dart";
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
@@ -30,14 +31,14 @@ class GameControllerBloc
   ) async {
     emit(JoiningGameControllerState());
 
-    final gameState = await gameRepo.joinGame(e.joinProps);
+    final gameState = await gameRepo.joinGame(e.joinReq);
     if (gameState == null) {
       emit(FailureJoiningGameControllerState());
       return;
     }
 
     emit(ReadyGameControllerState(
-        gameState: gameState, gameInfo: e.joinProps.gameInfo));
+        gameId: GameId(id: e.joinReq.gameId), gameState: gameState));
   }
 
   Future<void> leaveGameHandler(
@@ -62,7 +63,7 @@ class GameControllerBloc
       }
 
       await gameRepo.sendMove(
-        MakeMoveRequest(gameId: s.gameInfo.gameId, userId: u.id, move: e.move),
+        MakeMoveRequest(gameId: s.gameId.id, userId: u.id, move: e.move),
       );
     }
   }

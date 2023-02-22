@@ -1,4 +1,5 @@
 import "package:batonchess/data/model/game/create_game_request.dart";
+import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/game_repository.dart";
 import "package:batonchess/data/repo/user_repository.dart";
@@ -65,8 +66,11 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
 
       emit(
         SuccessCreatingGameState(
-          joinProps:
-              JoinGameRequest(gameInfo: gameInfo, playAsWhite: s.playAsWhite),
+          gameInfo: gameInfo,
+          joinReq: JoinGameRequest(
+              userId: u.id,
+              gameId: gameInfo.gameId,
+              playAsWhite: s.playAsWhite),
         ),
       );
     }

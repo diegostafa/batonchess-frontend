@@ -12,10 +12,10 @@ class SuccessJoiningGameControllerState extends GameControllerState {}
 class FailureJoiningGameControllerState extends GameControllerState {}
 
 class ReadyGameControllerState extends GameControllerState {
+  final GameId gameId;
   final GameState gameState;
-  final GameInfo gameInfo;
 
-  ReadyGameControllerState({required this.gameState, required this.gameInfo});
+  ReadyGameControllerState({required this.gameId, required this.gameState});
 }
 
 class ValidatingMoveState extends GameControllerState {

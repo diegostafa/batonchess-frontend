@@ -24,9 +24,11 @@ class NewGameScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => GameScreen(
-                            joinProps: state.joinProps,
-                          ),),
+                    builder: (context) => GameScreen(
+                      gameInfo: state.gameInfo,
+                      joinReq: state.joinReq,
+                    ),
+                  ),
                 );
               }
             },

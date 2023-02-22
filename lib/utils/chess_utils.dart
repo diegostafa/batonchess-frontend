@@ -7,6 +7,10 @@ class ChessEngineAdapter {
 
   String? execMove(String fen, ShortMove move) {
     final ctrl = chessControllerFrom(fen);
-    return ctrl.move(move.toJson()) ? ctrl.fen : null;
+    if (ctrl.move(move.toJson()) == false) {
+      return null;
+    }
+
+    return ctrl.fen;
   }
 }
