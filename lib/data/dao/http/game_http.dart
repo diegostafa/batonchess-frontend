@@ -9,7 +9,7 @@ enum Endpoint { createGame, getActiveGames }
 
 class GameHttp {
   final httpClient = HttpClient();
-  final Map<Endpoint, String> endpoints = {
+  final endpoints = {
     Endpoint.createGame: "createGame",
     Endpoint.getActiveGames: "getActiveGames",
   };

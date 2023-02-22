@@ -27,11 +27,6 @@ class GameRepository {
   }
 
   Future<GameState?> joinGame(JoinGameRequest joinReq) async {
-    final u = await userRepo.getUser();
-    if (u == null) {
-      return null;
-    }
-
-    final gameState = gameTcp.joinGame(u, joinReq);
+    final gameState = gameTcp.joinGame(joinReq);
   }
 }

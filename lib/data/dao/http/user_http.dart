@@ -11,7 +11,7 @@ enum Endpoint { createUser, isValidUser, updateUserName }
 class UserHttp {
   final httpClient = HttpClient();
 
-  final Map<Endpoint, String> endpoints = {
+  final endpoints = {
     Endpoint.createUser: "createUser",
     Endpoint.isValidUser: "isValidUser",
     Endpoint.updateUserName: "updateUserName",

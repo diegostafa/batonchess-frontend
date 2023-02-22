@@ -1,6 +1,7 @@
 import "package:batonchess/data/model/game/game_info.dart";
+import 'package:batonchess/data/model/json_object.dart';
 
-class JoinGameRequest {
+class JoinGameRequest extends JsonObject {
   final String userId;
   final int gameId;
   final bool playAsWhite;
