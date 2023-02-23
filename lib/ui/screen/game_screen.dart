@@ -4,7 +4,7 @@ import "package:batonchess/bloc/game_controller/game_controller_bloc.dart";
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
-import "package:batonchess/ui/widget/empty_bc.dart";
+import "package:batonchess/ui/widget/player_card_bc.dart";
 import "package:bottom_nav_layout/bottom_nav_layout.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -24,39 +24,40 @@ class GameScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           GameControllerBloc()..add(JoinGameEvent(joinReq: joinReq)),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Player to move: TODO CHECK STATE"),
-        ),
-        body: BottomNavLayout(
-          savePageState: true,
-          pages: [
-            (_) => chessboardPage(),
-            (_) => playersPage(),
-          ],
-          bottomNavigationBar: (currentIndex, onTap) => BottomNavigationBar(
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
-            backgroundColor: Colors.brown,
-            currentIndex: currentIndex,
-            onTap: (index) => onTap(index),
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "game"),
-              BottomNavigationBarItem(icon: Icon(Icons.search), label: "teams"),
-            ],
-          ),
-        ),
+      child: BlocBuilder<GameControllerBloc, GameControllerState>(
+        builder: (context, state) {
+          if (state is ReadyGameControllerState) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("Player to move: ${state.gameState.userIdTurn}"),
+              ),
+              body: BottomNavLayout(
+                savePageState: true,
+                pages: [
+                  (_) => ContainerBc(child: adaptiveChessboard(state, context)),
+                  (_) => playersPage(state),
+                ],
+                bottomNavigationBar: (currentIndex, onTap) =>
+                    BottomNavigationBar(
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.white,
+                  backgroundColor: Colors.brown,
+                  currentIndex: currentIndex,
+                  onTap: (index) => onTap(index),
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home), label: "game",),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.search), label: "teams",),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const Text("Waiting to join the game");
+          }
+        },
       ),
-    );
-  }
-
-  BlocBuilder<GameControllerBloc, GameControllerState> chessboardPage() {
-    return BlocBuilder<GameControllerBloc, GameControllerState>(
-      builder: (context, state) {
-        return ContainerBc(
-          child: adaptiveChessboard(state, context),
-        );
-      },
     );
   }
 
@@ -111,15 +112,13 @@ class GameScreen extends StatelessWidget {
     );
   }
 
-  Widget playersPage() {
-    // return ListView.builder(
-    //   itemCount: initialGameState.players.length,
-    //   itemBuilder: (context, index) => PlayerCardBc(
-    //     player: initialGameState.players[index],
-    //     onTap: () {},
-    //   ),
-    // );
-
-    return const EmptyBc();
+  ListView playersPage(ReadyGameControllerState state) {
+    return ListView.builder(
+      itemCount: state.gameState.players.length,
+      itemBuilder: (context, index) => PlayerCardBc(
+        player: state.gameState.players[index],
+        onTap: () {},
+      ),
+    );
   }
 }

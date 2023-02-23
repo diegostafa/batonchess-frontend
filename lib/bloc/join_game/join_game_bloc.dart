@@ -46,8 +46,9 @@ class JoinGameBloc extends Bloc<JoinGameEvent, JoinGameState> {
       JoiningGameState(
         gameInfo: e.targetGame,
         joinReq: JoinGameRequest(
-          userId: u.id,
           gameId: e.targetGame.gameId,
+          userId: u.id,
+          userName: u.name,
           playAsWhite: e.sideIndex == 0,
         ),
       ),

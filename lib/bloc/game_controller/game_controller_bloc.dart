@@ -1,6 +1,5 @@
 import "package:batonchess/data/model/chess/make_move_request.dart";
 import "package:batonchess/data/model/game/game_id.dart";
-import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/game_repository.dart";
@@ -38,7 +37,7 @@ class GameControllerBloc
     }
 
     emit(ReadyGameControllerState(
-        gameId: GameId(id: e.joinReq.gameId), gameState: gameState));
+        gameId: GameId(id: e.joinReq.gameId), gameState: gameState,),);
   }
 
   Future<void> leaveGameHandler(

@@ -1,5 +1,4 @@
-import 'package:batonchess/data/model/json_object.dart';
-import "package:http/http.dart";
+import "package:batonchess/data/model/json_object.dart";
 
 class BatonchessTcpAction {
   final String actionType;

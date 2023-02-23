@@ -68,9 +68,10 @@ class NewGameBloc extends Bloc<NewGameEvent, NewGameState> {
         SuccessCreatingGameState(
           gameInfo: gameInfo,
           joinReq: JoinGameRequest(
-              userId: u.id,
               gameId: gameInfo.gameId,
-              playAsWhite: s.playAsWhite),
+              userId: u.id,
+              userName: u.name,
+              playAsWhite: s.playAsWhite,),
         ),
       );
     }

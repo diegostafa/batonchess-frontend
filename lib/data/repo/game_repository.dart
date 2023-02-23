@@ -27,6 +27,6 @@ class GameRepository {
   }
 
   Future<GameState?> joinGame(JoinGameRequest joinReq) async {
-    final gameState = gameTcp.joinGame(joinReq);
+    return gameTcp.joinGame(joinReq);
   }
 }

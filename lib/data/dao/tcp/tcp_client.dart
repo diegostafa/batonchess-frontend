@@ -32,7 +32,6 @@ class TcpClient {
       completer.complete(utf8.decode(data).trim());
     });
 
-    print("WAITING RESPONSE");
     final response = await completer.future;
     return response;
   }

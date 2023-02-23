@@ -3,10 +3,22 @@ import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/ui/screen/join_game_screen.dart";
 import "package:batonchess/ui/screen/new_game_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
+import "package:batonchess/ui/widget/dialog_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
 import "package:batonchess/ui/widget/join_game_card_bc.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+
+/*
+ * todo:
+ * - home bloc --> add game info history
+ * - history is saved locally
+ * - userRepo.getGamesHistory
+ * - every time you join a game save the game info locally
+ * - add clear history button
+ */
+
+const mainBtnPadding = EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -42,14 +54,6 @@ class HomeScreen extends StatelessWidget {
             children: const [Text("Games history")],
           ),
           Expanded(
-            /**
-             * todo:
-             * - home bloc --> add game info history
-             * - history is saved locally
-             * - userRepo.getGamesHistory
-             * - every time you join a game save the game info locally
-             * - add clear history button
-             */
             child: ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) => JoinGameCardBc(
@@ -73,7 +77,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget newGameButton(BuildContext context) => ButtonBc(
         text: "New Game",
-        padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
+        padding: mainBtnPadding,
         onPressed: () {
           Navigator.push(
             context,
@@ -84,7 +88,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget joinGameButton(BuildContext context) => ButtonBc(
         text: "Join Game",
-        padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
+        padding: mainBtnPadding,
         onPressed: () {
           Navigator.push(
             context,
@@ -95,7 +99,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget settingsButton(BuildContext context) => ButtonBc(
         text: "Settings",
-        padding: const EdgeInsets.only(left: 80, right: 80, top: 8, bottom: 8),
+        padding: mainBtnPadding,
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -113,10 +117,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
-                    child: Text("User ID: #${state.user.prettyId()}"),
-                    onPressed: () {},
-                  ),
+                  child: showFullId(state, context),
                 ),
                 ButtonBc(
                   borderRadius: 4,
@@ -124,7 +125,10 @@ class HomeScreen extends StatelessWidget {
                   expand: false,
                   onPressed: () async => context.read<HomeBloc>().add(
                         UpdateUsernameEvent(
-                          await promptNewUsername(context) as String?,
+                          await showDialog(
+                            context: context,
+                            builder: (context) => changeUsernameDialog(context),
+                          ) as String?,
                         ),
                       ),
                   text: "Username: ${state.user.name}",
@@ -137,35 +141,39 @@ class HomeScreen extends StatelessWidget {
         },
       );
 
-  Widget changeUsernameDialog(BuildContext context) {
-    String input = "";
-    return SimpleDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      ),
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            decoration: const InputDecoration(hintText: "Change username"),
-            onChanged: (changedText) {
-              input = changedText;
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ButtonBc(
-            text: "Save",
-            onPressed: () => Navigator.of(context).pop(input),
-          ),
-        ),
-      ],
+  TextButton showFullId(UserLoadedState state, BuildContext context) {
+    return TextButton(
+      child: Text("User ID: #${state.user.prettyId()}"),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => DialogBc(
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text("Full ID:"),
+                  Text("#${state.user.id}"),
+                ],
+              ),
+              action: null,),
+        );
+      },
     );
   }
+}
 
-  Future<dynamic> promptNewUsername(BuildContext context) => showDialog(
-        context: context,
-        builder: (context) => changeUsernameDialog(context),
-      );
+Widget changeUsernameDialog(BuildContext context) {
+  String input = "";
+  return DialogBc(
+    body: TextField(
+      decoration: const InputDecoration(hintText: "Change username"),
+      onChanged: (changedText) {
+        input = changedText;
+      },
+    ),
+    action: ButtonBc(
+      text: "Save",
+      onPressed: () => Navigator.of(context).pop(input),
+    ),
+  );
 }

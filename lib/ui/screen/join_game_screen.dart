@@ -1,6 +1,7 @@
 import "package:batonchess/bloc/join_game/join_game_bloc.dart";
 import "package:batonchess/ui/screen/game_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
+import "package:batonchess/ui/widget/dialog_bc.dart";
 import "package:batonchess/ui/widget/join_game_card_bc.dart";
 import "package:batonchess/ui/widget/selection_group_bc.dart";
 import "package:flutter/material.dart";
@@ -32,24 +33,28 @@ class JoinGameScreen extends StatelessWidget {
               );
             }
           },
-          child: BlocBuilder<JoinGameBloc, JoinGameState>(
-            builder: (context, state) {
-              if (state is SuccessLoadingGamesState) {
-                return ListView.builder(
-                  itemCount: state.games.length,
-                  itemBuilder: (context, gameIndex) {
-                    return joinGameCard(state, gameIndex, context);
-                  },
-                );
-              } else if (state is FailureLoadingGamesState) {
-                return const Text("FAILED TO LOAD ACTIVE GAMES");
-              } else {
-                return const Text("INTERNAL ERROR");
-              }
-            },
-          ),
+          child: joinGameList(),
         ),
       ),
+    );
+  }
+
+  BlocBuilder<JoinGameBloc, JoinGameState> joinGameList() {
+    return BlocBuilder<JoinGameBloc, JoinGameState>(
+      builder: (context, state) {
+        if (state is SuccessLoadingGamesState) {
+          return ListView.builder(
+            itemCount: state.games.length,
+            itemBuilder: (context, gameIndex) {
+              return joinGameCard(state, gameIndex, context);
+            },
+          );
+        } else if (state is FailureLoadingGamesState) {
+          return const Text("FAILED TO LOAD ACTIVE GAMES");
+        } else {
+          return const Text("INTERNAL ERROR");
+        }
+      },
     );
   }
 
@@ -64,7 +69,10 @@ class JoinGameScreen extends StatelessWidget {
         context.read<JoinGameBloc>().add(
               SubmitJoinGameEvent(
                 state.games[gameIndex],
-                await promptSide(context) as int?,
+                await showDialog(
+                  context: context,
+                  builder: (context) => chooseSideDialog(context),
+                ) as int?,
               ),
             );
       },
@@ -73,32 +81,19 @@ class JoinGameScreen extends StatelessWidget {
 
   Widget chooseSideDialog(BuildContext context) {
     int sideIndex = 0;
-    return SimpleDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    return DialogBc(
+      body: SelectionGroupBc(
+        label: "Play as:",
+        padding: const EdgeInsets.all(8),
+        values: const ["White", "Black"],
+        onSelected: (s, index, isSelected) {
+          sideIndex = index;
+        },
       ),
-      children: [
-        SelectionGroupBc(
-          label: "Play as:",
-          padding: const EdgeInsets.all(8),
-          values: const ["White", "Black"],
-          onSelected: (s, index, isSelected) {
-            sideIndex = index;
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ButtonBc(
-            text: "Confirm",
-            onPressed: () => Navigator.of(context).pop(sideIndex),
-          ),
-        ),
-      ],
+      action: ButtonBc(
+        text: "Confirm",
+        onPressed: () => Navigator.of(context).pop(sideIndex),
+      ),
     );
   }
-
-  Future<dynamic> promptSide(BuildContext context) => showDialog(
-        context: context,
-        builder: (context) => chooseSideDialog(context),
-      );
 }

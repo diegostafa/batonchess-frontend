@@ -21,7 +21,6 @@ class UserHttp {
     final res = await httpClient.get(endpoints[Endpoint.createUser]!);
 
     if (res.statusCode != StatusCode.CREATED) return null;
-
     return User.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
   }
 
