@@ -62,12 +62,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "fading_edge_scrollview",
-      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/fading_edge_scrollview-3.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "ffi",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/ffi-2.0.1",
       "packageUri": "lib/",
@@ -158,12 +152,6 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "marquee",
-      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/marquee-2.2.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "material_color_utilities",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/material_color_utilities-0.2.0",
       "packageUri": "lib/",
@@ -226,6 +214,12 @@
     {
       "name": "provider",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/provider-6.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "salomon_bottom_bar",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/salomon_bottom_bar-3.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -350,7 +344,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-02-24T01:55:58.956214Z",
+  "generated": "2023-02-24T07:18:20.736364Z",
   "generator": "pub",
   "generatorVersion": "2.19.2"
 }

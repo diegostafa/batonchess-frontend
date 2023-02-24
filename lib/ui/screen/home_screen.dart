@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
         ),
       );
 
-  Drawer historyPanel() {
+  Widget historyPanel() {
     return Drawer(
       child: Column(
         children: [
@@ -53,7 +53,9 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-                itemCount: 0, itemBuilder: (context, index) => const EmptyBc(),),
+              itemCount: 0,
+              itemBuilder: (context, index) => const EmptyBc(),
+            ),
           ),
           ButtonBc(borderRadius: 0, text: "Clear history", onPressed: () {})
         ],
@@ -127,7 +129,7 @@ class HomeScreen extends StatelessWidget {
         },
       );
 
-  ButtonBc showFullId(UserLoadedState state, BuildContext context) {
+  Widget showFullId(UserLoadedState state, BuildContext context) {
     return ButtonBc(
       expand: false,
       text: "User ID: #${state.user.prettyId()}",
@@ -148,20 +150,20 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
-}
 
-Widget changeUsernameDialog(BuildContext context) {
-  String input = "";
-  return DialogBc(
-    body: TextField(
-      decoration: const InputDecoration(hintText: "Change username"),
-      onChanged: (changedText) {
-        input = changedText;
-      },
-    ),
-    action: ButtonBc(
-      text: "Save",
-      onPressed: () => Navigator.of(context).pop(input),
-    ),
-  );
+  Widget changeUsernameDialog(BuildContext context) {
+    String input = "";
+    return DialogBc(
+      body: TextField(
+        decoration: const InputDecoration(hintText: "Change username"),
+        onChanged: (changedText) {
+          input = changedText;
+        },
+      ),
+      action: ButtonBc(
+        text: "Save",
+        onPressed: () => Navigator.of(context).pop(input),
+      ),
+    );
+  }
 }

@@ -4,6 +4,6 @@ extension ChessMove on ShortMove {
   Map<String, dynamic> toJson() => {
         "from": from,
         "to": to,
-        "promotion": "q",
+        "promotion": promotion.name,
       };
 }

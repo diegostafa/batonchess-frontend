@@ -38,10 +38,6 @@ cupertino_icons
 2.12
 file:///home/diego/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.5/
 file:///home/diego/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.5/lib/
-fading_edge_scrollview
-2.12
-file:///home/diego/.pub-cache/hosted/pub.dev/fading_edge_scrollview-3.0.0/
-file:///home/diego/.pub-cache/hosted/pub.dev/fading_edge_scrollview-3.0.0/lib/
 ffi
 2.17
 file:///home/diego/.pub-cache/hosted/pub.dev/ffi-2.0.1/
@@ -94,10 +90,6 @@ lint
 2.18
 file:///home/diego/.pub-cache/hosted/pub.dev/lint-2.0.1/
 file:///home/diego/.pub-cache/hosted/pub.dev/lint-2.0.1/lib/
-marquee
-2.17
-file:///home/diego/.pub-cache/hosted/pub.dev/marquee-2.2.3/
-file:///home/diego/.pub-cache/hosted/pub.dev/marquee-2.2.3/lib/
 material_color_utilities
 2.13
 file:///home/diego/.pub-cache/hosted/pub.dev/material_color_utilities-0.2.0/
@@ -142,6 +134,10 @@ provider
 2.12
 file:///home/diego/.pub-cache/hosted/pub.dev/provider-6.0.5/
 file:///home/diego/.pub-cache/hosted/pub.dev/provider-6.0.5/lib/
+salomon_bottom_bar
+2.12
+file:///home/diego/.pub-cache/hosted/pub.dev/salomon_bottom_bar-3.3.1/
+file:///home/diego/.pub-cache/hosted/pub.dev/salomon_bottom_bar-3.3.1/lib/
 shared_preferences
 2.14
 file:///home/diego/.pub-cache/hosted/pub.dev/shared_preferences-2.0.18/

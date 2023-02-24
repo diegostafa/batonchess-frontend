@@ -3,13 +3,13 @@ import "package:batonchess/data/model/user/user_player.dart";
 class GameState {
   final String fen;
   final List<UserPlayer> players;
-  final String userIdTurn;
+  final UserPlayer userToPlay;
   final bool waitingForPlayers;
 
   GameState({
     required this.fen,
     required this.players,
-    required this.userIdTurn,
+    required this.userToPlay,
     required this.waitingForPlayers,
   });
 
@@ -25,7 +25,8 @@ class GameState {
               .toList();
           return userPlayers;
         }(),
-        userIdTurn: json["userIdTurn"] as String,
+        userToPlay:
+            UserPlayer.fromJson(json["userToPlay"] as Map<String, dynamic>),
         waitingForPlayers: json["waitingForPlayers"] as bool,
       );
 }

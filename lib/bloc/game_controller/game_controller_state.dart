@@ -16,7 +16,14 @@ class ReadyGameControllerState extends GameControllerState {
   final GameState gameState;
 
   ReadyGameControllerState({required this.gameId, required this.gameState});
+
+  GameControllerState copyWith({GameId? gameId, GameState? gameState}) =>
+      ReadyGameControllerState(
+          gameId: gameId ?? this.gameId,
+          gameState: gameState ?? this.gameState);
 }
+
+class WaitingForPlayersState extends GameControllerState {}
 
 class ValidatingMoveState extends GameControllerState {
   final ShortMove move;

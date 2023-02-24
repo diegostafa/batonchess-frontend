@@ -11,63 +11,77 @@ import "package:bottom_nav_layout/bottom_nav_layout.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
+import "package:salomon_bottom_bar/salomon_bottom_bar.dart";
 import "package:text_scroll/text_scroll.dart";
 
-class GameScreen extends StatelessWidget {
+class GameScreen extends StatefulWidget {
   final GameInfo gameInfo;
   final JoinGameRequest joinReq;
 
-  const GameScreen({
-    super.key,
-    required this.gameInfo,
-    required this.joinReq,
-  });
+  const GameScreen({super.key, required this.gameInfo, required this.joinReq});
+
+  @override
+  GameScreenState createState() => GameScreenState();
+}
+
+class GameScreenState extends State<GameScreen> {
+  var _currPageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          GameControllerBloc()..add(JoinGameEvent(joinReq: joinReq)),
+          GameControllerBloc()..add(JoinGameEvent(joinReq: widget.joinReq)),
       child: BlocBuilder<GameControllerBloc, GameControllerState>(
+        buildWhen: (previous, current) => current is ReadyGameControllerState,
         builder: (context, state) {
           if (state is ReadyGameControllerState) {
             return Scaffold(
-              appBar: AppBar(
-                title: Row(
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Expanded(
-                      child: TextScroll(
-                        "Player to move: ${state.gameState.players.first.name}",
-                        mode: TextScrollMode.bouncing,
-                        pauseBetween: const Duration(seconds: 2),
+                appBar: AppBar(
+                  iconTheme: IconThemeData(
+                      color: state.gameState.userToPlay.playingAsWhite
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).canvasColor),
+                  foregroundColor: state.gameState.userToPlay.playingAsWhite
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).canvasColor,
+                  backgroundColor: state.gameState.userToPlay.playingAsWhite
+                      ? Theme.of(context).canvasColor
+                      : Theme.of(context).primaryColor,
+                  title: Row(
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Expanded(
+                        child: TextScroll(
+                          "Player to move: ${state.gameState.userToPlay.name}",
+                          mode: TextScrollMode.bouncing,
+                          pauseBetween: const Duration(seconds: 2),
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                bottomNavigationBar: SalomonBottomBar(
+                  itemPadding: EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: MediaQuery.of(context).size.width / 8,
+                  ),
+                  currentIndex: _currPageIndex,
+                  onTap: (i) => setState(() => _currPageIndex = i),
+                  items: [
+                    SalomonBottomBarItem(
+                      icon: Icon(Icons.games),
+                      title: Text("Game"),
+                      selectedColor: Theme.of(context).primaryColor,
+                    ),
+                    SalomonBottomBarItem(
+                      icon: Icon(Icons.people),
+                      title: Text("Team"),
+                      selectedColor: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
-              ),
-              body: BottomNavLayout(
-                savePageState: true,
-                pages: [
-                  (_) => ContainerBc(child: adaptiveChessboard(state, context)),
-                  (_) => playersPage(state),
-                ],
-                bottomNavigationBar: (currentIndex, onTap) =>
-                    BottomNavigationBar(
-                  currentIndex: currentIndex,
-                  onTap: (index) => onTap(index),
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: "game",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.search),
-                      label: "teams",
-                    ),
-                  ],
-                ),
-              ),
-            );
+                body: gameScreenPages(state, context));
           } else {
             return Scaffold(
               appBar: AppBar(
@@ -79,6 +93,14 @@ class GameScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget gameScreenPages(ReadyGameControllerState state, BuildContext context) {
+    if (_currPageIndex == 0) {
+      return ContainerBc(child: adaptiveChessboard(state, context));
+    } else {
+      return playersPage(state);
+    }
   }
 
   Widget adaptiveChessboard(
@@ -108,7 +130,7 @@ class GameScreen extends StatelessWidget {
     return chessboard(state, context);
   }
 
-  LayoutBuilder chessboard(
+  Widget chessboard(
     ReadyGameControllerState state,
     BuildContext context,
   ) {
@@ -119,6 +141,7 @@ class GameScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return Chessboard(
+          orientation: widget.joinReq.playAsWhite ? Color.WHITE : Color.BLACK,
           lightSquareColor: Theme.of(context).splashColor,
           darkSquareColor: Theme.of(context).primaryColorLight,
           fen: state.gameState.fen,
@@ -129,7 +152,7 @@ class GameScreen extends StatelessWidget {
     );
   }
 
-  Row playersPage(ReadyGameControllerState state) {
+  Widget playersPage(ReadyGameControllerState state) {
     final whiteTeam = state.gameState.players
         .where((player) => player.playingAsWhite)
         .toList();
@@ -146,7 +169,7 @@ class GameScreen extends StatelessWidget {
     );
   }
 
-  Expanded teamList(
+  Widget teamList(
     List<UserPlayer> whiteTeam,
     ReadyGameControllerState state,
   ) {
@@ -154,7 +177,7 @@ class GameScreen extends StatelessWidget {
       child: ListView.builder(
         itemCount: whiteTeam.length,
         itemBuilder: (context, index) => PlayerCardBc(
-          isCurrentTurn: whiteTeam[index].id == state.gameState.userIdTurn,
+          isCurrentTurn: whiteTeam[index].id == state.gameState.userToPlay.id,
           player: whiteTeam[index],
           onTap: () {},
         ),

@@ -37,7 +37,7 @@ class NewGameScreen extends StatelessWidget {
         ),
       );
 
-  BlocBuilder<NewGameBloc, NewGameState> newGameScreenBody() {
+  Widget newGameScreenBody() {
     return BlocBuilder<NewGameBloc, NewGameState>(
       builder: (context, state) {
         if (state is SettingGamePropsState) {
@@ -59,7 +59,7 @@ class NewGameScreen extends StatelessWidget {
     );
   }
 
-  Expanded newGameProps(BuildContext context, SettingGamePropsState state) {
+  Widget newGameProps(BuildContext context, SettingGamePropsState state) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +71,7 @@ class NewGameScreen extends StatelessWidget {
     );
   }
 
-  ContainerBc chooseSide(BuildContext context) {
+  Widget chooseSide(BuildContext context) {
     return ContainerBc(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(left: 40, top: 20, right: 40, bottom: 20),
@@ -85,8 +85,10 @@ class NewGameScreen extends StatelessWidget {
     );
   }
 
-  ContainerBc chooseMaxPlayers(
-      SettingGamePropsState state, BuildContext context,) {
+  Widget chooseMaxPlayers(
+    SettingGamePropsState state,
+    BuildContext context,
+  ) {
     return ContainerBc(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(left: 40, top: 20, right: 40, bottom: 20),
@@ -116,7 +118,7 @@ class NewGameScreen extends StatelessWidget {
     );
   }
 
-  ButtonBc submitCreateGameButton(BuildContext context, NewGameState state) =>
+  Widget submitCreateGameButton(BuildContext context, NewGameState state) =>
       ButtonBc(
         padding: const EdgeInsets.all(8),
         text: "Create game",

@@ -1,6 +1,6 @@
 import "package:batonchess/data/dao/http/game_http.dart";
 import "package:batonchess/data/dao/tcp/game_tcp.dart";
-import "package:batonchess/data/model/chess/make_move_request.dart";
+import 'package:batonchess/data/model/chess/update_fen_request.dart';
 import "package:batonchess/data/model/game/create_game_request.dart";
 import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/data/model/game/game_state.dart";
@@ -22,8 +22,8 @@ class GameRepository {
     return gameHttp.getActiveGames();
   }
 
-  Future<GameState?> sendMove(MakeMoveRequest makeMoveReq) async {
-    return gameTcp.makeMove(makeMoveReq);
+  Future<GameState?> sendMove(UpdateFenRequest updateReq) async {
+    return gameTcp.updateFen(updateReq);
   }
 
   Future<GameState?> joinGame(JoinGameRequest joinReq) async {

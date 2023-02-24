@@ -39,7 +39,7 @@ class JoinGameScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<JoinGameBloc, JoinGameState> joinGameList() {
+  Widget joinGameList() {
     return BlocBuilder<JoinGameBloc, JoinGameState>(
       builder: (context, state) {
         if (state is SuccessLoadingGamesState) {
@@ -58,7 +58,7 @@ class JoinGameScreen extends StatelessWidget {
     );
   }
 
-  JoinGameCardBc joinGameCard(
+  Widget joinGameCard(
     SuccessLoadingGamesState state,
     int gameIndex,
     BuildContext context,
