@@ -20,7 +20,6 @@ class PlayerCardBc extends StatelessWidget {
       color:
           player.playingAsWhite ? Colors.white : Theme.of(context).primaryColor,
       child: InkWell(
-        onTap: null,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(

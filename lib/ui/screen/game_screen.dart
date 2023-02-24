@@ -7,7 +7,6 @@ import "package:batonchess/data/model/user/user_player.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
 import "package:batonchess/ui/widget/player_card_bc.dart";
-import "package:bottom_nav_layout/bottom_nav_layout.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
@@ -41,7 +40,7 @@ class GameScreenState extends State<GameScreen> {
                   iconTheme: IconThemeData(
                       color: state.gameState.userToPlay.playingAsWhite
                           ? Theme.of(context).primaryColor
-                          : Theme.of(context).canvasColor),
+                          : Theme.of(context).canvasColor,),
                   foregroundColor: state.gameState.userToPlay.playingAsWhite
                       ? Theme.of(context).primaryColor
                       : Theme.of(context).canvasColor,
@@ -70,18 +69,18 @@ class GameScreenState extends State<GameScreen> {
                   onTap: (i) => setState(() => _currPageIndex = i),
                   items: [
                     SalomonBottomBarItem(
-                      icon: Icon(Icons.games),
-                      title: Text("Game"),
+                      icon: const Icon(Icons.games),
+                      title: const Text("Game"),
                       selectedColor: Theme.of(context).primaryColor,
                     ),
                     SalomonBottomBarItem(
-                      icon: Icon(Icons.people),
-                      title: Text("Team"),
+                      icon: const Icon(Icons.people),
+                      title: const Text("Team"),
                       selectedColor: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
-                body: gameScreenPages(state, context));
+                body: gameScreenPages(state, context),);
           } else {
             return Scaffold(
               appBar: AppBar(

@@ -1,8 +1,5 @@
 import "dart:async";
-import "dart:convert";
 import "dart:io";
-
-import "package:flutter/material.dart";
 
 class TcpClient {
   static final TcpClient _singleton = TcpClient._internal();
@@ -11,32 +8,37 @@ class TcpClient {
 
   static const host = "localhost";
   static const port = 2024;
-  late Socket? socket;
+  Socket? socket;
 
-  bool isConnected() {
-    return socket != null;
-  }
+  bool isConnected() => socket != null;
 
   Future<void> connect() async {
-    try {
-      socket = await Socket.connect(host, port);
-    } catch (_) {
-      socket = null;
+    if (!isConnected()) {
+      try {
+        socket = await Socket.connect(host, port);
+        print("CONNECTED");
+      } catch (_) {
+        socket = null;
+      }
     }
   }
 
-  Future<String?> send(String message) async {
-    if (socket == null) return null;
+  Future<void> send(String msg) async {
+    if (!isConnected()) return;
+    print("SENDING");
+    socket!.write("$msg\n");
+  }
 
-    socket!.write("$message\n");
+  Stream<String?> listener() {
+    if (!isConnected()) return const Stream.empty();
+    print("TAKING LISTENER");
 
-    final completer = Completer<String>();
-    socket!.listen((data) {
-      completer.complete(utf8.decode(data).trim());
+    final controller = StreamController<String?>();
+    socket!.asBroadcastStream().listen((data) {
+      final response = String.fromCharCodes(data);
+      controller.add(response);
     });
 
-    final response = await completer.future;
-    socket?.destroy();
-    return response;
+    return controller.stream;
   }
 }

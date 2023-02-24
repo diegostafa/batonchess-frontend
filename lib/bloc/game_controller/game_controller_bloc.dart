@@ -1,4 +1,6 @@
-import 'package:batonchess/data/model/chess/update_fen_request.dart';
+import "dart:async";
+
+import "package:batonchess/data/model/chess/update_fen_request.dart";
 import "package:batonchess/data/model/game/game_id.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
@@ -17,11 +19,14 @@ class GameControllerBloc
   final userRepo = UserRepository();
   final gameRepo = GameRepository();
   final chessEngine = ChessEngineAdapter();
+  final gameStateController = StreamController<GameState>.broadcast();
+  Stream<GameState> get gameState => gameStateController.stream;
 
   GameControllerBloc() : super(InitialGameControllerState()) {
     on<JoinGameEvent>(joinGameHandler);
     on<LeaveGameEvent>(leaveGameHandler);
     on<SubmitMoveEvent>(submitMoveHandler);
+    on<NewGameStateEvent>(newGameStateHandler);
   }
 
   Future<void> joinGameHandler(
@@ -30,24 +35,20 @@ class GameControllerBloc
   ) async {
     emit(JoiningGameControllerState());
 
-    final gameState = await gameRepo.joinGame(e.joinReq);
-    if (gameState == null) {
-      emit(FailureJoiningGameControllerState());
-      return;
-    }
+    await gameRepo.setupGameTcp();
+    final responses = gameRepo.joinGame(e.joinReq);
 
-    emit(
-      ReadyGameControllerState(
-        gameId: GameId(id: e.joinReq.gameId),
-        gameState: gameState,
-      ),
-    );
+    responses.listen((gameState) {
+      if (gameState != null) {
+        add(
+          NewGameStateEvent(
+            gameId: GameId(id: e.joinReq.gameId),
+            gameState: gameState,
+          ),
+        );
+      }
+    });
   }
-
-  Future<void> leaveGameHandler(
-    LeaveGameEvent e,
-    Emitter<GameControllerState> emit,
-  ) async {}
 
   Future<void> submitMoveHandler(
     SubmitMoveEvent e,
@@ -65,20 +66,19 @@ class GameControllerBloc
         return;
       }
 
-      final newGameState = await gameRepo.sendMove(
+      gameRepo.sendMove(
         UpdateFenRequest(gameId: s.gameId.id, userId: u.id, newFen: newFen),
       );
-
-      if (newGameState == null) {
-        print("MOVE DISCARDED");
-        return;
-      }
-
-      if (newGameState.waitingForPlayers) {
-        emit(WaitingForPlayersState());
-      }
-
-      emit(ReadyGameControllerState(gameId: s.gameId, gameState: newGameState));
     }
+  }
+
+  Future<void> leaveGameHandler(
+    LeaveGameEvent e,
+    Emitter<GameControllerState> emit,
+  ) async {}
+
+  Future<void> newGameStateHandler(
+      NewGameStateEvent e, Emitter<GameControllerState> emit,) async {
+    emit(ReadyGameControllerState(gameId: e.gameId, gameState: e.gameState));
   }
 }

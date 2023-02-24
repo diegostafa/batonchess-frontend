@@ -20,7 +20,7 @@ class ReadyGameControllerState extends GameControllerState {
   GameControllerState copyWith({GameId? gameId, GameState? gameState}) =>
       ReadyGameControllerState(
           gameId: gameId ?? this.gameId,
-          gameState: gameState ?? this.gameState);
+          gameState: gameState ?? this.gameState,);
 }
 
 class WaitingForPlayersState extends GameControllerState {}
