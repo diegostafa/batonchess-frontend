@@ -32,71 +32,84 @@ class NewGameScreen extends StatelessWidget {
                 );
               }
             },
-            child: BlocBuilder<NewGameBloc, NewGameState>(
-              builder: (context, state) {
-                if (state is SettingGamePropsState) {
-                  return stateIsGameProps(context, state);
-                } else if (state is CreatingGameState) {
-                  return const Text("LOADING: CREATING GAME...");
-                } else if (state is SuccessCreatingGameState) {
-                  return const Text("GAME CREATED, JOINING...");
-                } else {
-                  return const Text("FAILED TO CREATE THE GAME, GO BACK");
-                }
-              },
-            ),
+            child: newGameScreenBody(),
           ),
         ),
       );
 
-  Column stateIsGameProps(BuildContext context, SettingGamePropsState state) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(child: playAsSelection(context)),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(child: maxPlayersSelection(state, context)),
-          ],
-        ),
-        const Spacer(),
-        submitCreateGameButton(context, state)
-      ],
+  BlocBuilder<NewGameBloc, NewGameState> newGameScreenBody() {
+    return BlocBuilder<NewGameBloc, NewGameState>(
+      builder: (context, state) {
+        if (state is SettingGamePropsState) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              newGameProps(context, state),
+              submitCreateGameButton(context, state)
+            ],
+          );
+        } else if (state is CreatingGameState) {
+          return const Text("LOADING: CREATING GAME...");
+        } else if (state is SuccessCreatingGameState) {
+          return const Text("GAME CREATED, JOINING...");
+        } else {
+          return const Text("FAILED TO CREATE THE GAME, GO BACK");
+        }
+      },
     );
   }
 
-  ContainerBc playAsSelection(BuildContext context) => ContainerBc(
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.only(left: 40, top: 10, right: 40, bottom: 10),
-        child: SelectionGroupBc(
-          label: "Play as:",
-          padding: const EdgeInsets.all(8),
-          values: const ["White", "Black"],
-          onSelected: (s, index, isSelected) =>
-              context.read<NewGameBloc>().add(ChangeSideEvent(index)),
-        ),
-      );
+  Expanded newGameProps(BuildContext context, SettingGamePropsState state) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          chooseSide(context),
+          chooseMaxPlayers(state, context),
+        ],
+      ),
+    );
+  }
 
-  ContainerBc maxPlayersSelection(NewGameState state, BuildContext context) {
+  ContainerBc chooseSide(BuildContext context) {
     return ContainerBc(
       padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(left: 40, top: 10, right: 40, bottom: 10),
-      child: Column(
+      margin: const EdgeInsets.only(left: 40, top: 20, right: 40, bottom: 20),
+      child: SelectionGroupBc(
+        label: "Play as",
+        padding: const EdgeInsets.all(8),
+        values: const ["White", "Black"],
+        onSelected: (s, index, isSelected) =>
+            context.read<NewGameBloc>().add(ChangeSideEvent(index)),
+      ),
+    );
+  }
+
+  ContainerBc chooseMaxPlayers(
+      SettingGamePropsState state, BuildContext context,) {
+    return ContainerBc(
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(left: 40, top: 20, right: 40, bottom: 20),
+      child: Row(
         children: [
-          Text("Groups size: ${(state as SettingGamePropsState).maxPlayers}"),
-          SliderBc(
-            initialValue: state.maxPlayers,
-            minValue: 1,
-            maxValue: 10,
-            isDiscrete: true,
-            onDragging: (handlerIndex, lowerValue, upperValue) {
-              context.read<NewGameBloc>().add(
-                    ChangeMaxPlayersEvent((lowerValue as double).toInt()),
-                  );
-            },
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Groups size: ${state.maxPlayers}"),
+                SliderBc(
+                  initialValue: state.maxPlayers,
+                  minValue: 1,
+                  maxValue: 10,
+                  isDiscrete: true,
+                  onDragging: (handlerIndex, lowerValue, upperValue) {
+                    context.read<NewGameBloc>().add(
+                          ChangeMaxPlayersEvent((lowerValue as double).toInt()),
+                        );
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),

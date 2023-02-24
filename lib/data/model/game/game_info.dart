@@ -1,8 +1,10 @@
+import "package:intl/intl.dart";
+
 class GameInfo {
   final int gameId;
   final String creatorName;
   final String gameStatus;
-  final String createdAt;
+  final int createdAt;
   final int maxPlayers;
   final int currentPlayers;
 
@@ -19,8 +21,13 @@ class GameInfo {
         gameId: json["gameId"] as int,
         creatorName: json["creatorName"] as String,
         gameStatus: json["gameStatus"] as String,
-        createdAt: json["createdAt"] as String,
+        createdAt: json["createdAt"] as int,
         maxPlayers: json["maxPlayers"] as int,
         currentPlayers: json["currentPlayers"] as int,
       );
+
+  String prettyCreationDate() {
+    final date = DateTime.fromMillisecondsSinceEpoch(createdAt * 1000);
+    return DateFormat("EEEE d MMM HH:mm:ss").format(date);
+  }
 }

@@ -1,11 +1,9 @@
 import "package:batonchess/bloc/home/home_bloc.dart";
-import "package:batonchess/data/model/game/game_info.dart";
 import "package:batonchess/ui/screen/join_game_screen.dart";
 import "package:batonchess/ui/screen/new_game_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
 import "package:batonchess/ui/widget/dialog_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
-import "package:batonchess/ui/widget/join_game_card_bc.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -55,19 +53,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) => JoinGameCardBc(
-                onTap: () {},
-                gameInfo: GameInfo(
-                  gameId: 1,
-                  creatorName: "anon",
-                  gameStatus: "NORMAL",
-                  createdAt: "yesterday",
-                  maxPlayers: 10,
-                  currentPlayers: 5,
-                ),
-              ),
-            ),
+                itemCount: 0, itemBuilder: (context, index) => const EmptyBc(),),
           ),
           ButtonBc(borderRadius: 0, text: "Clear history", onPressed: () {})
         ],
@@ -141,21 +127,23 @@ class HomeScreen extends StatelessWidget {
         },
       );
 
-  TextButton showFullId(UserLoadedState state, BuildContext context) {
-    return TextButton(
-      child: Text("User ID: #${state.user.prettyId()}"),
+  ButtonBc showFullId(UserLoadedState state, BuildContext context) {
+    return ButtonBc(
+      expand: false,
+      text: "User ID: #${state.user.prettyId()}",
       onPressed: () {
         showDialog(
           context: context,
           builder: (context) => DialogBc(
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text("Full ID:"),
-                  Text("#${state.user.id}"),
-                ],
-              ),
-              action: null,),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text("Full ID:"),
+                Text("#${state.user.id}"),
+              ],
+            ),
+            action: null,
+          ),
         );
       },
     );

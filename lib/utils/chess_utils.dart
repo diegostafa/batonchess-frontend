@@ -1,6 +1,6 @@
 import "package:batonchess/data/model/chess/chess_move.dart";
 import "package:chess/chess.dart";
-import "package:flutter_stateless_chessboard/types.dart";
+import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
 
 class ChessEngineAdapter {
   Chess chessControllerFrom(String fen) => Chess.fromFEN(fen);

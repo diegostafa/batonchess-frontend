@@ -22,31 +22,32 @@ class SelectionGroupBc extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: padding,
-        child: _buildSelectionGroup(),
+        child: _buildSelectionGroup(context),
       );
 
-  Widget _buildSelectionGroup() {
+  Widget _buildSelectionGroup(BuildContext context) {
     if (label == null) {
-      return _groupButton();
+      return _groupButton(context);
     }
     if (isRow) {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(label!), _groupButton()],
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [Text(label!), _groupButton(context)],
       );
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(label!), _groupButton()],
+        children: [Text(label!), _groupButton(context)],
       );
     }
   }
 
-  Widget _groupButton() => GroupButton(
-        options: const GroupButtonOptions(
-          elevation: 6,
+  Widget _groupButton(BuildContext context) => GroupButton(
+        options: GroupButtonOptions(
+          unselectedBorderColor: Theme.of(context).highlightColor,
+          elevation: 2,
           spacing: 8,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         onSelected: onSelected,
         isRadio: !multiSelection,

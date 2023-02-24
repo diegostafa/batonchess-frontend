@@ -4,12 +4,18 @@ class ContainerBc extends StatelessWidget {
   final EdgeInsets margin;
   final EdgeInsets padding;
   final Widget child;
+  final Color color;
+  final double borderRadius;
+  final double borderSize;
 
   const ContainerBc({
     super.key,
     this.margin = EdgeInsets.zero,
     this.padding = EdgeInsets.zero,
+    this.color = Colors.transparent,
     required this.child,
+    this.borderRadius = 6,
+    this.borderSize = 0,
   });
 
   @override
@@ -18,14 +24,15 @@ class ContainerBc extends StatelessWidget {
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-        color: Colors.white,
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            offset: Offset(0.0, 1.0), //(x,y)
-            blurRadius: 2.0,
-          ),
+              color: Theme.of(context).primaryColor.withAlpha(50),
+              blurRadius: 20,
+              spreadRadius: 4,
+              offset: const Offset(0.1, 0.1),)
         ],
+        borderRadius: BorderRadius.circular(0),
+        color: Theme.of(context).canvasColor,
       ),
       child: Center(child: child),
     );

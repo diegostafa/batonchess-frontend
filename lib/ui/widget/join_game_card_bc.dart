@@ -19,7 +19,7 @@ class JoinGameCardBc extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            leading: const Icon(Icons.album),
+            leading: const Icon(Icons.games),
             title: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -28,18 +28,17 @@ class JoinGameCardBc extends StatelessWidget {
                     Text("Creator: ${gameInfo.creatorName}"),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text("Started: ${gameInfo.createdAt}"),
-                  ],
-                ),
               ],
             ),
             subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text("Started: ${gameInfo.prettyCreationDate()}"),
                 Text(
                   "${gameInfo.currentPlayers}/${gameInfo.maxPlayers * 2} currently playing",
+                  style: gameInfo.currentPlayers == 0
+                      ? const TextStyle(color: Colors.red)
+                      : const TextStyle(color: Colors.green),
                 ),
               ],
             ),
