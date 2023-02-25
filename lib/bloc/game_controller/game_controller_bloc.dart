@@ -22,9 +22,14 @@ class GameControllerBloc
   final gameStateController = StreamController<GameState>.broadcast();
   Stream<GameState> get gameState => gameStateController.stream;
 
+  @override
+  Future<void> close() async {
+    print("LEAVING");
+    await gameRepo.leaveGame();
+  }
+
   GameControllerBloc() : super(InitialGameControllerState()) {
     on<JoinGameEvent>(joinGameHandler);
-    on<LeaveGameEvent>(leaveGameHandler);
     on<SubmitMoveEvent>(submitMoveHandler);
     on<NewGameStateEvent>(newGameStateHandler);
   }
@@ -72,13 +77,10 @@ class GameControllerBloc
     }
   }
 
-  Future<void> leaveGameHandler(
-    LeaveGameEvent e,
-    Emitter<GameControllerState> emit,
-  ) async {}
-
   Future<void> newGameStateHandler(
-      NewGameStateEvent e, Emitter<GameControllerState> emit,) async {
+    NewGameStateEvent e,
+    Emitter<GameControllerState> emit,
+  ) async {
     emit(ReadyGameControllerState(gameId: e.gameId, gameState: e.gameState));
   }
 }

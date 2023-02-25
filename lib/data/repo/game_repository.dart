@@ -33,4 +33,8 @@ class GameRepository {
   Future<void> setupGameTcp() async {
     await gameTcp.connect();
   }
+
+  Future<void> leaveGame() async {
+    await gameTcp.leaveGame();
+  }
 }

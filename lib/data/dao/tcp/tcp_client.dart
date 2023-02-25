@@ -9,6 +9,7 @@ class TcpClient {
   static const host = "localhost";
   static const port = 2024;
   Socket? socket;
+  StreamController<String?>? controller;
 
   bool isConnected() => socket != null;
 
@@ -16,7 +17,6 @@ class TcpClient {
     if (!isConnected()) {
       try {
         socket = await Socket.connect(host, port);
-        print("CONNECTED");
       } catch (_) {
         socket = null;
       }
@@ -25,20 +25,25 @@ class TcpClient {
 
   Future<void> send(String msg) async {
     if (!isConnected()) return;
-    print("SENDING");
     socket!.write("$msg\n");
   }
 
   Stream<String?> listener() {
     if (!isConnected()) return const Stream.empty();
-    print("TAKING LISTENER");
 
-    final controller = StreamController<String?>();
-    socket!.asBroadcastStream().listen((data) {
+    controller = StreamController<String?>();
+    socket!.listen((data) {
       final response = String.fromCharCodes(data);
-      controller.add(response);
+      controller?.add(response);
     });
 
-    return controller.stream;
+    return controller!.stream;
+  }
+
+  void disconnect() {
+    controller!.close();
+    controller = null;
+    socket?.close();
+    socket = null;
   }
 }

@@ -28,8 +28,6 @@ class UserMemory {
       return null;
     }
 
-    // ignore: join_return_with_assignment
-    user = User(id: id, name: name);
-    return user;
+    return User(id: id, name: name);
   }
 }

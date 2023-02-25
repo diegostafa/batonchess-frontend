@@ -9,8 +9,6 @@ class JoinGameEvent extends GameControllerEvent {
   JoinGameEvent({required this.joinReq});
 }
 
-class LeaveGameEvent extends GameControllerEvent {}
-
 class NewGameStateEvent extends GameControllerEvent {
   final GameId gameId;
   final GameState gameState;

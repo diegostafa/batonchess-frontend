@@ -6,7 +6,7 @@ import "package:batonchess/data/model/chess/update_fen_request.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 
-enum TcpGameAction { joinGame, leaveGame, updateFen }
+enum TcpGameAction { joinGame, updateFen }
 
 const refusedAction = "REFUSED";
 
@@ -45,7 +45,6 @@ class GameTcp {
   }
 
   Future<void> updateFen(UpdateFenRequest makeMoveReq) async {
-    tcpClient.connect();
     if (!tcpClient.isConnected()) return;
 
     tcpClient.send(
@@ -56,5 +55,11 @@ class GameTcp {
         ),
       ),
     );
+  }
+
+  Future<void> leaveGame() async {
+    if (!tcpClient.isConnected()) return;
+
+    tcpClient.disconnect();
   }
 }
