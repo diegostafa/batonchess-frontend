@@ -20,12 +20,15 @@ class GameHttp {
       jsonEncode(createGameReq),
     );
 
+    if (res == null) return null;
     if (res.statusCode != StatusCode.CREATED) return null;
     return GameInfo.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
   }
 
   Future<List<GameInfo>?> getActiveGames() async {
     final res = await httpClient.get(endpoints[Endpoint.getActiveGames]!);
+
+    if (res == null) return null;
     if (res.statusCode != StatusCode.OK) return null;
 
     final gameInfosJson = jsonDecode(res.body) as List<dynamic>;

@@ -1,4 +1,5 @@
 import "package:batonchess/data/model/user/user_player.dart";
+import "package:batonchess/utils/prettify_utils.dart";
 import "package:flutter/material.dart";
 
 class PlayerCardBc extends StatelessWidget {
@@ -37,8 +38,9 @@ class PlayerCardBc extends StatelessWidget {
               ],
             ),
             subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text("#${prettyId(player.id)}"),
                 if (player.playingAsWhite)
                   const Text("White team")
                 else

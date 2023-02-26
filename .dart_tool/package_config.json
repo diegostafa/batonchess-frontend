@@ -98,6 +98,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_spinkit",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/flutter_spinkit-5.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_stateless_chessboard",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/flutter_stateless_chessboard-0.0.7",
       "packageUri": "lib/",
@@ -344,7 +350,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-02-25T02:04:30.517808Z",
+  "generated": "2023-02-26T01:39:55.151261Z",
   "generator": "pub",
   "generatorVersion": "2.19.2"
 }

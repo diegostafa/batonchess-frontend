@@ -6,6 +6,7 @@ import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/model/user/user_player.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
+import "package:batonchess/ui/widget/loading_bc.dart";
 import "package:batonchess/ui/widget/player_card_bc.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -36,62 +37,87 @@ class GameScreenState extends State<GameScreen> {
         builder: (context, state) {
           if (state is ReadyGameControllerState) {
             return Scaffold(
-              appBar: AppBar(
-                iconTheme: IconThemeData(
-                  color: state.gameState.userToPlay.playingAsWhite
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).canvasColor,
-                ),
-                foregroundColor: state.gameState.userToPlay.playingAsWhite
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).canvasColor,
-                backgroundColor: state.gameState.userToPlay.playingAsWhite
-                    ? Theme.of(context).canvasColor
-                    : Theme.of(context).primaryColor,
-                title: Row(
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Expanded(
-                      child: TextScroll(
-                        "Player to move: ${state.gameState.userToPlay.name}",
-                        mode: TextScrollMode.bouncing,
-                        pauseBetween: const Duration(seconds: 2),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              bottomNavigationBar: SalomonBottomBar(
-                itemPadding: EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: MediaQuery.of(context).size.width / 8,
-                ),
-                currentIndex: _currPageIndex,
-                onTap: (i) => setState(() => _currPageIndex = i),
-                items: [
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.games),
-                    title: const Text("Game"),
-                    selectedColor: Theme.of(context).primaryColor,
-                  ),
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.people),
-                    title: const Text("Team"),
-                    selectedColor: Theme.of(context).primaryColor,
-                  ),
-                ],
-              ),
+              appBar: appBar(state, context),
+              bottomNavigationBar: bottomNavBar(context),
               body: gameScreenPages(state, context),
             );
-          } else {
+          }
+
+          if (state is JoiningGameControllerState) {
             return Scaffold(
               appBar: AppBar(
                 title: const Text("Joining the game..."),
               ),
-              body: const EmptyBc(),
+              body: const LoadingBc(),
             );
           }
+
+          if (state is FailureJoiningGameControllerState) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text("Error"),
+              ),
+              body: const Center(
+                child: Text("Failed to join the game, go back"),
+              ),
+            );
+          }
+
+          return const EmptyBc();
         },
+      ),
+    );
+  }
+
+  Widget bottomNavBar(BuildContext context) {
+    return SalomonBottomBar(
+      itemPadding: EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: MediaQuery.of(context).size.width / 8,
+      ),
+      currentIndex: _currPageIndex,
+      onTap: (i) => setState(() => _currPageIndex = i),
+      items: [
+        SalomonBottomBarItem(
+          icon: const Icon(Icons.games),
+          title: const Text("Game"),
+          selectedColor: Theme.of(context).primaryColor,
+        ),
+        SalomonBottomBarItem(
+          icon: const Icon(Icons.people),
+          title: const Text("Team"),
+          selectedColor: Theme.of(context).primaryColor,
+        ),
+      ],
+    );
+  }
+
+  AppBar appBar(ReadyGameControllerState state, BuildContext context) {
+    return AppBar(
+      iconTheme: IconThemeData(
+        color: state.gameState.userToPlay.playingAsWhite
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).canvasColor,
+      ),
+      foregroundColor: state.gameState.userToPlay.playingAsWhite
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).canvasColor,
+      backgroundColor: state.gameState.userToPlay.playingAsWhite
+          ? Theme.of(context).canvasColor
+          : Theme.of(context).primaryColor,
+      title: Row(
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Expanded(
+            child: TextScroll(
+              state.gameState.waitingForPlayers
+                  ? "Waiting for players..."
+                  : "Player to move: ${state.gameState.userToPlay.name}",
+              mode: TextScrollMode.bouncing,
+              pauseBetween: const Duration(seconds: 2),
+            ),
+          ),
+        ],
       ),
     );
   }

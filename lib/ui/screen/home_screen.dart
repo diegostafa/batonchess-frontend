@@ -4,6 +4,8 @@ import "package:batonchess/ui/screen/new_game_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
 import "package:batonchess/ui/widget/dialog_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
+import "package:batonchess/ui/widget/loading_bc.dart";
+import "package:batonchess/utils/prettify_utils.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -24,22 +26,34 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => HomeBloc()..add(FetchUserEvent()),
-        child: Scaffold(
-          drawer: historyPanel(),
-          appBar: AppBar(
-            title: const Text("Baton Chess"),
-          ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              newGameButton(context),
-              joinGameButton(context),
-              settingsButton(context),
-              const Spacer(),
-              userInfo(),
-            ],
-          ),
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is UserLoadedState) {
+              return Scaffold(
+                drawer: historyPanel(),
+                appBar: AppBar(
+                  title: const Text("Baton Chess"),
+                ),
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    newGameButton(context),
+                    joinGameButton(context),
+                    settingsButton(context),
+                    const Spacer(),
+                    userInfo(state, context),
+                  ],
+                ),
+              );
+            }
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text("Baton Chess"),
+              ),
+              body: const Center(child: LoadingBc(msg: "Signing in...")),
+            );
+          },
         ),
       );
 
@@ -97,42 +111,34 @@ class HomeScreen extends StatelessWidget {
         },
       );
 
-  Widget userInfo() => BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is UserLoadedState) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: showFullId(state, context),
+  Widget userInfo(UserLoadedState state, BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: showFullId(state, context),
+          ),
+          ButtonBc(
+            borderRadius: 4,
+            padding: const EdgeInsets.all(8),
+            expand: false,
+            onPressed: () async => context.read<HomeBloc>().add(
+                  UpdateUsernameEvent(
+                    await showDialog(
+                      context: context,
+                      builder: (context) => changeUsernameDialog(context),
+                    ) as String?,
+                  ),
                 ),
-                ButtonBc(
-                  borderRadius: 4,
-                  padding: const EdgeInsets.all(8),
-                  expand: false,
-                  onPressed: () async => context.read<HomeBloc>().add(
-                        UpdateUsernameEvent(
-                          await showDialog(
-                            context: context,
-                            builder: (context) => changeUsernameDialog(context),
-                          ) as String?,
-                        ),
-                      ),
-                  text: "Username: ${state.user.name}",
-                ),
-              ],
-            );
-          } else {
-            return const EmptyBc();
-          }
-        },
+            text: "Username: ${state.user.name}",
+          ),
+        ],
       );
 
   Widget showFullId(UserLoadedState state, BuildContext context) {
     return ButtonBc(
       expand: false,
-      text: "User ID: #${state.user.prettyId()}",
+      text: "User ID: #${prettyId(state.user.id)}",
       onPressed: () {
         showDialog(
           context: context,

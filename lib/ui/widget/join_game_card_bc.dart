@@ -1,4 +1,5 @@
 import "package:batonchess/data/model/game/game_info.dart";
+import "package:batonchess/utils/prettify_utils.dart";
 import "package:flutter/material.dart";
 
 class JoinGameCardBc extends StatelessWidget {
@@ -24,8 +25,10 @@ class JoinGameCardBc extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Creator: ${gameInfo.creatorName}"),
+                    Text("#${prettyId(gameInfo.creatorId)}"),
                   ],
                 ),
               ],
@@ -33,7 +36,7 @@ class JoinGameCardBc extends StatelessWidget {
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Started: ${gameInfo.prettyCreationDate()}"),
+                Text("Started on ${prettyTime(gameInfo.createdAt)}"),
                 Text(
                   "${gameInfo.currentPlayers}/${gameInfo.maxPlayers * 2} currently playing",
                   style: gameInfo.currentPlayers == 0

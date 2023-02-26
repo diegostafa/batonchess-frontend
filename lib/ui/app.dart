@@ -15,7 +15,7 @@ class App extends StatelessWidget {
       );
 
   ThemeData lightTheme() =>
-      FlexThemeData.light(scheme: FlexScheme.bigStone, useMaterial3: true);
+      FlexThemeData.light(scheme: FlexScheme.rosewood, useMaterial3: true);
 
   ThemeData darkTheme() =>
       FlexThemeData.dark(scheme: FlexScheme.deepBlue, useMaterial3: true);

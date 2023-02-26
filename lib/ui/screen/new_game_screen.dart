@@ -2,6 +2,7 @@ import "package:batonchess/bloc/new_game/new_game_bloc.dart";
 import "package:batonchess/ui/screen/game_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
+import "package:batonchess/ui/widget/loading_bc.dart";
 import "package:batonchess/ui/widget/selection_group_bc.dart";
 import "package:batonchess/ui/widget/slider_bc.dart";
 import "package:flutter/material.dart";
@@ -48,13 +49,18 @@ class NewGameScreen extends StatelessWidget {
               submitCreateGameButton(context, state)
             ],
           );
-        } else if (state is CreatingGameState) {
-          return const Text("LOADING: CREATING GAME...");
-        } else if (state is SuccessCreatingGameState) {
-          return const Text("GAME CREATED, JOINING...");
-        } else {
-          return const Text("FAILED TO CREATE THE GAME, GO BACK");
         }
+
+        if (state is CreatingGameState) {
+          return const Center(child: LoadingBc(msg: "Creating the game"));
+        }
+
+        if (state is SuccessCreatingGameState) {
+          return const Center(
+              child: LoadingBc(msg: "Success, creating the game, now joining"),);
+        }
+
+        return const Center(child: Text("FAILED CREATING THE GAME, GO BACK"));
       },
     );
   }

@@ -24,8 +24,8 @@ class GameControllerBloc
 
   @override
   Future<void> close() async {
-    print("LEAVING");
     await gameRepo.leaveGame();
+    super.close();
   }
 
   GameControllerBloc() : super(InitialGameControllerState()) {
@@ -39,7 +39,6 @@ class GameControllerBloc
     Emitter<GameControllerState> emit,
   ) async {
     emit(JoiningGameControllerState());
-
     await gameRepo.setupGameTcp();
     final responses = gameRepo.joinGame(e.joinReq);
 
@@ -64,7 +63,7 @@ class GameControllerBloc
       final u = await userRepo.getUser();
 
       if (u == null) return;
-      //if (s.gameState.userToPlay.id != u.id) return;
+      if (s.gameState.userToPlay.id != u.id) return;
 
       final newFen = chessEngine.execMove(s.gameState.fen, e.move);
       if (newFen == null) {

@@ -49,11 +49,13 @@ class JoinGameScreen extends StatelessWidget {
               return joinGameCard(state, gameIndex, context);
             },
           );
-        } else if (state is FailureLoadingGamesState) {
-          return const Text("FAILED TO LOAD ACTIVE GAMES");
-        } else {
-          return const Text("INTERNAL ERROR");
         }
+
+        if (state is FailureLoadingGamesState) {
+          return const Text("FAILED TO LOAD ACTIVE GAMES");
+        }
+
+        return const Text("INTERNAL ERROR");
       },
     );
   }

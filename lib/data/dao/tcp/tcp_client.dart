@@ -41,7 +41,7 @@ class TcpClient {
   }
 
   void disconnect() {
-    controller!.close();
+    controller?.close();
     controller = null;
     socket?.close();
     socket = null;
