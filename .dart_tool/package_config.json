@@ -8,6 +8,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/archive-3.3.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "args",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/args-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "async",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/async-2.10.0",
       "packageUri": "lib/",
@@ -32,6 +44,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "checked_yaml",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/checked_yaml-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "chess",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/chess-0.7.0",
       "packageUri": "lib/",
@@ -40,6 +58,12 @@
     {
       "name": "chess_vectors_flutter",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/chess_vectors_flutter-1.0.18",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/cli_util-0.3.5",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -54,6 +78,18 @@
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/collection-1.17.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "convert",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/convert-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "crypto",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/crypto-3.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "cupertino_icons",
@@ -104,6 +140,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.12.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "flutter_spinkit",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/flutter_spinkit-5.1.0",
       "packageUri": "lib/",
@@ -146,6 +188,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "image",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/image-4.0.15",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/intl-0.18.0",
       "packageUri": "lib/",
@@ -156,6 +204,12 @@
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/js-0.6.5",
       "packageUri": "lib/",
       "languageVersion": "2.16"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/json_annotation-4.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "lint",
@@ -206,6 +260,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "petitparser",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/petitparser-5.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/platform-3.1.0",
       "packageUri": "lib/",
@@ -216,6 +276,12 @@
       "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "pointycastle",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/pointycastle-3.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "process",
@@ -344,13 +410,25 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/xml-6.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "yaml",
+      "rootUri": "file:///home/diego/.pub-cache/hosted/pub.dev/yaml-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "batonchess",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-02-27T15:22:38.225722Z",
+  "generated": "2023-02-27T19:22:49.168732Z",
   "generator": "pub",
   "generatorVersion": "2.19.2"
 }
