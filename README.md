@@ -4,15 +4,15 @@ Batonchess is a multiplatfom application for playing chess between groups of peo
 
 ## Screenshots
 
-![demo](./screenshots/01.jpg)
-![demo](./screenshots/02.jpg)
-![demo](./screenshots/03.jpg)
-![demo](./screenshots/04.jpg)
-![demo](./screenshots/05.jpg)
-![demo](./screenshots/06.jpg)
-![demo](./screenshots/07.jpg)
-![demo](./screenshots/08.jpg)
-![demo](./screenshots/09.jpg)
-![demo](./screenshots/10.jpg)
-![demo](./screenshots/11.jpg)
-![demo](./screenshots/12.jpg)
+<img src="./screenshots/01.jpg" width="100" height="300">
+<img src="./screenshots/02.jpg" width="100" height="300">
+<img src="./screenshots/03.jpg" width="100" height="300">
+<img src="./screenshots/04.jpg" width="100" height="300">
+<img src="./screenshots/05.jpg" width="100" height="300">
+<img src="./screenshots/06.jpg" width="100" height="300">
+<img src="./screenshots/07.jpg" width="100" height="300">
+<img src="./screenshots/08.jpg" width="100" height="300">
+<img src="./screenshots/09.jpg" width="100" height="300">
+<img src="./screenshots/10.jpg" width="100" height="300">
+<img src="./screenshots/11.jpg" width="100" height="300">
+<img src="./screenshots/12.jpg" width="100" height="300">
