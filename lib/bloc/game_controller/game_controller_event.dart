@@ -16,12 +16,10 @@ class NewGameStateEvent extends GameControllerEvent {
   NewGameStateEvent({required this.gameId, required this.gameState});
 }
 
-class FailedToJoinGameEvent extends GameControllerEvent {}
-
-class FailedToUpdateFenEvent extends GameControllerEvent {}
-
 class SubmitMoveEvent extends GameControllerEvent {
   final ShortMove move;
 
   SubmitMoveEvent({required this.move});
 }
+
+class CheckmateEvent extends GameControllerEvent {}

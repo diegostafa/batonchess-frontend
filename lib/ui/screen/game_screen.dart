@@ -33,9 +33,8 @@ class GameScreenState extends State<GameScreen> {
       create: (context) =>
           GameControllerBloc()..add(JoinGameEvent(joinReq: widget.joinReq)),
       child: BlocBuilder<GameControllerBloc, GameControllerState>(
-        buildWhen: (previous, current) => current is ReadyGameControllerState,
         builder: (context, state) {
-          if (state is ReadyGameControllerState) {
+          if (state is GameReadyState) {
             return Scaffold(
               appBar: appBar(state, context),
               bottomNavigationBar: bottomNavBar(context),
@@ -43,7 +42,7 @@ class GameScreenState extends State<GameScreen> {
             );
           }
 
-          if (state is JoiningGameControllerState) {
+          if (state is JoiningGameState) {
             return Scaffold(
               appBar: AppBar(
                 title: const Text("Joining the game..."),
@@ -52,13 +51,13 @@ class GameScreenState extends State<GameScreen> {
             );
           }
 
-          if (state is FailureJoiningGameControllerState) {
+          if (state is CheckmateState) {
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Error"),
+                title: const Text("CHECKMATE"),
               ),
               body: const Center(
-                child: Text("Failed to join the game, go back"),
+                child: Text("CHECKMATE"),
               ),
             );
           }
@@ -92,7 +91,7 @@ class GameScreenState extends State<GameScreen> {
     );
   }
 
-  AppBar appBar(ReadyGameControllerState state, BuildContext context) {
+  AppBar appBar(GameReadyState state, BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(
         color: state.gameState.userToPlay.playingAsWhite
@@ -122,7 +121,7 @@ class GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget gameScreenPages(ReadyGameControllerState state, BuildContext context) {
+  Widget gameScreenPages(GameReadyState state, BuildContext context) {
     if (_currPageIndex == 0) {
       return ContainerBc(child: adaptiveChessboard(state, context));
     } else {
@@ -131,7 +130,7 @@ class GameScreenState extends State<GameScreen> {
   }
 
   Widget adaptiveChessboard(
-    ReadyGameControllerState state,
+    GameReadyState state,
     BuildContext context,
   ) {
     final screen = MediaQuery.of(context).size;
@@ -159,7 +158,7 @@ class GameScreenState extends State<GameScreen> {
   }
 
   Widget chessboard(
-    ReadyGameControllerState state,
+    GameReadyState state,
     BuildContext context,
   ) {
     void onMove(ShortMove move) {
@@ -180,26 +179,18 @@ class GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget playersPage(ReadyGameControllerState state) {
-    final whiteTeam = state.gameState.players
-        .where((player) => player.playingAsWhite)
-        .toList();
-
-    final blackTeam = state.gameState.players
-        .where((player) => !player.playingAsWhite)
-        .toList();
-
+  Widget playersPage(GameReadyState state) {
     return Row(
       children: [
-        teamList(whiteTeam, state),
-        teamList(blackTeam, state),
+        teamList(state.gameState.whiteQueue, state),
+        teamList(state.gameState.blackQueue, state),
       ],
     );
   }
 
   Widget teamList(
     List<UserPlayer> whiteTeam,
-    ReadyGameControllerState state,
+    GameReadyState state,
   ) {
     return Expanded(
       child: ListView.builder(

@@ -5,28 +5,23 @@ abstract class GameControllerState {}
 
 class InitialGameControllerState extends GameControllerState {}
 
-class JoiningGameControllerState extends GameControllerState {}
+class JoiningGameState extends GameControllerState {}
 
-class SuccessJoiningGameControllerState extends GameControllerState {}
+class SuccessJoiningState extends GameControllerState {}
 
-class FailureJoiningGameControllerState extends GameControllerState {}
+class FailureJoiningState extends GameControllerState {}
 
-class ReadyGameControllerState extends GameControllerState {
+class GameReadyState extends GameControllerState {
   final GameId gameId;
   final GameState gameState;
 
-  ReadyGameControllerState({required this.gameId, required this.gameState});
+  GameReadyState({required this.gameId, required this.gameState});
 
-  GameControllerState copyWith({GameId? gameId, GameState? gameState}) =>
-      ReadyGameControllerState(
-          gameId: gameId ?? this.gameId,
-          gameState: gameState ?? this.gameState,);
+  GameReadyState copyWith({GameId? gameId, GameState? gameState}) =>
+      GameReadyState(
+        gameId: gameId ?? this.gameId,
+        gameState: gameState ?? this.gameState,
+      );
 }
 
-class WaitingForPlayersState extends GameControllerState {}
-
-class ValidatingMoveState extends GameControllerState {
-  final ShortMove move;
-
-  ValidatingMoveState(this.move);
-}
+class CheckmateState extends GameControllerState {}

@@ -7,8 +7,6 @@ import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/repo/user_repository.dart";
 
-class Move {}
-
 class GameRepository {
   final gameTcp = GameTcp();
   final gameHttp = GameHttp();

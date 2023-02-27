@@ -32,24 +32,28 @@ class GameControllerBloc
     on<JoinGameEvent>(joinGameHandler);
     on<SubmitMoveEvent>(submitMoveHandler);
     on<NewGameStateEvent>(newGameStateHandler);
+    on<CheckmateEvent>(checkmateHandler);
   }
 
   Future<void> joinGameHandler(
     JoinGameEvent e,
     Emitter<GameControllerState> emit,
   ) async {
-    emit(JoiningGameControllerState());
+    emit(JoiningGameState());
     await gameRepo.setupGameTcp();
-    final responses = gameRepo.joinGame(e.joinReq);
+    final gameStates = gameRepo.joinGame(e.joinReq);
 
-    responses.listen((gameState) {
+    gameStates.listen((gameState) {
       if (gameState != null) {
-        add(
-          NewGameStateEvent(
-            gameId: GameId(id: e.joinReq.gameId),
-            gameState: gameState,
-          ),
-        );
+        switch (gameState.boardState) {
+          default:
+            add(
+              NewGameStateEvent(
+                gameId: GameId(id: e.joinReq.gameId),
+                gameState: gameState,
+              ),
+            );
+        }
       }
     });
   }
@@ -58,8 +62,8 @@ class GameControllerBloc
     SubmitMoveEvent e,
     Emitter<GameControllerState> emit,
   ) async {
-    if (state is ReadyGameControllerState) {
-      final s = state as ReadyGameControllerState;
+    if (state is GameReadyState) {
+      final s = state as GameReadyState;
       final u = await userRepo.getUser();
 
       if (u == null) return;
@@ -70,6 +74,7 @@ class GameControllerBloc
         return;
       }
 
+      emit(s.copyWith(gameState: s.gameState.copyWith(fen: newFen)));
       gameRepo.sendMove(
         UpdateFenRequest(gameId: s.gameId.id, userId: u.id, newFen: newFen),
       );
@@ -80,6 +85,13 @@ class GameControllerBloc
     NewGameStateEvent e,
     Emitter<GameControllerState> emit,
   ) async {
-    emit(ReadyGameControllerState(gameId: e.gameId, gameState: e.gameState));
+    emit(GameReadyState(gameId: e.gameId, gameState: e.gameState));
+  }
+
+  Future<void> checkmateHandler(
+    CheckmateEvent e,
+    Emitter<GameControllerState> emit,
+  ) async {
+    emit(CheckmateState());
   }
 }
