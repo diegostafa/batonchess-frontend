@@ -6,7 +6,7 @@ class TcpClient {
   factory TcpClient() => _singleton;
   TcpClient._internal();
 
-  static const host = "localhost";
+  static const host = "192.168.1.100";
   static const port = 2024;
   Socket? socket;
   StreamController<String?>? controller;

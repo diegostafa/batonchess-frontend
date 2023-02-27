@@ -8,35 +8,16 @@ class UserRepository {
   final userMem = UserMemory();
   final userHttp = UserHttp();
 
-  Future<User?> thisOrValidUser(User? u) async {
-    if (u != null && await userHttp.isValidUser(UserId(id: u.id))) {
-      return u;
-    } else {
-      final u = await userHttp.getNewUser();
-      return u;
-    }
-  }
-
-  Future<User?> initUser() async {
-    final user = await getUser();
-    final validUser = await thisOrValidUser(user);
-    if (user != null) {
-      await userMem.setUser(validUser!);
-      return user;
-    }
-    return null;
-  }
-
   Future<User?> getUser() async {
     final user = await userMem.getUser();
-    if (user != null) {
+    if (user != null && await userHttp.isValidUser(UserId(id: user.id))) {
       return user;
     }
 
-    final newUser = await userHttp.getNewUser();
-    if (user != null) {
-      await userMem.setUser(newUser!);
-      return user;
+    final freshUser = await userHttp.getNewUser();
+    if (freshUser != null) {
+      await userMem.setUser(freshUser);
+      return freshUser;
     }
 
     return null;

@@ -32,7 +32,7 @@ class ContainerBc extends StatelessWidget {
             offset: const Offset(0.1, 0.1),
           )
         ],
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: BorderRadius.circular(borderRadius),
         color: Theme.of(context).canvasColor,
       ),
       child: Center(child: child),

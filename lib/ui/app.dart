@@ -19,10 +19,6 @@ class App extends StatelessWidget {
               scheme: FlexScheme.values[state.settings.themeIndex],
               useMaterial3: state.settings.useMaterial3,
             ),
-            darkTheme: FlexThemeData.dark(
-              scheme: FlexScheme.values[state.settings.themeIndex],
-              useMaterial3: state.settings.useMaterial3,
-            ),
             themeMode: ThemeMode.light,
             home: const HomeScreen(),
           );

@@ -1,7 +1,7 @@
 import "package:http/http.dart" as http;
 
 class HttpClient {
-  static const host = "localhost";
+  static const host = "192.168.1.100";
   static const port = 2023;
 
   Future<http.Response?> get(String endpoint) async {

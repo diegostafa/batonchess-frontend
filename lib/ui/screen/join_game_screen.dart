@@ -35,39 +35,61 @@ class JoinGameScreen extends StatelessWidget {
               );
             }
           },
-          child: joinGameList(),
+          child: RefreshIndicator(
+            triggerMode: RefreshIndicatorTriggerMode.anywhere,
+            onRefresh: () {
+              return Future(
+                () => context.read<JoinGameBloc>().add(FetchGamesEvent()),
+              );
+            },
+            child: BlocBuilder<JoinGameBloc, JoinGameState>(
+              builder: (context, state) {
+                return RefreshIndicator(
+                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                    onRefresh: () {
+                      return Future(
+                        () =>
+                            context.read<JoinGameBloc>().add(FetchGamesEvent()),
+                      );
+                    },
+                    child: pageBody(state));
+              },
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget joinGameList() {
-    return BlocBuilder<JoinGameBloc, JoinGameState>(
-      builder: (context, state) {
-        if (state is FetchingGamesState) {
-          return const Center(
-            child: LoadingBc(
-              msg: "Loading active games...",
-            ),
-          );
-        }
+  Widget pageBody(JoinGameState state) {
+    if (state is FetchingGamesState) {
+      return const Center(
+        child: LoadingBc(
+          msg: "Loading active games...",
+        ),
+      );
+    }
 
-        if (state is SuccessLoadingGamesState) {
-          return ListView.builder(
-            itemCount: state.games.length,
-            itemBuilder: (context, gameIndex) {
-              return joinGameCard(state, gameIndex, context);
-            },
-          );
-        }
+    if (state is SuccessLoadingGamesState) {
+      if (state.games.isEmpty) {
+        return const Center(
+          child: Text("There are no active games"),
+        );
+      } else {
+        return ListView.builder(
+          itemCount: state.games.length,
+          itemBuilder: (context, gameIndex) {
+            return joinGameCard(state, gameIndex, context);
+          },
+        );
+      }
+    }
 
-        if (state is FailureLoadingGamesState) {
-          return const Text("Couldn't retrieve active games");
-        }
+    if (state is FailureLoadingGamesState) {
+      return const Text("Couldn't retrieve active games");
+    }
 
-        return const EmptyBc();
-      },
-    );
+    return const EmptyBc();
   }
 
   Widget joinGameCard(
@@ -94,17 +116,17 @@ class JoinGameScreen extends StatelessWidget {
   Widget chooseSideDialog(BuildContext context) {
     int sideIndex = 0;
     return DialogBc(
-      body: SelectionGroupBc(
+      action: ButtonBc(
+        text: "Confirm",
+        onPressed: () => Navigator.of(context).pop(sideIndex),
+      ),
+      child: SelectionGroupBc(
         label: "Play as:",
         padding: const EdgeInsets.all(8),
         values: const ["White", "Black"],
         onSelected: (s, index, isSelected) {
           sideIndex = index;
         },
-      ),
-      action: ButtonBc(
-        text: "Confirm",
-        onPressed: () => Navigator.of(context).pop(sideIndex),
       ),
     );
   }

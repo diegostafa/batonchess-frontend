@@ -33,6 +33,7 @@ class PlayerCardBc extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Player: ${player.name}"),
+                Text("Joined: ${prettyTime(player.joinedAt)}")
               ],
             ),
             subtitle: Row(

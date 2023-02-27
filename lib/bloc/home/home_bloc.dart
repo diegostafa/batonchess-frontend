@@ -19,7 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(FetchingUserState());
-    final u = await userRepo.initUser();
+    final u = await userRepo.getUser();
     if (u == null) {
       emit(FailedToLoadUserState());
       return;

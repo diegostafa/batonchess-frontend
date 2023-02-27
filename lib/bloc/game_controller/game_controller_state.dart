@@ -23,5 +23,3 @@ class GameReadyState extends GameControllerState {
         gameState: gameState ?? this.gameState,
       );
 }
-
-class CheckmateState extends GameControllerState {}

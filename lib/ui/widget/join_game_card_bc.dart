@@ -20,7 +20,6 @@ class JoinGameCardBc extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            leading: const Icon(Icons.games),
             title: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -37,7 +36,8 @@ class JoinGameCardBc extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child: Text("Started on ${prettyTime(gameInfo.createdAt)}"),
+                  child:
+                      Text("Started on ${prettyDateTime(gameInfo.createdAt)}"),
                 ),
                 Flexible(
                   child: Text(

@@ -115,14 +115,13 @@ class HomeScreen extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) => DialogBc(
-              body: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const Text("Full user ID:"),
                   Text("#${state.user.id}"),
                 ],
               ),
-              action: null,
             ),
           );
         },
@@ -133,15 +132,18 @@ class HomeScreen extends StatelessWidget {
   Widget changeUsernameDialog(BuildContext context) {
     String input = "";
     return DialogBc(
-      body: TextField(
-        decoration: const InputDecoration(hintText: "Change username"),
-        onChanged: (changedText) {
-          input = changedText;
-        },
-      ),
       action: ButtonBc(
         text: "Save",
         onPressed: () => Navigator.of(context).pop(input),
+      ),
+      child: TextField(
+        decoration: const InputDecoration(
+          fillColor: Colors.transparent,
+          hintText: "Change username",
+        ),
+        onChanged: (changedText) {
+          input = changedText;
+        },
       ),
     );
   }

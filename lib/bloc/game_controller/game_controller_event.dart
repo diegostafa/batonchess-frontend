@@ -21,5 +21,3 @@ class SubmitMoveEvent extends GameControllerEvent {
 
   SubmitMoveEvent({required this.move});
 }
-
-class CheckmateEvent extends GameControllerEvent {}

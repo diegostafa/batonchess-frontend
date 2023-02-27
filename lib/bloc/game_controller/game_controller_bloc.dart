@@ -32,7 +32,6 @@ class GameControllerBloc
     on<JoinGameEvent>(joinGameHandler);
     on<SubmitMoveEvent>(submitMoveHandler);
     on<NewGameStateEvent>(newGameStateHandler);
-    on<CheckmateEvent>(checkmateHandler);
   }
 
   Future<void> joinGameHandler(
@@ -45,15 +44,12 @@ class GameControllerBloc
 
     gameStates.listen((gameState) {
       if (gameState != null) {
-        switch (gameState.boardState) {
-          default:
-            add(
-              NewGameStateEvent(
-                gameId: GameId(id: e.joinReq.gameId),
-                gameState: gameState,
-              ),
-            );
-        }
+        add(
+          NewGameStateEvent(
+            gameId: GameId(id: e.joinReq.gameId),
+            gameState: gameState,
+          ),
+        );
       }
     });
   }
@@ -86,12 +82,5 @@ class GameControllerBloc
     Emitter<GameControllerState> emit,
   ) async {
     emit(GameReadyState(gameId: e.gameId, gameState: e.gameState));
-  }
-
-  Future<void> checkmateHandler(
-    CheckmateEvent e,
-    Emitter<GameControllerState> emit,
-  ) async {
-    emit(CheckmateState());
   }
 }

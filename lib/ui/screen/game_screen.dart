@@ -2,16 +2,18 @@ import "dart:math";
 
 import "package:batonchess/bloc/game_controller/game_controller_bloc.dart";
 import "package:batonchess/data/model/game/game_info.dart";
+import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 import "package:batonchess/data/model/user/user_player.dart";
+import "package:batonchess/ui/screen/settings_screen.dart";
 import "package:batonchess/ui/widget/container_bc.dart";
+import "package:batonchess/ui/widget/dialog_bc.dart";
 import "package:batonchess/ui/widget/empty_bc.dart";
 import "package:batonchess/ui/widget/loading_bc.dart";
 import "package:batonchess/ui/widget/player_card_bc.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart";
-import "package:salomon_bottom_bar/salomon_bottom_bar.dart";
 import "package:text_scroll/text_scroll.dart";
 
 class GameScreen extends StatefulWidget {
@@ -32,90 +34,79 @@ class GameScreenState extends State<GameScreen> {
     return BlocProvider(
       create: (context) =>
           GameControllerBloc()..add(JoinGameEvent(joinReq: widget.joinReq)),
-      child: BlocBuilder<GameControllerBloc, GameControllerState>(
-        builder: (context, state) {
-          if (state is GameReadyState) {
-            return Scaffold(
-              appBar: appBar(state, context),
-              bottomNavigationBar: bottomNavBar(context),
-              body: gameScreenPages(state, context),
+      child: BlocListener<GameControllerBloc, GameControllerState>(
+        listener: (context, state) {
+          if (state is GameReadyState && !state.gameState.ongoing()) {
+            showDialog(
+              context: context,
+              builder: (ctx) {
+                return DialogBc(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        Center(child: Text(state.gameState.prettyBoardState())),
+                  ),
+                );
+              },
             );
           }
-
-          if (state is JoiningGameState) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text("Joining the game..."),
-              ),
-              body: const LoadingBc(),
-            );
-          }
-
-          if (state is CheckmateState) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text("CHECKMATE"),
-              ),
-              body: const Center(
-                child: Text("CHECKMATE"),
-              ),
-            );
-          }
-
-          return const EmptyBc();
         },
+        child: BlocBuilder<GameControllerBloc, GameControllerState>(
+          builder: (context, state) {
+            if (state is JoiningGameState) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text("Joining the game..."),
+                ),
+                body: const Center(child: LoadingBc()),
+              );
+            }
+
+            if (state is GameReadyState) {
+              return Scaffold(
+                appBar: appBar(state.gameState, context),
+                bottomNavigationBar: bottomNavBar(context),
+                body: gameScreenPages(state.gameState, context),
+              );
+            }
+
+            return const EmptyBc();
+          },
+        ),
       ),
     );
   }
 
   Widget bottomNavBar(BuildContext context) {
-    return SalomonBottomBar(
-      itemPadding: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: MediaQuery.of(context).size.width / 14,
-      ),
+    return BottomNavigationBar(
+      unselectedFontSize: 14,
       currentIndex: _currPageIndex,
       onTap: (i) => setState(() => _currPageIndex = i),
-      items: [
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.people),
-          title: const Text("White team"),
-          selectedColor: Theme.of(context).primaryColor,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.people_outline),
+          label: "White team",
         ),
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.games),
-          title: const Text("Chessboard"),
-          selectedColor: Theme.of(context).primaryColor,
+        BottomNavigationBarItem(
+          icon: Icon(Icons.grid_4x4_sharp),
+          label: "Chessboard",
         ),
-        SalomonBottomBarItem(
-          icon: const Icon(Icons.people),
-          title: const Text("Black team"),
-          selectedColor: Theme.of(context).primaryColor,
+        BottomNavigationBarItem(
+          icon: Icon(Icons.people),
+          label: "Black team",
         ),
       ],
     );
   }
 
-  String prettyInfoAppBar(GameReadyState state) {
-    if (state.gameState.waitingForPlayers) {
-      return "Waiting for players...";
-    }
-
-    if (state.gameState.userToPlay.playingAsWhite) {
-      return "White to move: ${state.gameState.userToPlay.name}";
-    } else {
-      return "Black to move: ${state.gameState.userToPlay.name}";
-    }
-  }
-
-  AppBar appBar(GameReadyState state, BuildContext context) {
-    final fgPlayAsWhite = state.gameState.userToPlay.playingAsWhite
-        ? Theme.of(context).primaryColor
+  AppBar appBar(GameState gameState, BuildContext context) {
+    final fgPlayAsWhite = gameState.userToPlay.playingAsWhite
+        ? Theme.of(context).primaryColorLight
         : Theme.of(context).canvasColor;
 
-    final bgPlayAsWhite = state.gameState.userToPlay.playingAsWhite
+    final bgPlayAsWhite = gameState.userToPlay.playingAsWhite
         ? Theme.of(context).canvasColor
-        : Theme.of(context).primaryColor;
+        : Theme.of(context).primaryColorLight;
 
     return AppBar(
       iconTheme: IconThemeData(
@@ -128,74 +119,67 @@ class GameScreenState extends State<GameScreen> {
         children: [
           Expanded(
             child: TextScroll(
-              prettyInfoAppBar(state),
+              gameState.prettyBoardState(),
               mode: TextScrollMode.bouncing,
               pauseBetween: const Duration(seconds: 2),
             ),
           ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.settings,
+              color: fgPlayAsWhite,
+            ),
+          )
         ],
       ),
     );
   }
 
-  Widget gameScreenPages(GameReadyState state, BuildContext context) {
+  Widget gameScreenPages(GameState gameState, BuildContext context) {
     switch (_currPageIndex) {
       case 0:
-        return teamList(state.gameState.whiteQueue);
+        return teamList(gameState.whiteQueue);
       case 1:
-        return ContainerBc(child: adaptiveChessboard(state, context));
+        return ContainerBc(child: chessboard(gameState, context));
       case 2:
-        return teamList(state.gameState.blackQueue);
+        return teamList(gameState.blackQueue);
       default:
         return const EmptyBc();
     }
   }
 
-  Widget adaptiveChessboard(
-    GameReadyState state,
-    BuildContext context,
-  ) {
-    final screen = MediaQuery.of(context).size;
-    const verticalRatio = 2 / 3;
-    const horizontalRatio = 4 / 5;
-    final children = [
-      chessboard(state, context),
-    ];
-
-    if (screen.width < screen.height * verticalRatio) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: children,
-      );
-    }
-
-    if (screen.height < screen.width * horizontalRatio) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: children,
-      );
-    }
-
-    return chessboard(state, context);
-  }
-
   Widget chessboard(
-    GameReadyState state,
+    GameState gameState,
     BuildContext context,
   ) {
-    void onMove(ShortMove move) {
-      context.read<GameControllerBloc>().add(SubmitMoveEvent(move: move));
-    }
-
     return LayoutBuilder(
       builder: (ctx, constraints) {
+        if (!gameState.ongoing()) {
+          return Chessboard(
+            orientation: widget.joinReq.playAsWhite ? Color.WHITE : Color.BLACK,
+            lightSquareColor: Theme.of(context).splashColor,
+            darkSquareColor: Theme.of(context).primaryColorLight,
+            fen: gameState.fen,
+            size: min(constraints.maxWidth, constraints.maxHeight),
+          );
+        }
         return Chessboard(
           orientation: widget.joinReq.playAsWhite ? Color.WHITE : Color.BLACK,
           lightSquareColor: Theme.of(context).splashColor,
           darkSquareColor: Theme.of(context).primaryColorLight,
-          fen: state.gameState.fen,
+          fen: gameState.fen,
           size: min(constraints.maxWidth, constraints.maxHeight),
-          onMove: onMove,
+          onMove: (move) {
+            context.read<GameControllerBloc>().add(SubmitMoveEvent(move: move));
+          },
         );
       },
     );
