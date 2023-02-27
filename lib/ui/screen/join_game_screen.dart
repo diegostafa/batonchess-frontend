@@ -45,14 +45,14 @@ class JoinGameScreen extends StatelessWidget {
             child: BlocBuilder<JoinGameBloc, JoinGameState>(
               builder: (context, state) {
                 return RefreshIndicator(
-                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                    onRefresh: () {
-                      return Future(
-                        () =>
-                            context.read<JoinGameBloc>().add(FetchGamesEvent()),
-                      );
-                    },
-                    child: pageBody(state));
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                  onRefresh: () {
+                    return Future(
+                      () => context.read<JoinGameBloc>().add(FetchGamesEvent()),
+                    );
+                  },
+                  child: pageBody(state),
+                );
               },
             ),
           ),
