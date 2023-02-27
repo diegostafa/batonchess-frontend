@@ -101,12 +101,12 @@ class GameScreenState extends State<GameScreen> {
 
   AppBar appBar(GameState gameState, BuildContext context) {
     final fgPlayAsWhite = gameState.userToPlay.playingAsWhite
-        ? Theme.of(context).primaryColorLight
+        ? Theme.of(context).primaryColor
         : Theme.of(context).canvasColor;
 
     final bgPlayAsWhite = gameState.userToPlay.playingAsWhite
         ? Theme.of(context).canvasColor
-        : Theme.of(context).primaryColorLight;
+        : Theme.of(context).primaryColor;
 
     return AppBar(
       iconTheme: IconThemeData(
@@ -185,11 +185,16 @@ class GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget teamList(List<UserPlayer> whiteTeam) {
+  Widget teamList(List<UserPlayer> players) {
+    if (players.isEmpty) {
+      return const Center(
+        child: Text("No players"),
+      );
+    }
     return ListView.builder(
-      itemCount: whiteTeam.length,
+      itemCount: players.length,
       itemBuilder: (context, index) => PlayerCardBc(
-        player: whiteTeam[index],
+        player: players[index],
         onTap: () {},
       ),
     );
