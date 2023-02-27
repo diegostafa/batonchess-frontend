@@ -2,7 +2,9 @@ import "package:batonchess/bloc/join_game/join_game_bloc.dart";
 import "package:batonchess/ui/screen/game_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
 import "package:batonchess/ui/widget/dialog_bc.dart";
+import "package:batonchess/ui/widget/empty_bc.dart";
 import "package:batonchess/ui/widget/join_game_card_bc.dart";
+import "package:batonchess/ui/widget/loading_bc.dart";
 import "package:batonchess/ui/widget/selection_group_bc.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -42,6 +44,14 @@ class JoinGameScreen extends StatelessWidget {
   Widget joinGameList() {
     return BlocBuilder<JoinGameBloc, JoinGameState>(
       builder: (context, state) {
+        if (state is FetchingGamesState) {
+          return const Center(
+            child: LoadingBc(
+              msg: "Loading active games...",
+            ),
+          );
+        }
+
         if (state is SuccessLoadingGamesState) {
           return ListView.builder(
             itemCount: state.games.length,
@@ -52,10 +62,10 @@ class JoinGameScreen extends StatelessWidget {
         }
 
         if (state is FailureLoadingGamesState) {
-          return const Text("FAILED TO LOAD ACTIVE GAMES");
+          return const Text("Couldn't retrieve active games");
         }
 
-        return const Text("INTERNAL ERROR");
+        return const EmptyBc();
       },
     );
   }

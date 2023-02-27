@@ -36,12 +36,16 @@ class JoinGameCardBc extends StatelessWidget {
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Started on ${prettyTime(gameInfo.createdAt)}"),
-                Text(
-                  "${gameInfo.currentPlayers}/${gameInfo.maxPlayers * 2} currently playing",
-                  style: gameInfo.currentPlayers == 0
-                      ? const TextStyle(color: Colors.red)
-                      : const TextStyle(color: Colors.green),
+                Flexible(
+                  child: Text("Started on ${prettyTime(gameInfo.createdAt)}"),
+                ),
+                Flexible(
+                  child: Text(
+                    "${gameInfo.currentPlayers}/${gameInfo.maxPlayers * 2} currently playing",
+                    style: gameInfo.currentPlayers == 0
+                        ? const TextStyle(color: Colors.red)
+                        : const TextStyle(color: Colors.green),
+                  ),
                 ),
               ],
             ),

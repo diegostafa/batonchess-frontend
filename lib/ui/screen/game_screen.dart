@@ -25,7 +25,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class GameScreenState extends State<GameScreen> {
-  var _currPageIndex = 0;
+  var _currPageIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -72,46 +72,63 @@ class GameScreenState extends State<GameScreen> {
     return SalomonBottomBar(
       itemPadding: EdgeInsets.symmetric(
         vertical: 10,
-        horizontal: MediaQuery.of(context).size.width / 8,
+        horizontal: MediaQuery.of(context).size.width / 14,
       ),
       currentIndex: _currPageIndex,
       onTap: (i) => setState(() => _currPageIndex = i),
       items: [
         SalomonBottomBarItem(
+          icon: const Icon(Icons.people),
+          title: const Text("White team"),
+          selectedColor: Theme.of(context).primaryColor,
+        ),
+        SalomonBottomBarItem(
           icon: const Icon(Icons.games),
-          title: const Text("Game"),
+          title: const Text("Chessboard"),
           selectedColor: Theme.of(context).primaryColor,
         ),
         SalomonBottomBarItem(
           icon: const Icon(Icons.people),
-          title: const Text("Team"),
+          title: const Text("Black team"),
           selectedColor: Theme.of(context).primaryColor,
         ),
       ],
     );
   }
 
+  String prettyInfoAppBar(GameReadyState state) {
+    if (state.gameState.waitingForPlayers) {
+      return "Waiting for players...";
+    }
+
+    if (state.gameState.userToPlay.playingAsWhite) {
+      return "White to move: ${state.gameState.userToPlay.name}";
+    } else {
+      return "Black to move: ${state.gameState.userToPlay.name}";
+    }
+  }
+
   AppBar appBar(GameReadyState state, BuildContext context) {
+    final fgPlayAsWhite = state.gameState.userToPlay.playingAsWhite
+        ? Theme.of(context).primaryColor
+        : Theme.of(context).canvasColor;
+
+    final bgPlayAsWhite = state.gameState.userToPlay.playingAsWhite
+        ? Theme.of(context).canvasColor
+        : Theme.of(context).primaryColor;
+
     return AppBar(
       iconTheme: IconThemeData(
-        color: state.gameState.userToPlay.playingAsWhite
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).canvasColor,
+        color: fgPlayAsWhite,
       ),
-      foregroundColor: state.gameState.userToPlay.playingAsWhite
-          ? Theme.of(context).primaryColor
-          : Theme.of(context).canvasColor,
-      backgroundColor: state.gameState.userToPlay.playingAsWhite
-          ? Theme.of(context).canvasColor
-          : Theme.of(context).primaryColor,
+      foregroundColor: fgPlayAsWhite,
+      backgroundColor: bgPlayAsWhite,
       title: Row(
         textBaseline: TextBaseline.alphabetic,
         children: [
           Expanded(
             child: TextScroll(
-              state.gameState.waitingForPlayers
-                  ? "Waiting for players..."
-                  : "Player to move: ${state.gameState.userToPlay.name}",
+              prettyInfoAppBar(state),
               mode: TextScrollMode.bouncing,
               pauseBetween: const Duration(seconds: 2),
             ),
@@ -122,10 +139,15 @@ class GameScreenState extends State<GameScreen> {
   }
 
   Widget gameScreenPages(GameReadyState state, BuildContext context) {
-    if (_currPageIndex == 0) {
-      return ContainerBc(child: adaptiveChessboard(state, context));
-    } else {
-      return playersPage(state);
+    switch (_currPageIndex) {
+      case 0:
+        return teamList(state.gameState.whiteQueue);
+      case 1:
+        return ContainerBc(child: adaptiveChessboard(state, context));
+      case 2:
+        return teamList(state.gameState.blackQueue);
+      default:
+        return const EmptyBc();
     }
   }
 
@@ -179,27 +201,12 @@ class GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget playersPage(GameReadyState state) {
-    return Row(
-      children: [
-        teamList(state.gameState.whiteQueue, state),
-        teamList(state.gameState.blackQueue, state),
-      ],
-    );
-  }
-
-  Widget teamList(
-    List<UserPlayer> whiteTeam,
-    GameReadyState state,
-  ) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: whiteTeam.length,
-        itemBuilder: (context, index) => PlayerCardBc(
-          isCurrentTurn: whiteTeam[index].id == state.gameState.userToPlay.id,
-          player: whiteTeam[index],
-          onTap: () {},
-        ),
+  Widget teamList(List<UserPlayer> whiteTeam) {
+    return ListView.builder(
+      itemCount: whiteTeam.length,
+      itemBuilder: (context, index) => PlayerCardBc(
+        player: whiteTeam[index],
+        onTap: () {},
       ),
     );
   }

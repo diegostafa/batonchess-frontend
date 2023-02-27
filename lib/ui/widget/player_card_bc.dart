@@ -5,13 +5,11 @@ import "package:flutter/material.dart";
 class PlayerCardBc extends StatelessWidget {
   final void Function()? onTap;
   final UserPlayer player;
-  final bool isCurrentTurn;
 
   const PlayerCardBc({
     super.key,
     required this.onTap,
     required this.player,
-    required this.isCurrentTurn,
   });
 
   @override
@@ -40,11 +38,12 @@ class PlayerCardBc extends StatelessWidget {
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("#${prettyId(player.id)}"),
-                if (player.playingAsWhite)
-                  const Text("White team")
-                else
-                  const Text("Black team")
+                Flexible(child: Text("#${prettyId(player.id)}")),
+                Flexible(
+                  child: Text(
+                    player.playingAsWhite ? "White team" : "Black team",
+                  ),
+                )
               ],
             ),
           ),

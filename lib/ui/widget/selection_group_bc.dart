@@ -37,7 +37,13 @@ class SelectionGroupBc extends StatelessWidget {
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(label!), _groupButton(context)],
+        children: [
+          Text(label!),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: _groupButton(context),
+          )
+        ],
       );
     }
   }
@@ -46,7 +52,6 @@ class SelectionGroupBc extends StatelessWidget {
         options: GroupButtonOptions(
           unselectedBorderColor: Theme.of(context).highlightColor,
           elevation: 2,
-          spacing: 8,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         onSelected: onSelected,

@@ -44,7 +44,10 @@ class ButtonBc extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(text),
+        child: Text(
+          text,
+          overflow: TextOverflow.fade,
+        ),
       ),
     );
   }

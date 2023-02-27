@@ -16,18 +16,16 @@ class UserMemory {
   }
 
   Future<User?> getUser() async {
-    if (user != null) {
-      return user;
-    }
+    if (user != null) return user;
 
     final prefs = await SharedPreferences.getInstance();
     final id = prefs.getString("user_id");
     final name = prefs.getString("user_name");
 
-    if (id == null || name == null) {
-      return null;
-    }
+    if (id == null || name == null) return null;
 
-    return User(id: id, name: name);
+    // ignore: join_return_with_assignment
+    user = User(id: id, name: name);
+    return user;
   }
 }

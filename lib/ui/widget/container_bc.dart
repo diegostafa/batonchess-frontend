@@ -26,10 +26,11 @@ class ContainerBc extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              color: Theme.of(context).primaryColor.withAlpha(50),
-              blurRadius: 20,
-              spreadRadius: 4,
-              offset: const Offset(0.1, 0.1),)
+            color: Theme.of(context).primaryColor.withAlpha(50),
+            blurRadius: 4,
+            spreadRadius: 2,
+            offset: const Offset(0.1, 0.1),
+          )
         ],
         borderRadius: BorderRadius.circular(0),
         color: Theme.of(context).canvasColor,

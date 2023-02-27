@@ -2,6 +2,7 @@ import "package:another_xlider/another_xlider.dart";
 import "package:flutter/material.dart";
 
 class SliderBc extends StatelessWidget {
+  final FlutterSliderTooltip? tooltip;
   final int initialValue;
   final int minValue;
   final int maxValue;
@@ -16,13 +17,17 @@ class SliderBc extends StatelessWidget {
     required this.minValue,
     required this.maxValue,
     required this.onDragging,
+    required this.isDiscrete,
     this.handleSize = 20,
     this.handle,
-    required this.isDiscrete,
+    this.tooltip,
   });
 
   @override
   Widget build(BuildContext context) => FlutterSlider(
+        tooltip: FlutterSliderTooltip(
+          disabled: tooltip == null,
+        ),
         handlerAnimation:
             const FlutterSliderHandlerAnimation(duration: Duration.zero),
         trackBar: FlutterSliderTrackBar(
