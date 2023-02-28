@@ -13,53 +13,45 @@ class JoinGameScreen extends StatelessWidget {
   const JoinGameScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => JoinGameBloc()..add(FetchGamesEvent()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Join a game"),
-        ),
-        body: BlocListener<JoinGameBloc, JoinGameState>(
-          listener: (context, state) {
-            if (state is JoiningGameState) {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GameScreen(
-                    gameInfo: state.gameInfo,
-                    joinReq: state.joinReq,
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => JoinGameBloc()..add(FetchGamesEvent()),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Join a game"),
+          ),
+          body: BlocListener<JoinGameBloc, JoinGameState>(
+            listener: (context, state) {
+              if (state is JoiningGameState) {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GameScreen(
+                      gameInfo: state.gameInfo,
+                      joinReq: state.joinReq,
+                    ),
                   ),
-                ),
-              );
-            }
-          },
-          child: RefreshIndicator(
-            triggerMode: RefreshIndicatorTriggerMode.anywhere,
-            onRefresh: () {
-              return Future(
-                () => context.read<JoinGameBloc>().add(FetchGamesEvent()),
-              );
-            },
-            child: BlocBuilder<JoinGameBloc, JoinGameState>(
-              builder: (context, state) {
-                return RefreshIndicator(
-                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                  onRefresh: () {
-                    return Future(
-                      () => context.read<JoinGameBloc>().add(FetchGamesEvent()),
-                    );
-                  },
-                  child: pageBody(state),
                 );
-              },
+              }
+            },
+            child: RefreshIndicator(
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              onRefresh: () => Future(
+                () => context.read<JoinGameBloc>().add(FetchGamesEvent()),
+              ),
+              child: BlocBuilder<JoinGameBloc, JoinGameState>(
+                builder: (context, state) => RefreshIndicator(
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                  onRefresh: () => Future(
+                    () => context.read<JoinGameBloc>().add(FetchGamesEvent()),
+                  ),
+                  child: pageBody(state),
+                ),
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   Widget pageBody(JoinGameState state) {
     if (state is FetchingGamesState) {
@@ -78,9 +70,8 @@ class JoinGameScreen extends StatelessWidget {
       } else {
         return ListView.builder(
           itemCount: state.games.length,
-          itemBuilder: (context, gameIndex) {
-            return joinGameCard(state, gameIndex, context);
-          },
+          itemBuilder: (context, gameIndex) =>
+              joinGameCard(state, gameIndex, context),
         );
       }
     }
@@ -96,22 +87,21 @@ class JoinGameScreen extends StatelessWidget {
     SuccessLoadingGamesState state,
     int gameIndex,
     BuildContext context,
-  ) {
-    return JoinGameCardBc(
-      gameInfo: state.games[gameIndex],
-      onTap: () async {
-        context.read<JoinGameBloc>().add(
-              SubmitJoinGameEvent(
-                state.games[gameIndex],
-                await showDialog(
-                  context: context,
-                  builder: (context) => chooseSideDialog(context),
-                ) as int?,
-              ),
-            );
-      },
-    );
-  }
+  ) =>
+      JoinGameCardBc(
+        gameInfo: state.games[gameIndex],
+        onTap: () async {
+          context.read<JoinGameBloc>().add(
+                SubmitJoinGameEvent(
+                  state.games[gameIndex],
+                  await showDialog(
+                    context: context,
+                    builder: chooseSideDialog,
+                  ) as int?,
+                ),
+              );
+        },
+      );
 
   Widget chooseSideDialog(BuildContext context) {
     int sideIndex = 0;

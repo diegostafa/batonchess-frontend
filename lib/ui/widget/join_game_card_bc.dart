@@ -13,8 +13,7 @@ class JoinGameCardBc extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
+  Widget build(BuildContext context) => Card(
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -53,5 +52,4 @@ class JoinGameCardBc extends StatelessWidget {
         ),
       ),
     );
-  }
 }

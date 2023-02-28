@@ -12,27 +12,18 @@ class GameRepository {
   final gameHttp = GameHttp();
   final userRepo = UserRepository();
 
-  Future<GameInfo?> createGame(CreateGameRequest props) async {
-    return gameHttp.createGame(props);
-  }
+  Future<GameInfo?> createGame(CreateGameRequest props) async =>
+      gameHttp.createGame(props);
 
-  Future<List<GameInfo>?> getActiveGames() async {
-    return gameHttp.getActiveGames();
-  }
+  Future<List<GameInfo>?> getActiveGames() async => gameHttp.getActiveGames();
 
-  Stream<GameState?> joinGame(JoinGameRequest joinReq) {
-    return gameTcp.joinGame(joinReq);
-  }
+  Stream<GameState?> joinGame(JoinGameRequest joinReq) =>
+      gameTcp.joinGame(joinReq);
 
-  void sendMove(UpdateFenRequest updateReq) {
-    gameTcp.updateFen(updateReq);
-  }
+  Future<void> sendMove(UpdateFenRequest updateReq) =>
+      gameTcp.updateFen(updateReq);
 
-  Future<void> setupGameTcp() async {
-    await gameTcp.connect();
-  }
+  Future<void> setupGameTcp() async => gameTcp.connect();
 
-  Future<void> leaveGame() async {
-    await gameTcp.leaveGame();
-  }
+  Future<void> leaveGame() async => gameTcp.leaveGame();
 }

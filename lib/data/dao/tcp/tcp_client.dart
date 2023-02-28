@@ -12,9 +12,10 @@ class TcpClient {
   StreamController<String?>? controller;
 
   bool isConnected() => socket != null;
+  bool isNotConnected() => socket == null;
 
   Future<void> connect() async {
-    if (!isConnected()) {
+    if (isNotConnected()) {
       try {
         socket = await Socket.connect(host, port);
       } catch (_) {
@@ -24,12 +25,12 @@ class TcpClient {
   }
 
   Future<void> send(String msg) async {
-    if (!isConnected()) return;
+    if (isNotConnected()) return;
     socket!.write("$msg\n");
   }
 
   Stream<String?> listener() {
-    if (!isConnected()) return const Stream.empty();
+    if (isNotConnected()) return const Stream.empty();
 
     controller = StreamController<String?>();
     socket!.listen((data) {

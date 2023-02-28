@@ -18,8 +18,7 @@ class SettingsScreen extends StatelessWidget {
         title: const Text("Settings"),
       ),
       body: BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (context, state) {
-          return Column(
+        builder: (context, state) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ContainerBc(
@@ -82,8 +81,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
               )
             ],
-          );
-        },
+          ),
       ),
     );
   }

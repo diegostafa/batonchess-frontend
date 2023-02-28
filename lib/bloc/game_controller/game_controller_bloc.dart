@@ -43,14 +43,19 @@ class GameControllerBloc
     final gameStates = gameRepo.joinGame(e.joinReq);
 
     gameStates.listen((gameState) {
-      if (gameState != null) {
-        add(
-          NewGameStateEvent(
-            gameId: GameId(id: e.joinReq.gameId),
-            gameState: gameState,
-          ),
-        );
+      if (gameState == null) return;
+      if (!gameState.ongoing()) {
+        if (gameState.outcome == (state as GameReadyState).gameState.outcome) {
+          return;
+        }
       }
+
+      add(
+        NewGameStateEvent(
+          gameId: GameId(id: e.joinReq.gameId),
+          gameState: gameState,
+        ),
+      );
     });
   }
 

@@ -6,8 +6,7 @@ class LoadingBc extends StatelessWidget {
   const LoadingBc({super.key, this.msg = ""});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
+  Widget build(BuildContext context) => Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SpinKitCubeGrid(
@@ -17,5 +16,4 @@ class LoadingBc extends StatelessWidget {
         Text(msg)
       ],
     );
-  }
 }

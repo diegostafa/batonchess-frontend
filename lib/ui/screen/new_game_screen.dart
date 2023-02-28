@@ -38,8 +38,7 @@ class NewGameScreen extends StatelessWidget {
         ),
       );
 
-  Widget newGameScreenBody() {
-    return BlocBuilder<NewGameBloc, NewGameState>(
+  Widget newGameScreenBody() => BlocBuilder<NewGameBloc, NewGameState>(
       builder: (context, state) {
         if (state is SettingGamePropsState) {
           return Column(
@@ -63,10 +62,8 @@ class NewGameScreen extends StatelessWidget {
         return const Center(child: Text("FAILED CREATING THE GAME, GO BACK"));
       },
     );
-  }
 
-  Widget newGameProps(BuildContext context, SettingGamePropsState state) {
-    return Expanded(
+  Widget newGameProps(BuildContext context, SettingGamePropsState state) => Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -75,10 +72,8 @@ class NewGameScreen extends StatelessWidget {
         ],
       ),
     );
-  }
 
-  Widget chooseSide(BuildContext context) {
-    return ContainerBc(
+  Widget chooseSide(BuildContext context) => ContainerBc(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(left: 40, top: 20, right: 40, bottom: 20),
       child: SelectionGroupBc(
@@ -89,13 +84,11 @@ class NewGameScreen extends StatelessWidget {
             context.read<NewGameBloc>().add(ChangeSideEvent(index)),
       ),
     );
-  }
 
   Widget chooseMaxPlayers(
     SettingGamePropsState state,
     BuildContext context,
-  ) {
-    return ContainerBc(
+  ) => ContainerBc(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(left: 40, top: 20, right: 40, bottom: 20),
       child: Row(
@@ -122,7 +115,6 @@ class NewGameScreen extends StatelessWidget {
         ],
       ),
     );
-  }
 
   Widget submitCreateGameButton(BuildContext context, NewGameState state) =>
       ButtonBc(

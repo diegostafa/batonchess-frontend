@@ -6,22 +6,24 @@ class HttpClient {
 
   Future<http.Response?> get(String endpoint) async {
     try {
-      return http.get(Uri.parse("http://$host:$port/$endpoint"));
-    } catch (e) {
+      final res = await http.get(Uri.parse("http://$host:$port/$endpoint"));
+      return res;
+    } catch (_) {
       return null;
     }
   }
 
   Future<http.Response?> post(String endpoint, String body) async {
     try {
-      return http.post(
+      final res = await http.post(
         Uri.parse("http://$host:$port/$endpoint"),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         },
         body: body,
       );
-    } catch (e) {
+      return res;
+    } catch (_) {
       return null;
     }
   }

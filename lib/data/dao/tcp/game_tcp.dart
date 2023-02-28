@@ -6,9 +6,7 @@ import "package:batonchess/data/model/chess/update_fen_request.dart";
 import "package:batonchess/data/model/game/game_state.dart";
 import "package:batonchess/data/model/game/join_game_request.dart";
 
-enum TcpGameAction { joinGame, updateFen }
-
-const refusedAction = "REFUSED";
+enum TcpGameAction { joinGame, updateFen, refusedAction }
 
 class GameTcp {
   final TcpClient tcpClient = TcpClient();
@@ -16,14 +14,13 @@ class GameTcp {
   final actions = {
     TcpGameAction.joinGame: "JOIN_GAME",
     TcpGameAction.updateFen: "UPDATE_FEN",
+    TcpGameAction.refusedAction: "REFUSED",
   };
 
-  Future<void> connect() async {
-    await tcpClient.connect();
-  }
+  Future<void> connect() async => tcpClient.connect();
 
   Stream<GameState?> joinGame(JoinGameRequest joinReq) {
-    if (!tcpClient.isConnected()) return const Stream.empty();
+    if (tcpClient.isNotConnected()) return const Stream.empty();
 
     tcpClient.send(
       jsonEncode(
@@ -38,14 +35,16 @@ class GameTcp {
     return stream.map(
       (res) {
         if (res == null) return null;
-        if (res == refusedAction) return null;
+        if (res == actions[TcpGameAction.refusedAction]) {
+          return null;
+        }
         return GameState.fromJson(jsonDecode(res) as Map<String, dynamic>);
       },
     );
   }
 
   Future<void> updateFen(UpdateFenRequest makeMoveReq) async {
-    if (!tcpClient.isConnected()) return;
+    if (tcpClient.isNotConnected()) return;
 
     tcpClient.send(
       jsonEncode(
@@ -58,8 +57,7 @@ class GameTcp {
   }
 
   Future<void> leaveGame() async {
-    if (!tcpClient.isConnected()) return;
-
+    if (tcpClient.isNotConnected()) return;
     tcpClient.disconnect();
   }
 }

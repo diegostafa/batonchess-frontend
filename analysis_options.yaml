@@ -3,3 +3,13 @@ include: package:lint/strict.yaml
 linter:
   rules:
     prefer_double_quotes: true
+    await_only_futures: true
+    prefer_final_fields: true
+    eol_at_end_of_file: true
+    prefer_conditional_assignment: true
+    prefer_expression_function_bodies: true
+    unnecessary_lambdas: true
+    unnecessary_parenthesis: true
+    unnecessary_raw_strings: true
+    use_colored_box: true
+    use_decorated_box: true

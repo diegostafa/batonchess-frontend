@@ -4,6 +4,7 @@ import "package:batonchess/ui/screen/new_game_screen.dart";
 import "package:batonchess/ui/screen/settings_screen.dart";
 import "package:batonchess/ui/widget/button_bc.dart";
 import "package:batonchess/ui/widget/dialog_bc.dart";
+import "package:batonchess/ui/widget/empty_bc.dart";
 import "package:batonchess/ui/widget/loading_bc.dart";
 import "package:batonchess/utils/prettify_utils.dart";
 import "package:flutter/material.dart";
@@ -17,14 +18,18 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => HomeBloc()..add(FetchUserEvent()),
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state is UserLoadedState) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: const Text("Baton Chess"),
-                ),
-                body: Column(
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Batonchess"),
+          ),
+          body: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is FetchingUserState) {
+                return const Center(child: LoadingBc(msg: "Signing in..."));
+              }
+
+              if (state is UserLoadedState) {
+                return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(),
@@ -34,16 +39,30 @@ class HomeScreen extends StatelessWidget {
                     const Spacer(),
                     userInfo(state, context),
                   ],
-                ),
-              );
-            }
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text("Baton Chess"),
-              ),
-              body: const Center(child: LoadingBc(msg: "Signing in...")),
-            );
-          },
+                );
+              }
+
+              if (state is FailureLoadingUserState) {
+                return Center(
+                  child: DialogBc(
+                    child: Column(
+                      children: [
+                        const Text("Failed to get a user"),
+                        ButtonBc(
+                          text: "Retry",
+                          onPressed: () {
+                            context.read<HomeBloc>().add(FetchUserEvent());
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return const EmptyBc();
+            },
+          ),
         ),
       );
 
@@ -88,46 +107,43 @@ class HomeScreen extends StatelessWidget {
         ],
       );
 
-  ButtonBc updateUsername(BuildContext context, UserLoadedState state) {
-    return ButtonBc(
-      borderRadius: 4,
-      padding: const EdgeInsets.all(8),
-      expand: false,
-      onPressed: () async => context.read<HomeBloc>().add(
-            UpdateUsernameEvent(
-              await showDialog(
-                context: context,
-                builder: (context) => changeUsernameDialog(context),
-              ) as String?,
-            ),
-          ),
-      text: state.user.name,
-    );
-  }
-
-  Widget showFullId(BuildContext context, UserLoadedState state) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ButtonBc(
+  ButtonBc updateUsername(BuildContext context, UserLoadedState state) =>
+      ButtonBc(
+        borderRadius: 4,
+        padding: const EdgeInsets.all(8),
         expand: false,
-        text: "ID: #${prettyId(state.user.id)}",
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => DialogBc(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text("Full user ID:"),
-                  Text("#${state.user.id}"),
-                ],
+        onPressed: () async => context.read<HomeBloc>().add(
+              UpdateUsernameEvent(
+                await showDialog(
+                  context: context,
+                  builder: changeUsernameDialog,
+                ) as String?,
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
+        text: state.user.name,
+      );
+
+  Widget showFullId(BuildContext context, UserLoadedState state) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ButtonBc(
+          expand: false,
+          text: "ID: #${prettyId(state.user.id)}",
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => DialogBc(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text("Full user ID:"),
+                    Text("#${state.user.id}"),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
 
   Widget changeUsernameDialog(BuildContext context) {
     String input = "";

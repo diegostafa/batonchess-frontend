@@ -13,8 +13,7 @@ class PlayerCardBc extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
+  Widget build(BuildContext context) => Card(
       elevation: 6,
       color:
           player.playingAsWhite ? Colors.white : Theme.of(context).primaryColor,
@@ -51,5 +50,4 @@ class PlayerCardBc extends StatelessWidget {
         ),
       ),
     );
-  }
 }

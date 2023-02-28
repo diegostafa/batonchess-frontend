@@ -8,12 +8,10 @@ class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SettingsBloc()..add(LoadSettingsEvent()),
-      child: BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (context, state) {
-          return MaterialApp(
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => SettingsBloc()..add(LoadSettingsEvent()),
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) => MaterialApp(
             title: "Baton Chess",
             theme: FlexThemeData.light(
               scheme: FlexScheme.values[state.settings.themeIndex],
@@ -21,9 +19,7 @@ class App extends StatelessWidget {
             ),
             themeMode: ThemeMode.light,
             home: const HomeScreen(),
-          );
-        },
-      ),
-    );
-  }
+          ),
+        ),
+      );
 }

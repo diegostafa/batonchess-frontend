@@ -17,8 +17,7 @@ class ButtonBc extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
+  Widget build(BuildContext context) => Padding(
       padding: padding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -32,10 +31,8 @@ class ButtonBc extends StatelessWidget {
         ],
       ),
     );
-  }
 
-  ElevatedButton button() {
-    return ElevatedButton(
+  ElevatedButton button() => ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
@@ -50,5 +47,4 @@ class ButtonBc extends StatelessWidget {
         ),
       ),
     );
-  }
 }

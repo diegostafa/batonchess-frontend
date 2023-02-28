@@ -19,8 +19,7 @@ class ContainerBc extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  Widget build(BuildContext context) => Container(
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(
@@ -37,5 +36,4 @@ class ContainerBc extends StatelessWidget {
       ),
       child: Center(child: child),
     );
-  }
 }

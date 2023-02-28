@@ -7,8 +7,7 @@ class DialogBc extends StatelessWidget {
   const DialogBc({super.key, required this.child, this.action});
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleDialog(
+  Widget build(BuildContext context) => SimpleDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
       shape: const RoundedRectangleBorder(
@@ -22,5 +21,4 @@ class DialogBc extends StatelessWidget {
           Padding(padding: const EdgeInsets.all(8.0), child: action),
       ],
     );
-  }
 }

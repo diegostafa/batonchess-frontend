@@ -21,7 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(FetchingUserState());
     final u = await userRepo.getUser();
     if (u == null) {
-      emit(FailedToLoadUserState());
+      emit(FailureLoadingUserState());
       return;
     }
     emit(UserLoadedState(u));
@@ -34,14 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (e.newUsername == null) {
       return;
     }
-    emit(FetchingUserState());
-
-    final updated = await userRepo.updateUsername(e.newUsername!);
-    if (!updated) {
-      emit(FailedToUpdateUsernameState());
-      return;
-    }
-
-    emit(UserLoadedState((await userRepo.getUser())!));
+    await userRepo.updateUsername(e.newUsername!);
+    add(FetchUserEvent());
   }
 }
