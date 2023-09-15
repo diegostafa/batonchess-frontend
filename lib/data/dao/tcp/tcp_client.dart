@@ -6,7 +6,7 @@ class TcpClient {
   factory TcpClient() => _singleton;
   TcpClient._internal();
 
-  static const host = "192.168.1.100";
+  static const host = "ec2-15-160-120-229.eu-south-1.compute.amazonaws.com";
   static const port = 2024;
   Socket? socket;
   StreamController<String?>? controller;

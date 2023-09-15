@@ -1,12 +1,13 @@
 import "package:http/http.dart" as http;
 
 class HttpClient {
-  static const host = "192.168.1.100";
+  static const protocol = "http";
+  static const host = "ec2-15-160-120-229.eu-south-1.compute.amazonaws.com";
   static const port = 2023;
 
   Future<http.Response?> get(String endpoint) async {
     try {
-      final res = await http.get(Uri.parse("http://$host:$port/$endpoint"));
+      final res = await http.get(Uri.parse("$protocol://$host:$port/$endpoint"));
       return res;
     } catch (_) {
       return null;
@@ -16,7 +17,7 @@ class HttpClient {
   Future<http.Response?> post(String endpoint, String body) async {
     try {
       final res = await http.post(
-        Uri.parse("http://$host:$port/$endpoint"),
+        Uri.parse("$protocol://$host:$port/$endpoint"),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         },
